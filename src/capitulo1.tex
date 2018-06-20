@@ -4,6 +4,226 @@
 
 \section{Sistemas de numeración}
 
+Numéricamente los errores de redondeo se relacionan de manera directa con la forma en que se guardan los números en la memoria de la computadora. 
+La unidad fundamental mediante la cual se representa la información se llama \textit{término}. Ésta es una entidad que consiste en una cadena de 
+\textit{dígitos binarios} o \textit{bits}. Generalmente, los números son guardados en uno más términos. Para entender cómo se realiza esto, 
+estudiaremos los sistemas numéricos.
+
+\begin{center}
+  \textit{“Solo existen 10 tipos de personas, las que entienden el binario y las que no”} 
+\end{center}
+Un sistema de numeración es un conjunto de símbolos y reglas que permiten construir todos los números válidos. Los sistemas de numeración más comunes son el decimal (base 10), 
+binario (base 2), octal (base 8) y hexadecimal (base 16).\\
+Un número decimal tal como 7392 representa una cantidad igual a 7 unidades de mil, más 3 centenas, más 9 decenas, más 2 unidades. Las unidades de mil, centenas, etc., son potencias 
+de 10 implícitamente indicadas por la posición de los coeficientes. Esto es:
+$$7 \times 10^{3} + 3 \times 10^{2} + 9 \times 10^{1} + 2 \times 10^{0} = 7000 + 300 + 90 + 2 = 7392$$
+Y para el caso del número no entero $654.32$:
+$$6 \times 10^{2} + 5 \times 10^{1} + 4 \times 10^{0} + 3 \times 10^{-1}+ 2 \times 10^{-2} = 600 + 50 + 4 + 0.3 + 0.02 = 654.32$$
+Se dice que el sistema de números decimales tiene base 10 debido a que usan diez dígitos, los números del 0 al 9, y que los coeficientes son multiplicados por potencias de 10. 
+Por otro lado, el sistema de numeración binario sólo tiene dos elementos: 0 y 1. Por ejemplo, el equivalente decimal del número binario 11010.11 es 26.75 como se demuestra en la 
+multiplicación de los coeficientes por potencias de 2:
+$$1 \times 2^{4} + 1 \times 2^{3} + 0 \times 2^{2} + 1 \times 2^{1} + 0 \times 2^{0} + 1 \times 2^{-1} + 1 \times 2^{-2} = 26.75$$
+Para distinguir los números con bases diferentes, se encierran los coeficientes entre paréntesis y se escribe un suscrito igual a la base usada. Un ejemplo de una base 5 sería:
+$$(4021.2)_{5} = 4 \times 5^{3} + 0 \times 5^{2} + 2 \times 5^{1} + 1 \times 5^{0} + 2 \times 5^{-1} = (511.4)_{10}$$
+Nótese que los únicos valores posibles para los coeficientes de base 5 pueden ser 0, 1, 2, 3 y 4.\\
+En el sistema de numeración hexadecimal (base 16) se presentan los primeros diez dígitos del sistema decimal y las letras A, B, C, D, E y F para representar los números 
+10, 11, 12, 13, 14 y 15. Por ejemplo, dado el número hexadecimal se obtiene su equivalente en decimal:
+$$(B65F)_{16} = 11 \times 16^{3} + 6 \times 16^{2} + 5 \times 16^{1} + 15 \times 16^{0} = (46687)_{10}$$
+En la Tabla \ref{table:sistemasNumeracion} se muestran los primeros 16 números en los sistemas decimal, binario, octal y hexadecimal.
+
+  \begin{table}[ht]
+	\centering	
+	\begin{tabular}{c c c c}
+	  \toprule
+	  \textbf{Decimal (Base 10)} & \textbf{Binario (Base 2)} & \textbf{Octal (Base 8)} & \textbf{Hexadecimal (Base 16)} \\
+	  \midrule
+	  00 & 0000 & 00 & 0\\
+	  01 & 0001 & 01 & 1\\
+	  02 & 0010 & 02 & 2\\
+	  03 & 0011 & 03 & 3\\
+	  04 & 0100 & 04 & 4\\
+	  05 & 0101 & 05 & 5\\
+	  06 & 0110 & 06 & 6\\
+	  07 & 0111 & 07 & 7\\
+	  08 & 1000 & 10 & 8\\
+	  09 & 1001 & 11 & 9\\
+	  10 & 1010 & 12 & A\\
+	  11 & 1011 & 13 & B\\
+	  12 & 1100 & 14 & C\\
+	  13 & 1101 & 15 & D\\
+	  14 & 1110 & 16 & E\\
+	  15 & 1111 & 17 & F\\
+	\bottomrule
+    \end{tabular}
+    \caption{Equivalencias de los sistemas de numeración}
+    \label{table:sistemasNumeracion}
+  \end{table}   
+  
+\subsubsection{Conversión entre números de base diferente}
+
+Un número binario puede ser convertido a decimal formando la suma de potencias de base 2, por ejemplo:
+$$(1010.011)_{2} = 2^{3} + 2^{1} + 2^{-2} + 2^{-3} = (10375)_{10}$$
+\textbf{Mediante este método puede convertirse un número de cualquier base a decimal, pero no viceversa.}
+
+\subsection{Ejemplos de conversiones}
+
+\begin{exampleT}{\rm
+    Convertir $(41)_{10}$ a binario.\\
+    La tabla \ref{table:Ejemplo1-1} muestra el desarrollo de la conversión.\\
+    
+   \begin{table}[!h]
+   	\centering
+	\begin{tabular}{c c}
+	  \toprule
+	    \textbf{Entero} & \textbf{Residuo} \\
+	    \midrule
+	    $41$ 	& \\
+	    $41/2=20$	& 1\\
+	    $20/2=10$	& 0\\
+	    $10/2=5$	& 0\\
+	    $5/2=2$	& 1\\
+	    $2/2=1$	& 0\\
+	    $1/2=0$	& 1\\
+	  \bottomrule
+	\end{tabular}
+	\caption{Conversión del Ejemplo \ref{example:Ejemplo1-1}}
+	\label{table:Ejemplo1-1}
+   \end{table}
+
+  Resultado: $(101001)_{2}$
+  \label{example:Ejemplo1-1}
+}\end{exampleT}
+  
+
+\begin{exampleT}{\rm
+    Convertir $(153)_{10}$ a octal.\\
+    La tabla \ref{table:Ejemplo1-2} muestra el desarrollo de la conversión.\\
+    
+    \begin{table}[!h]
+    \centering
+	\begin{tabular}{c c}
+	  \toprule
+	    \textbf{Entero} & \textbf{Residuo} \\
+	    \midrule
+	    $153$ 	& \\
+	    $153/8=19$	& 1\\
+	    $19/8=2$ 	& 3\\
+	    $2/8=0$	& 2\\
+	  \bottomrule
+	\end{tabular}
+	\caption{Conversión del Ejemplo \ref{example:Ejemplo1-2}}
+	\label{table:Ejemplo1-2}
+    \end{table}
+
+  Resultado: $(231)_{8}$
+  \label{example:Ejemplo1-2}
+}\end{exampleT}
+
+\begin{exampleT}{\rm
+    Convertir $(0.6875)_{10}$ a binario.
+    \begin{table}[!h]
+    \centering
+	\begin{tabular}{ccc}
+	  \toprule
+	     & \textbf{Entero} & \textbf{Residuo} \\
+	     \midrule
+	    $0.6875*2=1.375$ 	& $1$	& $0.375$\\
+	    $0.375*2=0.75$	& $0$	& $0.75 $\\
+	    $0.75*2=1.5$	& $1$	& $0.5$\\
+	    $0.5*2=1.0$		& $1$	& $0$\\
+	  \bottomrule
+	\end{tabular}
+	\caption{Conversión del Ejemplo \ref{example:Ejemplo1-3}}
+	\label{table:Ejemplo1-3}
+    \end{table}    
+  Resultado: $(0.1011)_{2}$
+  \label{example:Ejemplo1-3}
+}\end{exampleT}
+
+\begin{exampleT}{\rm
+    Convertir $(0.513)_{10}$ a octal.
+	\begin{table}[!h]
+		\centering
+    \begin{tabular}{ccc}
+      \toprule
+       & \textbf{Entero} & \textbf{Residuo} \\
+       \midrule
+	$0.513 * 8 = 4.104$ 	& $4$	& $0.104$\\
+	$0.104 * 8 = 0.832$	& $0$	& $0.832$\\
+	$0.832 * 8 = 6.656$	& $6$	& $0.656$\\
+	$0.656 * 8 = 5.248$	& $5$	& $0.248$\\
+	$0.248 * 8 = 1.984$ 	& $1$ 	& $0.984$\\
+	$0.984 * 8 = 7.872$ 	& $7$ 	& $0.872$\\
+      \bottomrule
+    \end{tabular}  
+    \caption{Conversión del Ejemplo \ref{example:Ejemplo1-4}}
+    \label{table:Ejemplo1-4}
+    	\end{table}
+  \label{example:Ejemplo1-4}
+}\end{exampleT}
+
+  
+\subsubsection{Conversión entre números de base diferente y no enteros}
+
+  La conversión de números decimales con parte fraccionaria y entera se hace convirtiendo la parte fraccionaria y la entera por separado y posteriormente se combinan los dos resultados.
+  Para la conversión de binario a octal y hexadecimal y viceversa, se considera que $2^{3} = 8$ y $2^{4} = 16$, por lo que cada dígito octal corresponde a tres dígitos binarios y cada 
+  dígito hexadecimal corresponde a cuatro dígitos binarios.  
+
+
+\begin{example}{\rm
+    Convertir $(10110001101011.111100000110)_{2}$ a octal.
+    $$10\, 110\, 001\, 101\, 011\, .\, 111\, 100\, 000\, 110)_{2} = (26153.7406)_{8}$$
+}\end{example}
+
+\begin{example}{\rm
+    Convertir $(10110001101011.111100000110)_{2}$ a hexadecimal.
+    $$(10\, 1100\, 0110\, 1011\, .\, 1111\, 0000\, 0110)_{2} = (2C6B.F06)_{16}$$
+
+  La conversión de octal o hexadecimal a binario se hace por un proceso inverso al anterior. Cada dígito octal se convierte a un equivalente binario de tres dígitos, así como cada 
+  dígito hexadecimal se convierte en un equivalente binario de cuatro dígitos.  
+}\end{example}
+
+\begin{example}{\rm
+    Convertir $(673.124)_{8}$ a binario 
+    $$(673.124)_{8} = (110\, 111\, 011\, .\, 001\, 010\, 100)_{2}$$
+}\end{example}
+
+\begin{example}{\rm
+    Convertir $(306.D)_{16}$ a binario
+    $$(306.D)_{16} = (0011\, 0000\, 0110\, .\, 1101)_{2}$$
+}\end{example}
+
+
+\begin{large}
+\textbf{Ejercicios}
+\end{large}
+
+\begin{enumerate}
+  \item Convierta el número decimal 250.5 a base 3, 4, 7, 8 y 16 respectivamente
+  \item Convierta los siguientes números decimales a binarios: 12.0625, $10^{4}$, 673.23 y 1.998
+  \item Convierta los siguientes números en base a las bases que se indican:
+    \begin{enumerate}
+      \item El decimal 225.225 a binario, octal y hexadecimal.
+      \item El binario 11010111.110 a decimal, octal y hexadecimal.
+      \item El octal 623.77 a decimal, binario y hexadecimal.
+      \item El hexadecimal 2AC5.D a decimal, octal y binario.
+    \end{enumerate}
+    
+  \item Convierta los siguientes números a decimal:
+    \begin{enumerate}
+      \item $(1001001.011)_{2}$
+      \item $(12121)_{3}$
+      \item $(1032.2)_{4}$
+      \item $(4310)_{5}$
+      \item $(0.342)_{6}$
+      \item $(50)_{7}$
+      \item $(8.3)_{9}$
+      \item $(198)_{12}$
+    \end{enumerate}
+\end{enumerate}
+  
+  
+
 \section{Representación computacional de números reales}
 
 \section{Dígitos significativos}

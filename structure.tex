@@ -24,11 +24,17 @@
 \usepackage{graphicx} % Required for including pictures
 \graphicspath{{Pictures/}} % Specifies the directory where pictures are stored
 
-\usepackage{lipsum} % Inserts dummy text
+%\usepackage{lipsum} % Inserts dummy text
 
 \usepackage{tikz} % Required for drawing custom shapes
 
-\usepackage[english]{babel} % English language/hyphenation
+\usepackage[spanish,mexico]{babel}
+%\usepackage[english]{babel} % English language/hyphenation
+
+
+\usepackage{colortbl} 
+\usepackage{float}
+
 
 \usepackage{enumitem} % Customize lists
 \setlist{nolistsep} % Reduce spacing between bullet points and numbered lists
@@ -232,17 +238,17 @@
 \newcounter{dummy} 
 \numberwithin{dummy}{section}
 \theoremstyle{ocrenumbox}
-\newtheorem{theoremeT}[dummy]{Theorem}
-\newtheorem{problem}{Problem}[chapter]
-\newtheorem{exerciseT}{Exercise}[chapter]
+\newtheorem{theoremeT}[dummy]{Teorema}
+\newtheorem{problem}{Problema}[chapter]
+\newtheorem{exerciseT}{Ejercicio}[chapter]
 \theoremstyle{blacknumex}
-\newtheorem{exampleT}{Example}[chapter]
+\newtheorem{exampleT}{Ejemplo}[chapter]
 \theoremstyle{blacknumbox}
-\newtheorem{vocabulary}{Vocabulary}[chapter]
-\newtheorem{definitionT}{Definition}[section]
+\newtheorem{vocabulary}{Vocabulario}[chapter]
+\newtheorem{definitionT}{Definición}[section]
 \newtheorem{corollaryT}[dummy]{Corollary}
 \theoremstyle{ocrenum}
-\newtheorem{proposition}[dummy]{Proposition}
+\newtheorem{proposition}[dummy]{Proposición}
 
 %----------------------------------------------------------------------------------------
 %	DEFINITION OF COLORED BOXES
