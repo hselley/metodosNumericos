@@ -36,7 +36,7 @@
 \usepackage{float}
 \usepackage{enumerate}
 
-\usepackage{enumitem} % Customize lists
+\usepackage[shortlabels]{enumitem} % Customize lists
 \setlist{nolistsep} % Reduce spacing between bullet points and numbered lists
 
 \usepackage{booktabs} % Required for nicer horizontal rules in tables
@@ -493,3 +493,12 @@ addtohook={%
 \fi
 }
 }
+\usepackage{rotating}
+\usepackage[
+ruled,
+vlined,
+%commentsnumbered,
+linesnumbered
+%,algosection
+,spanish
+]{algorithm2e}
