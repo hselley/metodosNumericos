@@ -1,8 +1,410 @@
 \chapter{Solución de ecuaciones}
+Uno de los problemas básicos de la aproximación numérica es la búsqueda de raíces. Consiste en obtener una raíz, 
+o una solución, de una ecuación de la forma $f(x)=0$ para una función dada $f$. Una raíz de esta ecuación es 
+llamada también un cero de la función $f$. 
 
 \section{Método de Newton Raphson}
+El método de Newton se basa en los polinomios de Taylor, este tipo particular de deducción produce no sólo el método, 
+sino también una cota para el error de aproximación.\\
+Supongamos que $f\in C^{2}[a, b]$. Sea $p_{0} \in [a, b]$ una aproximación de $p$ tal que $f'(p_{0}) \not= 0$ y 
+$|p - p_{0}|$ es "pequeño". Considere el primer polinomio de Taylor para $f(x)$ expandido alrededor de $p_{0}$ y 
+evaluado en $x=p$.
+
+$$f(p) = f(p_{0}) + (p-p_{0})f'(p_{0}) + \frac{(p-p_{0})^{2}}{2}f''(\xi(p))$$
+
+donde $\xi(p)$ está entre $p$ y $p_{0}$. Dado que $f(p)=0$ esta ecuación da como resultado
+
+$$0 = f(p_{0}) + (p-p_{0})f'(p_{0}) + \frac{(p-p_{0})^{2}}{2}f''(\xi(p))$$
+
+El método de Newton se obtiene suponiendo que, como $|p-p_{0}|$ es tan pequeño, el término que contiene $(p-p_{0})^{2}$ 
+es mucho menor y que
+
+$$0 \approx f(p_{0}) + (p-p_{0}))f'(p_{0})$$
+
+Despejando $p$ de esta ecuación obtenemos
+
+$$p\approx p_{0} - \frac{f(p_{0})}{f'(p_{0})} \equiv p_{1}$$
+
+Esto nos prepara para introducir el método de Newton, el cual comienza con una aproximación inicial $p_{0}$ y genera 
+la sucesión $\{ p_{n}\}_{n=0}^{\infty}$ definida por
+
+\begin{theorem}
+Dada una función $f(x)$ definida $\forall x\in C$ donde $C\subseteq D(f)$. Además $f(x)$ es derivable y $f'(x)=0$ 
+$\forall x\in C$. Sea $p_0\in\mathbb{R}$ y $p_0\in C$ entonces:  
+	\[p_{n} = p_{n-1} - \frac{f(p_{n-1})}{f'(p_{n-1})},\, n\geq 1\]
+	\label{eq:Newton}
+\end{theorem}
+
+La figura \ref{fig:metodoNewton} muestra gráficamente como se obtienen las aproximaciones usando tangentes sucesivas. 
+Comenzando con la aproximación inicial $p_{0}$, la aproximación $p_{1}$ es la intersección con el eje x de la recta 
+tangente a la gráfica de $f$ en $(p_{0}, f(p_{0}))$. La aproximación $p_{2}$ es la intersección con el eje x de 
+la recta tangente a la gráfica de $f$ en $(p_{1}, f(p_{1}))$ y así sucesivamente. El algoritmo \ref{algo:Newton} 
+sigue ese procedimiento.  
+
+\begin{figure}[H]
+	\centering
+    \includegraphics[scale=0.17]{../img/newton1.jpg}
+    \caption{Método de Newton-Raphson}
+	\label{fig:metodoNewton}
+\end{figure}   
+
+\begin{algorithm}[H]
+	\SetKwInOut{Input}{input}
+  	\SetKwInOut{Output}{output}
+  	\SetKwFunction{Salida}{Salida}
+	\SetKwFunction{Newton}{Newton}
+
+	\Newton($p_{0},\, TOL,\, N_{0}$) \Begin {	
+		$i\leftarrow 1$\\
+  		 		 
+  		\While{$i\leq (N_{0})$}{ 
+		      $p\leftarrow p_{0} - f(p_{0})/f'(p_{0})$\\
+		       \lnl{newton.1} \If{$|p-p_{0}|<TOL$}{
+			\Salida(p)\\
+		      }
+		      $i\leftarrow i+1$\\
+		      $p_{0}\leftarrow p$\\
+  		}
+  		\Salida(``El método fracasó después de $N_{0}$ iteraciones'')
+  	}
+\caption{Método de Newton-Raphson}
+\label{algo:Newton}
+\end{algorithm}
+
+\begin{exerciseT}
+Considere la función $f(x)= \cos (x) - x$. Aproxime una raíz de $f$ utilizando el método de Newton.
+
+\subsection*{Solución.} 
+Para resolver el problema es necesario encontrar la derivada de $f(x)$, plantear la expresión del teorema \ref{eq:Newton}
+específica de este problema, elegir un valor inicial $p_0$ y realizar las aproximaciones hasta cumplir con 
+la tolerancia $10^{-2}$.
+\subsubsection*{Planteamiento}
+Condiciones:
+\begin{itemize}
+	\item $f'(x) = {-\sin p_{n-1} -1 }$
+	\item $f$ tiene la menos una raíz	
+	\item $p_{n} = p_{n-1} - \dfrac{f(p_{n-1})}{f'(p_{n-1})} = p_{n-1} - \dfrac{\cos p_{n-1} - p_{n-1}}{-\sin p_{n-1} -1} \forall n\geq 1$
+	\item Se define $p_{0}=\pi/4$
+\end{itemize}
+
+\subsubsection*{Desarrollo}
+Evaluando $p_0$ en la expresión para $p_n$ se obtienen progresivamente las aproximaciones posteriores mostradas en 
+la tabla \ref{table:ejemplo1Newton}.
+\begin{table}[H]
+	\centering
+    \begin{tabular}{lll}
+    	\toprule
+    	i & Newton\\\midrule
+		1 & 0.7395361335\\
+		2 & 0.7390851781\\
+		3 & 0.7390851332\\
+		\bottomrule
+	\end{tabular}
+    \caption{Iteraciones para Ejemplo \ref{ex:ejemplo1Newton}.}
+	\label{table:ejemplo1Newton}
+\end{table}
+Se obtiene una excelente aproximación con $n=3$. Sería razonable esperar que este resultado
+tenga una precisión hasta el número de cifras enumeradas debido a la coincidencia de $p_{2}$ y $p_3$.
+
+\subsubsection*{Resultado}
+Se estima el error de la aproximación mediante 	la ecuación:
+\[ ER = \dfrac{|p_n-p_{n-1}|}{|p_n|}\times 100\% \]
+
+Por lo tanto, el error de la aproximación obtenida por el método de Newton es:
+\[ER = \frac{|p_{N} - p_{N-1}|}{|p_{N}|} = \frac{|0.7390851332 - 0.7390851781|}{|0.7390851332|}\times 100\% = 6.0751\times 10^{-8}\]
+
+El resultado completo del ejercicio es:
+\begin{align*}
+	p_3 &= 0.7390851332 \\
+	ER &= 6.075\times 10^{-8} \%
+\end{align*}
+
+\label{ex:ejemplo1Newton}
+\end{exerciseT}
+
+\subsection*{Ejercicios}
+\begin{enumerate}
+	\item Aplique el método de Newton para obtener soluciones con una exactitud de $10^{-4}$ para los siguientes problemas.
+		\begin{enumerate}
+			\item $x^{3} - 2x^{2} -5 = 0$, $x\in [1,4]$
+			\item $x - \cos x = 0$, $x\in [0, \pi/2]$
+			\item $x^{3} + 3x^{2} - 1 = 0$, $x\in [-3, -2]$
+			\item $x - 0.8 - 0.2\sin x = 0$, $x\in [0, \pi/2]$
+		\end{enumerate}
+		
+		\item Aplique el método de Newton para obtener soluciones con una exactitud de $10^{-5}$ para los siguientes problemas. 
+			\begin{enumerate}
+				\item $e^{x} + 2^{-x} + 2\cos x - 6 = 0$, para $1\leq x\leq 2$
+				\item $\ln (x-1) + \cos (x-1) = 0$, para $1.3\leq x\leq 2$
+				\item $2x\cos (2x) - (x-2)^2 = 0$ para $2\leq x\leq 3$ y $3\leq x\leq 4$
+				\item $(x-2)^2 - \ln x = 0$ para $1\leq x\leq 2$ y $e\leq x\leq 4$
+				\item $e^{x} - 3x^2 = 0$ para $0\leq x\leq 1$, $3\leq x\leq 5$
+				\item $\sin x - e^{-x} = 0$ para $0\leq x\leq 1$, $3\leq x\leq 4$ y $6\leq x\leq 7$
+			\end{enumerate}		
+			
+		\item Con el método de Newton resuelva la ecuación, con $p_0 = \pi/2$
+			$$0 = \frac{1}{2} + \frac{1}{4}x^2 - x\sin x - \frac{1}{2}\cos 2x$$	 
+			Itere el método de Newton hasta llegara  una exactitud de $10^{-5}$. Explique porque el resultado parece inusual 
+			para el método de Newton. También resuelva la ecuación con $p_0 = 5\pi$ y $p_0 = 10\pi$. 
+\end{enumerate}
+
 \section{Método de la secante}
-\section{Método de Aitken}
-\section{Aplicaciones}
+El método de Newton es una técnica muy poderosa, pero presenta un grave problema: la necesidad de conocer el valor de 
+la derivada de $f$ en cada aproximación.
+Con frecuencia es más difícil determinar $f'(x)$ y se requieren más operaciones aritméticas para calcularla que para 
+obtener $f(x)$. 
+
+Si queremos evitar el problema de evaluar la derivada en el método de Newton, introducimos una pequeña variación. Por definición:
+$$f'(p_{n-1}) = \lim_{x\rightarrow p_{n-1}}\frac{f(x) - f(p_{n-1})}{x - p_{n-1}} $$
+Si $p_{n-2}$ está cerca de $p_{n-1}$, entonces:
+$$f'(p_{n-1}) \approx \frac{f(p_{n-2}) - f(p_{n-1})}{p_{n-2} - p_{n-1}} = \frac{f(p_{n-1}) - f(p_{n-2})}{p_{n-1} - p_{n-2}}$$
+Al aplicar esta aproximación para $f'(p_{n-1})$ en la fórmula de Newton, se obtiene el teorema \ref{teo:secante}.
+
+\begin{theorem}[Método de la secante]
+	Dada una función $f(x)$ definida $\forall x\in C$ donde $C\subseteq D(f)$. Si $p_0\approx p_1 \wedge f(p_n)-f(p_{n-1})\not=0$ 
+	entonces:
+	\[p_{n} = p_{n-1} - \frac{f(p_{n-1}) (p_{n-1} - p_{n-2})}{f(p_{n-1}) - f(p_{n-2})}, \forall n\geq 2\]
+	\label{teo:secante}
+\end{theorem}
+
+La técnica que utiliza el teorema recibe el nombre de método de la secante y se representa mediante el algoritmo 
+\ref{algo:metodoSecante} (Vea la figura \ref{fig:metodoSecante}). Comenzando con las 
+dos aproximaciones iniciales $p_{0}$ y $p_{1}$, la aproximación $p_2$ es la intersección con el eje $x$ de la recta que une 
+$(p_0, f(p_0))$ y $(p_1, f(p_1))$. La aproximación de $p_3$ es la intersección con el eje $x$ de la recta que une $(p_1, f(p_1))$ 
+y $(p_2, f(p_2))$, y así sucesivamente. Observe que solo es necesaria la evaluación de la función en cada paso del método de la 
+secante después de que se ha determinado $p_2$. En contraste, cada paso del método de Newton requiere una evaluación de
+la función y su derivada.
+
+\begin{figure}[H]
+	\centering
+    \includegraphics[scale=0.13]{../img/metodoSecante.jpg}
+    \caption{Método de la Secante}
+    \label{fig:metodoSecante}
+\end{figure}   
+
+\begin{algorithm}[H]
+  	\SetKwInOut{Input}{input}
+  	\SetKwInOut{Output}{output}
+  	\SetKwFunction{Salida}{Salida}
+	\SetKwFunction{Secante}{Secante}
+
+	\Secante($p_{0}, p_1,\, TOL,\, N_{0}$) \Begin {	
+		$i\leftarrow 2$\\
+		$q_0\leftarrow f(p_0)$\\
+		$q_1\leftarrow f(p_1)$\\
+		\While{$i\leq N_0$}{
+			$p \leftarrow p_1 - q_1(p_1 - p_0)/(q_1 - q_0)$\\
+			\If{$|p-p_1| < TOL$}{
+				\Salida($p$)
+			}
+			$i\leftarrow i+1$\\
+			$p_0\leftarrow p_1$\\
+			$q_0\leftarrow q_1$\\
+			$p_1\leftarrow p$\\
+			$q_1\leftarrow f(p)$\\
+		}
+
+  		\Salida(``El método fracasó después de $N_{0}$ iteraciones'')
+  	}
+\caption{Método de la Secante}
+\label{algo:metodoSecante}
+\end{algorithm}
+
+\begin{exerciseT}
+Utilice el método de la secante para encontrar una aproximación a una raíz de la expresión $x= \cos x$. Considere que se sabe 
+que la raíz está cercana a $p_0=\pi/4$. Considere una tolerancia $10^{-2}$.
+\subsection*{Planteamiento}
+\begin{itemize}
+	\item $f(x) = x-\cos x$ es continua en $\forall x\in\mathbb{R}$
+	\item $f$ tiene la menos una raíz
+	\item $p_n = p_{n-1} - \dfrac{(p_{n-1}-\cos p_{n-1})(p_{n-1}-p_{n-2})}{(p_{n-1}-\cos p_{n-1})-(p_{n-2}-\cos p_{n-2})}, \forall n\geq 2$
+\end{itemize}
+
+\subsection*{Desarrollo}
+Sea $p_0 = \pi/4$ y se elige $p_1 = \pi/2$. Con esto se puede desarrollar la sucesión numérica del método y presentar los 
+valores la siguiente tabla.
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c|c|c}
+	$i$ & $p_i$ & $f(p_i)$ \\\midrule
+	0 & $\frac{\pi}{4}$ & 0.0782914\\
+	1 & $\frac{\pi}{2}$ & 1.5708\\
+	2 & 0.744199 & 0.00856833\\
+	3 & 0.739665 & 0.000971273\\
+	4 & 0.739086 & 1.09333$\times 10^{-6}$ 
+	\end{tabular}
+\end{table}
+Dado que se cumple: 
+\[\left|p_4 -p_3 \right| = 0.000579618 < 10^{-2}  \]
+entonces la aproximación $p_4$ cumple la tolerancia y se acepta como aproximación a la raíz de $f(x)$.
+
+\subsection*{Resultado}
+\begin{align*}
+	p_4 &= 0.739086 \\
+	ER &= \dfrac{\left|p_4 -p_3 \right|}{\left|p_4\right|}\times 100\% = \dfrac{\left|0.739086-0.739665\right|}{\left|0.739086\right|}\times 100\%
+		= 0.691834\%
+\end{align*}
+\end{exerciseT}
+
+\subsection*{Ejercicios}
+\begin{enumerate}
+	\item Aplique el método de la secante para obtener soluciones con una exactitud de $10^{-4}$ para los siguientes problemas.
+		\begin{enumerate}
+			\item $x^{3} - 2x^{2} -5 = 0$, $x\in [1,4]$
+			\item $x - \cos x = 0$, $x\in [0, \pi/2]$
+			\item $x^{3} + 3x^{2} - 1 = 0$, $x\in [-3, -2]$
+			\item $x - 0.8 - 0.2\sin x = 0$, $x\in [0, \pi/2]$
+		\end{enumerate}
+		
+		\item Aplique el método de la secante para obtener soluciones con una exactitud de $10^{-5}$ para los siguientes problemas. 
+			\begin{enumerate}
+				\item $e^{x} + 2^{-x} + 2\cos x - 6 = 0$, para $1\leq x\leq 2$
+				\item $\ln (x-1) + \cos (x-1) = 0$, para $1.3\leq x\leq 2$
+				\item $2x\cos (2x) - (x-2)^2 = 0$ para $2\leq x\leq 3$ y $3\leq x\leq 4$
+				\item $(x-2)^2 - \ln x = 0$ para $1\leq x\leq 2$ y $e\leq x\leq 4$
+				\item $e^{x} - 3x^2 = 0$ para $0\leq x\leq 1$, $3\leq x\leq 5$
+				\item $\sin x - e^{-x} = 0$ para $0\leq x\leq 1$, $3\leq x\leq 4$ y $6\leq x\leq 7$
+			\end{enumerate}		
+\end{enumerate}
+
+\section{Convergencia acelerada}
+
+\subsection{Método de Aitken}
+El método $\Delta^2$ de Aitken sirve para acelerar la convergencia de una sucesión que sea linealmente convergente, prescindiendo
+de su origen o aplicación. Suponga que $\left\lbrace p_n\right\rbrace_{n=0}^\infty$ es una sucesión linealmente convergente con 
+un límite $p$. Para motivar la construcción de una sucesión $\left\lbrace \hat{p}_n\right\rbrace_{n=0}^\infty$ que converja más 
+rápidamente a $p$ que $\left\lbrace p_n\right\rbrace_{n=0}^\infty$.
+
+\begin{theorem}[método de Aitken]
+El método de Aitken se basa en la suposición de que la sucesión $\left\lbrace \hat{p}_n\right\rbrace_{n=0}^\infty$ definida
+por:
+\begin{equation}
+	\hat{p}_n = p_n - \dfrac{\left(p_{n+1}-p_n \right)^2}{p_{n+2}-2p_{n+1}+p_n}
+	\label{eq:aitken}
+\end{equation}
+converge más rápidamente a $p$ que la sucesión original $\left\lbrace p_n\right\rbrace_{n=0}^\infty$.
+\end{theorem}
+
+Al aplicar una modificación del método $\Delta^2$ de Aitken a una sucesión linealmente convergente obtenida mediante la iteración 
+de punto fijo, podemos acelerar la convergencia a cuadrática. Este procedimiento es el método de Steffensen y difiere un poco de 
+la aplicación directa del método $\Delta^2$ de Aitken (Teorema \ref{eq:aitken}) a la sucesión de iteraciones de punto fijo
+que convergen linealmente. El método de Aitken construye los términos en el orden:
+
+\begin{align*}
+	p_0,& & p_1&=g(p_0), & p_2 &= g(p_1), & \hat{p} &= \left\lbrace \Delta^2\right\rbrace(p_0),\\
+	p_3&=g(p_2), & \hat{p_1} &= \left\lbrace \Delta^2\right\rbrace(p_1),\dots
+\end{align*}
 
 
+\subsection{Método de Steffensen}
+El método de Steffensen construye los mismos primeros cuatro términos $p_0, p_1, p_2$ y $\hat{p}_0$. No obstante, en este paso
+se supone que $\hat{p}_0$ es una mejor aproximación a $p$ que $p_2$ y aplica la iteración de punto fijo a $\hat{p}_0$ en lugar
+de a $p_2$. Al usar esta notación, la sucesión generada es:
+
+\begin{align*}
+	p_0^{(0)}&, & p_1^{(0)}&=g\left(p_0^{(0)}\right), & p_2^{(0)}&=g\left(p_1^{(0)}\right), & 
+	p_0^{(1)}&=\left\lbrace \Delta^2\right\rbrace \left(p_0^{(0)}\right), \\
+	& & p_1^{(1)}&=g\left(p_0^{(1)}\right), & p_2^{(1)}&=g\left(p_1^{(1)}\right), &
+	p_0^{(2)}&=\left\lbrace \Delta^2\right\rbrace \left(p_0^{(1)}\right), \\\vdots
+\end{align*}
+
+Cada tercer término de la sucesión de Steffensen es generada por la ecuación (\ref{eq:aitken}); los demás usan la iteración de 
+punto fijo en el término anterior. El procedimiento se describe en el algoritmo \ref{algo:Steffensen}.
+
+ \begin{algorithm}[H]
+  	\SetKwInOut{Input}{input}
+  	\SetKwInOut{Output}{output}
+  	\SetKwFunction{Salida}{Salida}
+	\SetKwFunction{Steffensen}{Steffensen}
+
+	\Steffensen($p_0,TOL,N_{0}$) \Begin {	
+		$i\leftarrow 1$\\
+		\While{$i\leq N_0$}{
+			$p_1 = g(p_0)$\\
+			$p_2 = g(p_1)$\\
+			$p = p_0 - \dfrac{\left(p_1-p_0\right)^2}{p_2-2p_1+p_0}$\\
+			\If{$|p-p_0| < TOL$}{
+				\Salida($p$)
+			}
+			$i\leftarrow i+1$\\
+		}
+  		\Salida(``El método fracasó después de $N_{0}$ iteraciones'')
+  	}
+\caption{Método de Steffensen}
+\label{algo:Steffensen}
+\end{algorithm}
+
+\begin{exerciseT}
+Utilice el método de Steffensen y la convergencia acelerada de Aikten para encontrar una aproximación a una raíz 
+de la función $f(x) = x-\cos x$. Considere que se sabe que la raíz está cercana a $p_0=\pi/4$. Considere una 
+tolerancia $10^{-2}$.
+\subsection*{Planteamiento}
+\begin{itemize}
+	\item $f(x) = x-\cos x$ es continua en $\forall x\in\mathbb{R}$
+	\item $f$ tiene la menos una raíz
+	\item Se deben obtener todas las funciones $g$ a partir de $x-\cos x=0$
+		\begin{align*}
+			g_1&: \\
+				x &= \cos x\\
+				g_1(x) &= \cos x \\
+			g_2&: \\
+				x &= \arccos x\\
+				g_2(x) &= \arccos x 
+		\end{align*}
+\end{itemize}
+
+\subsection*{Desarrollo}
+Se define $p_0^{(0)} = \pi/4$. 
+\begin{align*}
+	p_0^{(0)}&= \pi/4, & p_1^{(0)}&=g\left(p_0^{(0)}\right)=, & p_2^{(0)}&=g\left(p_1^{(0)}\right), & 
+	p_0^{(1)}&=\left\lbrace \Delta^2\right\rbrace \left(p_0^{(0)}\right), 
+\end{align*}
+Para desarrollar la sucesión numérica del método, se debe elegir una función $g$ para realizar las evaluaciones
+correspondientes en la expresión acelerada de Aitken (\ref{eq:aitken}). Si la sucesión converge con 
+la función $g$ evaluada se habrá encontrado la aproximación a la raíz de $f$. Por otro lado, si $g$ no converge
+entonces se debe elegir otra función $g$ y repetir el procedimiento. En este caso se comienza el desarrollo con 
+la función $g_1$ y los resultados se muestran en la tabla: 
+\begin{table}[H]
+	\centering
+	\begin{tabular}{c|c|c|c|c}
+	$i$ & $p_0^{(i)}$ & $p_1^{(i)}$ & $p_2^{(i)}$ & $\hat{p}_0^{(i+1)}$ \\\midrule
+	0 & $\frac{\pi}{4}$ & 0.707107 & 0.760245 & 0.738761 \\
+	1 & 0.738761 & 0.739304 & 0.738938 & 0.739085\\
+	2 & 0.739085 & & &
+	\end{tabular}
+\end{table}
+Dado que se cumple: 
+\[\left|p_0^{(2)}-p_0^{(1)} \right| = 0.000323 	< 10^{-2}  \]
+entonces la aproximación $p_4$ cumple la tolerancia y se acepta como aproximación a la raíz de $f(x)$.
+
+\subsection*{Resultado}
+\begin{align*}
+	p_2 &= 0.739085 \\
+	ER &= 0.04391 \%
+\end{align*}
+\end{exerciseT}
+
+\subsection*{Ejercicios}
+\begin{enumerate}
+  \item Utilice el método de Steffensen para encontrar una aproximación a la raíz de las función indicada en 
+  cada inciso. Considere una exactitud de $10^{-5}$ para la realización de los cálculos.
+  \begin{enumerate}
+    \item $2 + \sin x - x = 0$ y utilizar $[2,3]$
+    \item $x^3-2x-5$ y utilizar $[2,3]$
+    \item $3x^2-e^x=0$
+    \item $x - \cos x = 0$
+  \end{enumerate}
+  
+  \item Encuentre todos los ceros (raíces) de $f(x)=x^2+10\cos x$ aplicando el método de Steffensen. 
+  Considere una exactitud de $10^{-4}$.
+  
+  \item Un objeto que cae verticalmente en el aire está sujeto a una resistencia viscosa y también a la fuerza 
+  de gravedad. Suponga que dejamos caer el objeto de masa $m$ desde una altura $s_{0}$ y que la altura del objeto 
+  después de $t$ segundos es:
+  $$s(t) = s_{0} - \dfrac{mg}{k}t + \dfrac{m^2g}{k^2}(1-e^{-kt/m})$$
+  donde $g=32.17$ pies/$s^2$ y $k$ representa el coeficiente de resistencia del aire. Suponga que $s_{0} = 300$ 
+  pies, $m=0.25$ lb y que $k=0.1$ lb-s/pies. Calcule, con una exactitud de 0.001 s, el tiempo que tarda la masa 
+  en caer al suelo.
+\end{enumerate}
+
+%\section{Aplicaciones}

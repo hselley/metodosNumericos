@@ -1,11 +1,338 @@
 \chapter{Diferenciación e integración numérica}
 
 \section{Fórmula de diferencia progresiva y regresiva}
+La definición de la derivada de una función $f(x)$ en un punto $x$ es
+\begin{equation}
+	f'(x) = \lim_{h\rightarrow 0} \dfrac{f(x+h)-f(x)}{h}
+\end{equation}
+la cual se puede interpretar geométricamente como la pendiente de la recta tangente al punto dado por $x$. 
+
+\subsection{Diferencia progresiva}
+De manera alternativa, se puede obtener una aproximación a la derivada a través de una recta secante 
+a la función. Esto se puede ver en la figura \ref{fig:derivadaProgresiva}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.35]{img/derivadaProgresiva.png}
+	\caption{Derivada progresiva}
+	\label{fig:derivadaProgresiva}
+\end{figure}
+
+Calculando la pendiente de la recta secante de la figura \ref{fig:derivadaProgresiva} se obtiene una aproximación a la derivada.
+\begin{align}
+	m &= \dfrac{f(x+h)-f(x)}{x+h-x}\nonumber\\
+		&= \dfrac{f(x+h)-f(x)}{h}\nonumber\\
+	f'(x) &= \dfrac{f(x+h)-f(x)}{h}
+	\label{eq:derivadaProgresiva1}
+\end{align}
+
+La expresión (\ref{eq:derivadaProgresiva1}) es una aproximación a la derivada de la función $f(x)$ 
+siempre y cuando el valor de $h$ sea pequeño. Sin embargo, para una aproximación más exacta a la primera derivada se puede 
+utilizar una serie de Taylor (\ref{eq:serieTaylor}).
+\begin{align}
+	f(x) &= \sum_{n=0}^\infty \dfrac{f^{(n)}(a)}{n!}(x-a)^n\nonumber\\
+		&= f(a) + \dfrac{f'(a)}{1!}(x-a) + \dfrac{f''(a)}{2!}(x-a)^2 + \dfrac{f^{(3)}(a)}{3!}(x-a)^3 + \cdots + \dfrac{f^{(n)}(a)}{n!}(x-a)^n
+	\label{eq:serieTaylor}
+\end{align}
+
+
+Desarrollando la serie para $f(x)$ centrada en $a=x$ y para $x=x+h$.
+\begin{align*}
+	f(x+h) &= f(x) + \dfrac{f'(x)}{1!}(x+h-x) + \dfrac{f''(x)}{2!}(x+h-x)^2 + \cdots + \dfrac{f^{(n)}(x)}{n!}(x+h-x)^n\\
+		&= f(x) + f'(x)\cdot h + \dfrac{f''(x)}{2!}\cdot h^2 + \cdots + \dfrac{f^{(n)}(x)}{n!}\cdot h^n\\
+\end{align*}
+Dado que sólo nos interesa la primera derivada, se toman los primeros tres términos de la serie.
+\begin{align*}
+	f(x+h) &\approx f(x) + f'(x)\cdot h + \dfrac{f''(x)}{2!}\cdot h^2
+\end{align*}
+Despejando $f'(x)$ se obtiene la expresión (\ref{eq:derivadaProgresiva2})
+\begin{definitionT}
+	\begin{align}
+		f'(x) &\approx \dfrac{f(x+h)-f(x)}{h} - \dfrac{f''(x)}{2!}\cdot h.
+		\label{eq:derivadaProgresiva2}
+	\end{align}
+\end{definitionT}
+
+\subsection{Diferencia regresiva}
+Otra alternativa es aproximar la derivada de nueva cuenta con una recta secante a la función. Vease la figura \ref{fig:derivadaRegresiva}.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.35]{img/derivadaRegresiva.png}
+	\caption{Derivada regresiva}
+	\label{fig:derivadaRegresiva}
+\end{figure}
+
+La diferencia sustancial en esta variante del procedimiento es que el valor diferencial $h$ se resta, en lugar de sumarse tal como el caso
+anterior. Esto implica que el punto para formar la recta secante será anterior a $x$.
+
+Calculando la pendiente de la recta secante para esta alternativa de la figura \ref{fig:derivadaRegresiva} se obtiene otra aproximación 
+a la derivada.
+\begin{align}
+	m &= \dfrac{f(x)-f(x-h)}{x-(x-h)}\nonumber\\
+	f'(x) &= \dfrac{f(x)-f(x-h)}{h}
+	\label{eq:derivadaRegresiva1}
+\end{align}
+De nueva cuenta la expresión (\ref{eq:derivadaRegresiva1}) es una aproximación a la derivada de la función $f(x)$ 
+siempre y cuando el valor de $h$ sea pequeño. Se desarrolla ahora la serie de Taylor para $f(x)$ centrada en $a=x-h$ y para $x=x$.
+\begin{align*}
+	f(x-h) &= f(x) + \dfrac{f'(x)}{1!}(x-h-x) + \dfrac{f''(x)}{2!}(x-h-x)^2 + \cdots + \dfrac{f^{(n)}(x)}{n!}(x-h-x)^n\\
+		&= f(x) - f'(x)\cdot h + \dfrac{f''(x)}{2!}\cdot h^2 + \cdots + (-1)^n\cdot\dfrac{f^{(n)}(x)}{n!}\cdot h^n\\
+\end{align*}
+Dado que sólo nos interesa la primera derivada, se toman los primeros tres términos de la serie.
+\begin{align*}
+	f(x-h) &\approx f(x) - f'(x)\cdot h + \dfrac{f''(x)}{2!}\cdot h^2
+\end{align*}
+Despejando $f'(x)$  se obtiene la expresión (\ref{eq:derivadaRegresiva2})
+\begin{definitionT}[Derivada Regresiva]
+	\begin{equation}
+		f'(x) \approx \dfrac{f(x)-f(x-h)}{h} + \dfrac{f''(x)}{2!}\cdot h.
+	\label{eq:derivadaRegresiva2}
+	\end{equation}
+\end{definitionT}
+
+\begin{exerciseT}{\rm
+Utilice la derivada progresiva y regresiva para encontrar una aproximación a la derivada de la función $f(x) = xe^x$ en $x=2$. 
+Compare los resultados obtenidos por ambos métodos.
+
+\subsection*{Planteamiento}
+Para este ejercicio se utilizará $h=0.1$. 
+
+\subsection*{Desarrollo}
+
+Derivación Progresiva
+\begin{align*}
+	f'(2) &\approx \dfrac{f(2+0.1)-f(2)}{0.1} = \dfrac{f(2.1)-f(2)}{0.1} \\
+		&\approx \dfrac{2.1e^{2.1}-2e^2}{0.1}\\
+		&\approx 23.7084
+\end{align*}
+
+Derivación Regresiva
+\begin{align*}
+	f'(2) &\approx \dfrac{f(2)-f(2-0.1)}{0.1} = \dfrac{f(2)-f(1.9)}{0.1} \\
+		&\approx \dfrac{2e^2 - 1.9e^{1.9}}{0.1}\\
+		&\approx 20.7491
+\end{align*}
+La figura \ref{fig:derivada01} muestra una comparación de las rectas obtenidas por estos cálculos, estas rectas
+secante son aproximaciones a la tangente, que a su vez es la derivada de la función para $x=2$.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.5]{img/Derivada01.pdf}
+	\caption{Comparación de las primeras aproximaciones del Ejemplo \ref{ex:derivada01}}
+	\label{fig:derivada01}
+\end{figure}
+La recta naranja (marcada con la letra P) corresponde a la obtenida por la derivación progresiva, mientras que la 
+recta verde (marcada con la letra R) corresponde a la obtenida por derivación regresiva.
+
+Es notorio que para obtener un mejor resultado en las aproximaciones se debe utilizar un valor más pequeño para $h$.
+Gráficamente observaríamos que las rectas secantes se aproximan cada vez más a la tangente. La tabla \ref{table:derivada01} 
+muestra los cálculos para diversos valores de $h$.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ccc}
+		\toprule
+		h & D. Progresiva & D. Regresiva \\
+		\midrule
+		0.1 & 23.7084 & 20.7491 \\
+		0.05 & 22.9217 & 21.4434 \\
+		0.01 & 22.3156 & 22.02 \\
+		0.005 & 22.2412 & 22.0934 \\
+		0.001 & 22.182 & 22.1524 \\
+		0.0001 & 22.1686 & 22.1657 \\
+		0.00001 & 22.1673 & 22.167\\
+		\bottomrule
+	\end{tabular}
+	\label{table:derivada01}
+	\caption{Resultados del Ejercicio \ref{ex:derivada01}}
+\end{table}
+\label{ex:derivada01}
+}\end{exerciseT}
+
 \section{Fórmula de tres puntos}
+\label{section:d3p}
+Una estrategia distinta para obtener aproximaciones a la derivada de una función consiste en utilizar la interpolación para ello.
+La idea se basa en el hecho de que un polinomio es continuo y derivable para todos los números reales. Como una ventaja adicional, 
+el polinomio es fácilmente derivable. 
+
+De esta forma la estrategia consiste en construir un polinomio de interpolación que aproxime 
+a la función que se desea derivar, ahora se deriva el polinomio y se evalúa en el punto que se desea aproximar. De acuerdo al grado
+del polinomio que se haya construido, la aproximación del resultado con la derivada será mejor. En términos generales se puede decir
+que \textit{a mayor grado del polinomio mejor la aproximación a la derivada}.
+
+Para la construcción del polinomio se utiliza la interpolación de Lagrange de la ecuación (\ref{eq:polinomioLagrange}). Supongamos 
+que $\{x_0,x_1,\dots,x_n\}$ son $(n+1)$ números distintos en algún intervalo $I$ y que $f\in C^{n+1}(I)$. Entonces:
+\[ f(x) = \sum_{k=0}^n f(x_k)L_{n,k}(x) \]
+Al derivar esta expresión y evaluar $x=x_j$ se obtiene
+\begin{equation}
+	f'(x_j) = \sum_{k=0}^n f(x_k)L'_{n,k}(x_j)
+	\label{eq:formula(n+1)Puntos} 
+\end{equation}
+
+que recibe el nombre de fórmula de $(n+1)$ puntos para aproximar $f'(x_j)$ donde $x_j$ es el valor en el que se evalúa la derivada.
+
+En términos generales, la utilización de más puntos de evaluación en la ecuación (\ref{eq:formula(n+1)Puntos}) produce una mayor 
+exactitud, aunque esto puede no ser conveniente dada la cantidad de evaluaciones funcionales y el aumento en el error de redondeo. 
+Por esta razón es que se limita a formulas de tres y cinco puntos de evaluación. 
+
+Para los tres puntos el polinomio de interpolación de Lagrange que corresponde es de segundo grado
+\[ f(x) = f(x_0)L_0(x) + f(x_1)L_1(x) + f(x_2)L_2(x) \]
+y su derivada es
+\[ f'(x) = f(x_0)L_0'(x) + f(x_1)L_1'(x) + f(x_2)L_2'(x).\]
+De esta forma, el primer término de Lagrange es
+\[ L_0(x) = \dfrac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)} \]
+y su derivada con respecto a $x$ es
+\[ L'_0(x) = \dfrac{2x-x_1-x_2}{(x_0-x_1)(x_0-x_2)}. \]
+Para los términos de Lagrange $L_1$ y $L_2$ el resultado es muy similar, por lo que son 
+\[ L'_1(x) = \dfrac{2x-x_0-x_2}{(x_1-x_0)(x_1-x_2)} \]
+y 
+\[ L'_2(x) = \dfrac{2x-x_0-x_1}{(x_2-x_0)(x_2-x_1)}. \]
+Ahora sustituyendo la derivada de los términos de Lagrange en la ecuación \ref{eq:formula(n+1)Puntos} queda,
+\begin{equation}
+	f'(x_j) = f(x_0)\left[\dfrac{2x_j - x_1 - x_2}{(x_0-x_1)(x_0-x_2)}\right] + 
+	f(x_1)\left[\dfrac{2x_j - x_0 - x_2}{(x_1-x_0)(x_1-x_2)}\right] 
+	+ f(x_2)\left[{2x_j - x_0 - x_1\over (x_2-x_0)(x_2-x_1)}\right].
+	\label{eq:formulaDerivadaTresPuntos}
+\end{equation}
+La ecuación (\ref{eq:formulaDerivadaTresPuntos}) es una aproximación a la derivada de $f$ evaluada en $x_j$ para tres puntos:
+$x_0$, $x_1$ y $x_2$.
+
+Ahora, si se distribuyen los puntos de forma equidistante, esto es 
+\begin{align*}
+	\mbox{Sea }& h\in\mathbb{R} \wedge h\not=0 \\
+	x_j &= x_0\\
+	x_1 &= x_0 + h \\ 
+	x_2 &= x_1 + h = x_0+2h,
+\end{align*}
+entonces la ecuación (\ref{eq:formulaDerivadaTresPuntos}) se reduce a la expresión (\ref{eq:d3ppe}).
+
+\begin{definitionT}[Fórmula de tres puntos - punto extremo]
+	\begin{equation}
+		f'(x_0) = \dfrac{1}{2h}\left[-3f(x_0)+4f(x_0+h)-f(x_0+2h)\right]
+		\label{eq:d3ppe}
+	\end{equation}
+\end{definitionT}
+
+Ahora, utilizando nuevamente la expresión (\ref{eq:formulaDerivadaTresPuntos}) con los tres puntos $x_0$, $x_1$ y $x_2$ 
+pero acomodandolos de manera equidistante pero con $x_0$ al centro, esto es:
+\begin{align*}
+	\mbox{Sea }& h\in\mathbb{R} \wedge h\not=0 \\
+	x_j &= x_0\\
+	x_1 &= x_0 - h \\ 
+	x_2 &= x_0 + h,
+\end{align*}
+entonces la ecuación (\ref{eq:formulaDerivadaTresPuntos}) se reduce a la expresión (\ref{eq:d3ppm}).
+
+\begin{definitionT}[Fórmula de tres puntos - punto medio]
+	\begin{equation}
+		f'(x_0) = \frac{1}{2h}\left[f(x_0+h) - f(x_0-h)\right] 
+		\label{eq:d3ppm}
+	\end{equation}
+\end{definitionT}
+
 \section{Fórmula de cinco puntos}
+Los métodos presentados en las ecuaciones (\ref{eq:d3ppe}) y (\ref{eq:d3ppm}) reciben el nombre de \textbf{fórmulas de tres 
+puntos}. Así mismo, existen las llamadas \textbf{fórmulas de cinco puntos} que implican la evaluación de la función en 
+dos puntos más, pero cuyo término de error tiene la forma $O(h^4)$. 
+
+Retomando la estrategia utilizada para las fórmulas de los tres puntos, en la expresión (\ref{eq:formula(n+1)Puntos})
+pero ahora se consideran cinco puntos. La expresión se reduce a
+\[ f(x) = f(x_0)L_0(x) + f(x_1)L_1(x) + f(x_2)L_2(x) + f(x_3)L_3(x) + f(x_4)L_4(x) \]
+y su derivada es
+\begin{equation}
+	f'(x_j) = f(x_0)L_0'(x) + f(x_1)L_1'(x) + f(x_2)L_2'(x) + f(x_3)L'_3(x) + f(x_4)L'_4(x).
+	\label{eq:formula5puntos}
+\end{equation}
+De esta forma, el primer término de Lagrange es
+\[ L_0(x) = \dfrac{(x-x_1)(x-x_2)(x-x_3)(x-x_4)}{(x_0-x_1)(x_0-x_2)(x_0-x_3)(x_0-x_4)} \]
+y su derivada con respecto a $x$ es
+\[ 
+	L'_0(x) = \dfrac{(x-x_1)(x-x_2)(x-x_3)+(x-x_1)(x-x_2)(x-x_4)+(x-x_1)(x-x_3)(x-x_4)+(x-x_2)(x-x_3)(x-x_4)}
+	{(x_0-x_1)(x_0-x_2)(x_0-x_3)(x_0-x_4)}. 
+\]
+Para los términos de Lagrange  restantes $L'_1$, $L'_2$, $L'_3$ y $L'_4$ el resultado es muy similar. Sustituyendo todos ellos
+en la expresión (\ref{eq:formula5puntos}), reducir los términos se obtiene una expresión semejante a (\ref{eq:formulaDerivadaTresPuntos}).
+
+Ahora, si se distribuyen los 5 puntos $x_0$, $x_1$, $x_2$, $x_3$ y $x_4$ de forma equidistante, y el valor $x_0$ encontrándose
+en el extremo izquierdo, esto es:
+\begin{align*}
+	\mbox{Sea }& h\in\mathbb{R} \wedge h\not=0 \\
+	x_j &= x_0\\
+	x_1 &= x_0 + h \\ 
+	x_2 &= x_0 + 2h \\
+	x_3 &= x_0 + 3h \\
+	x_4 &= x_0 + 4h
+\end{align*}
+entonces se reduce a la expresión (\ref{eq:d5ppe}).
+
+\begin{definitionT}[Fórmula de cinco puntos - punto extremo]
+	\begin{equation}
+		f'(x_0) = \frac{1}{12h}\left[-25f(x_0) + 48f(x_0+h) - 36f(x_0+2h) + 16f(x_0+3h) - 3f(x_0+4h)\right]
+		\label{eq:d5ppe}
+	\end{equation}
+\end{definitionT}
+
+Si por otro lado se distribuyen los 5 puntos $x_0$, $x_1$, $x_2$, $x_3$ y $x_4$ de forma equidistante, y el valor $x_0$ encontrándose
+en el centro, esto es:
+\begin{align*}
+	\mbox{Sea }& h\in\mathbb{R} \wedge h\not=0 \\
+	x_j &= x_0\\
+	x_1 &= x_0 - h \\ 
+	x_2 &= x_0 - 2h \\
+	x_3 &= x_0 + h \\
+	x_4 &= x_0 + 2h
+\end{align*}
+entonces se reduce a la expresión (\ref{eq:d5ppm}).
+
+\begin{definitionT}[Fórmula de cinco puntos - punto medio]
+	\begin{equation}
+		f'(x_0) = \frac{1}{12h}\left[f(x_0-2h) - 8f(x_0-h) + 8f(x_0+h) - f(x_0+2h) \right]
+		\label{eq:d5ppm}
+	\end{equation}
+\end{definitionT}
+
+\section{Fórmula de 3 puntos para la segunda derivada}
+Si se retoma el procedimiento de la sección \ref{section:d3p} y en particular la expresión (\ref{eq:formula(n+1)Puntos}), sólo
+que en esta ocasión se deriva nuevamente la expresión para obtener una segunda derivada del polinomio $f(x)$ dado por la serie 
+de Taylor. Esto es:
+\begin{equation}
+	f''(x_j) = \sum_{k=0}^n f(x_k)L''_{n,k}(x_j)
+	\label{eq:formula2d(n+1)Puntos} 
+\end{equation}
+Esta expresión (\ref{eq:formula2d(n+1)Puntos}) requiere a su vez de la segunda derivada de $L_0$, $L_1$ y $L_2$. Derivando estos
+términos y sustituyendo se obtendría una expresión semejante a (\ref{eq:formulaDerivadaTresPuntos}). Ahora distribuyendo de 
+forma equidistante los valores $x_0$, $x_1$ y $x_2$, con el valor $x_0$ en el centro, esto es:
+\begin{align*}
+	\mbox{Sea }& h\in\mathbb{R} \wedge h\not=0 \\
+	x_j &= x_0\\
+	x_1 &= x_0 - h \\ 
+	x_2 &= x_0 + h,
+\end{align*}
+entonces la ecuación (\ref{eq:formula2d(n+1)Puntos}) se reduce a la expresión (\ref{eq:2d3ppm}).
+\begin{definitionT}[Fórmula segunda derivada tres puntos - punto medio]
+	\begin{equation}
+		f''(x_0) = \frac{1}{h^2}\left[f(x_0-h) - 2f(x_0) + f(x_0+h)\right] 
+		\label{eq:2d3ppm}
+	\end{equation}
+\end{definitionT}
+
+
+\begin{exerciseT}
+	Dada la función $f(x) = xe^x$, 
+		\begin{enumerate}[a)]
+			\item Utilice las fórmulas de los 3 y 5 puntos para encontrar aproximaciones a la primera derivada de 
+				la función $f(x)$ en $x=2$. 
+			\item ¿Qué fórmula permite encontrar un mejor resultado?, ¿porque?
+			\item Utilice también la fórmula de los 3 puntos para obtener una aproximación a la segunda derivada de $f(x)$ en $x=2$.
+		\end{enumerate}	
+	
+\end{exerciseT}
+
+
 \section{Integración numérica: Método del trapecio}
 \section{Integración numérica: Métodos de Simpson}
 \section{Integración numérica: Integración de Romberg}
 \section{Integración numérica: Método de cuadratura gaussiana}
 \section{Integración múltiple}
 \section{Aplicaciones}
+
+

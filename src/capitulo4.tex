@@ -1,3 +1,342 @@
 \chapter{Solución de sistemas de ecuaciones lineales}
 
 \section{Métodos iterativos}
+
+\subsection{Método de Jacobi}
+
+En esta sección describiremos los métodos iterativos de Jacobi y Gauss-Seidel, métodos clásicos que datan de fines del siglo XVIII. Los métodos
+iterativos rara vez se usan para resolver sistemas lineales de pequeña dimensión, ya que el tiempo necesario para conseguir una exactitud satisfactoria
+rebasa el que requieren los métodos directos, como el  de eliminación gaussiana. Sin embargo, en el caso de sistemas grandes con un alto porcentaje de 
+elementos cero, son eficientes tanto en almacenamiento de computadora como en el tiempo de cálculo. Este tipo de sistemas representan constantemente
+en los análisis de circuitos y en la solución numérica de problemas con valores en la frontera y ecuaciones diferenciales parciales.
+
+Un método iterativo con el cual se resuelve el sistema lineal $A\textbf{x}=\textbf{b}$ de dimensiones $n\times n$ comienza con una aproximación inicial $\textbf{x}^{(0)}$ a la
+solución $\textbf{x}$ y genera una sucesión de vectores $\{\textbf{x}^{(k)}\}^\infty_{k=0}$ que convergen en $\textbf{x}$.
+
+El método iterativo de Jacobi se obtiene resolviendo la i-ésima ecuación en $A\textbf{x}=\textbf{b}$ para $x_i$, lo que resulta en (siempre que $a_{ii}\not=0$)
+\begin{equation*}
+  x_i = \sum_{\substack{j=1\\j\not= i}}^n \left(-\frac{a_{ij}x_j}{a_{ii}} \right) + \frac{b_i}{a_{ii}}, \mbox{para } i=1,2,\dots ,n.
+\end{equation*}
+
+Para cada $k\geq 1$, se generan las componentes $x_i^{(k)}$ de $x^{(k)}$ a partir de las componentes de $x^{(k-1)}$ con
+\begin{equation}
+  x_i^{(k)} = \frac{1}{a_{ii}}\left[\sum_{\substack{j=1\\j\not= i}}\left( -a_{ij}x_j^{(k-1)}\right) +b_i\right], \mbox{ para } i=1,2,\dots,n.
+  \label{eq:jacobi1}
+\end{equation}
+
+\begin{exerciseT}
+El sistema lineal $A\textbf{x}=\textbf{b}$ dado por
+\begin{center}
+\begin{tabular}{lrcrcrcrcl}
+$E_1$: & $10x_1$ & $-$ & $x_2$ & $+$ & $2x_3$ &  &  & $=$ & $6$,\\
+$E_2$: & $-x_1$ & $+$ & $11x_2$ & $-$ & $x_3$ & $+$ & $3x_4$ & $=$ & $25$,\\
+$E_3$: & $2x_1$ & $-$ & $x_2$ & $+$ & $10x_3$ & $-$ & $x_4$ & $=$ & $-11$,\\
+$E_4$: &  &  & $3x_2$ & $-$ & $x_3$ & $+$ & $8x_4$ & $=$ & $15$\\
+\end{tabular}
+\end{center}
+tiene la solución única $\textbf{x}=(1,2,-1,1)^t$. Utilice el método iterativo de Jacobi para encontrar aproximaciones $\textbf{x}^{(k)}$ a $\textbf{x}$
+comenzando con $\textbf{x}^{(0)} = (0,0,0,0)^t$ hasta
+\begin{equation*}
+ ||\textbf{x}^{(k)} - \textbf{x}^{(k-1)}||_{\infty} < 10^{-2}.
+\end{equation*}
+
+Primero debemos despejar $x_i$ de la ecuación $E_i$ para cada $i=1,2,3,4$ para obtener
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lcrcrcrcrcr}
+		$x_1$ & $=$ &  &  & $\frac{1}{10}x_2$ & $-$ & $\frac{1}{5}x_3$ & & & $+$ & $\frac{3}{5}$,\\
+		$x_2$ & $=$ & $\frac{1}{11}x_1$ &  &  & $+$ & $\frac{1}{11}x_3$ & $-$ & $\frac{3}{11}x_4$ & $+$ & $\frac{25}{11}$,\\
+		$x_3$ & $=$ & $-\frac{1}{5}x_1$ & $+$ & $\frac{1}{10}x_2$ & & & $+$ & $\frac{1}{10}x_4$ & $-$ & $\frac{11}{10}$,\\
+		$x_4$ & $=$ &  & $-$ & $\frac{3}{8}x_2$ & $+$ & $\frac{1}{8}x_3$ & & & $+$ & $\frac{15}{8}$,\\
+	\end{tabular}
+\end{table}
+
+a partir de la aproximación inicial $\textbf{x}^{(0)}=(0,0,0,0)^t$ tenemos que $\textbf{x}^{(1)}$ está dada por
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lcrcrcrcrcrcr}
+	$x_1^{(1)}$ & $=$ &  &  & $\frac{1}{10}x_2^{(0)}$ & $-$ & $\frac{1}{5}x_3^{(0)}$ & & & $+$ & $\frac{3}{5}$ & $=$ & $0.6000$,\\
+	$x_2^{(1)}$ & $=$ & $\frac{1}{11}x_1^{(0)}$ &  &  & $+$ & $\frac{1}{11}x_3^{(0)}$ & $-$ & $\frac{3}{11}x_4^{(0)}$ & $+$ & $\frac{25}{11}$ & $=$ 
+	&  $2.2727$,\\
+	$x_3^{(1)}$ & $=$ & $-\frac{1}{5}x_1^{(0)}$ & $+$ & $\frac{1}{10}x_2^{(0)}$ & & & $+$ & $\frac{1}{10}x_4^{(0)}$ & $-$ & $\frac{11}{10}$ & $=$ & $-1.100$,\\
+	$x_4^{(1)}$ & $=$ &  & $-$ & $\frac{3}{8}x_2^{(0)}$ & $+$ & $\frac{1}{8}x_3^{(0)}$ & & & $+$ & $\frac{15}{8}$ & $=$ & $1.875$,\\
+\end{tabular}
+\end{table}
+
+Las siguientes iteraciones $\textbf{x}^{(k)}=(x_1^{(k)}, x_2^{(k)}, x_3^{(k)}, x_4^{(k)})^t$, se generan de manera semejante y se producen los valores 
+que se muestran en la tabla \ref{table:jacobi1}.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{r|rrrrrrrrr}
+		\toprule
+		$k$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8\\\midrule
+		$x_1^{(k)}$ & 0.0000 & 0.6000 & 1.0473 & 0.9326 & 1.0152 & 0.9890 & 1.0032 & 0.9981 & 1.0006 \\
+		$x_2^{(k)}$ & 0.0000 & 2.2727 & 1.7159 & 2.0530 & 1.9537 & 2.0114 & 1.9922 & 2.0023 & 1.9987 \\
+		$x_3^{(k)}$ & 0.0000 &-1.1000 &-0.8052 &-1.0493 &-0.9681 &-1.0103 &-0.9945 &-1.0020 &-0.9990 \\
+		$x_4^{(k)}$ & 0.0000 & 1.8750 & 0.8852 & 1.1309 & 0.9739 & 1.0214 & 0.9944 & 1.0036 & 0.9989 \\
+		\bottomrule
+      \end{tabular}
+	\caption{Iteraciones del Ejercicio \ref{ex:jacobi1}}
+	\label{table:jacobi1}
+\end{table}  
+\label{ex:jacobi1}
+El método termina debido a que ya se ha cumplido con la tolerancia $10^{-2}$ para los valores obtenidos en la última iteración.
+$$||\textbf{x}^{(8)}-\textbf{x}^{(7)}|| = 0.00708715 < 10^{-2}$$
+\end{exerciseT}
+
+En el algoritmo \ref{algo:jacobi} se implementa el método iterativo de Jacobi. El método resuelve el sistema $A\textbf{x}=\textbf{b}$ dada 
+una aproximación inicial $\textbf{x}^{(0)}$.
+
+\begin{algorithm}[ht]
+  \SetKwInOut{Input}{Entrada}
+  \SetKwInOut{Output}{Salida}
+  \SetKwFunction{Salida}{Salida}
+  \Input{$n, A = [a_{ij}]$, donde $1\leq i,j\leq n$, $b=[b_i]$ donde $1\leq i\leq n$, $XO=x^{(0)}$,TOL y $N$}
+  \Output{$x_1,x_2,\dots,x_n$}
+  \Begin{
+    $k=1$\\
+    \While{$k\leq N$}{
+      \For{$i=1$ \KwTo $n$}{
+	$\displaystyle{x_i = \frac{1}{a_{ii}}\left[-\sum_{\substack{j=1\\j\not=i}}^n (a_{ij}XO_j) + b_i\right]}$
+      }
+      \If{$||\textbf{x}-\textbf{XO}||<TOL$}{
+	\Salida{$x_1,x_2,\dots,x_n$}\\
+	$fin$
+      }
+      $k=k+1$\\
+      \For{$i=1$ \KwTo $n$}{
+	$XO_i = x_i$
+      } 
+    }
+    \Salida{Número máximo de iteraciones excedido.}
+  }
+\caption{Método iterativo de Jacobi}
+\label{algo:jacobi}
+\end{algorithm}
+
+\subsection*{Ejercicios}
+  \begin{enumerate}
+    \item Obtenga las dos primeras iteraciones del método de Jacobi para los siguientes sistemas lineales, use $\textbf{x}^{(0)} = \textbf{0}$.
+      \begin{enumerate}
+		\begin{multicols}{2}
+		\item $\begin{array}{r}
+				3x_1 - x_2 + x_3 = 1\\
+				3x_1 + 6x_2 + 2x_3 = 0\\
+				3x_1 + 3x_2 + 7x_3 = 4\\
+			  \end{array}$
+		\item $\begin{array}{r}
+				10x_1 - x_2 = 9\\
+				-x_1 + 10x_2 - 2x_3 = 7\\
+				-2x_2 + 10x_3 = 6\\
+			\end{array}$
+		\item $\begin{array}{r}
+				10x_1 + 5x_2 = 6\\
+				5x_1 + 10x_2 - 4x_3 = 25\\
+				-4x_2 + 8x_3 - x_4 = -11\\
+				-x_3 + 5x_4 = -11\\
+			   \end{array}$
+		\item $\begin{array}{r}
+				4x_1 + x_2 + x_3 + x_5 = 6\\
+				-x_1 - 3x_2 + x_3 + x_4 = 6\\
+				2x_1 + x_2 + 5x_3 - x_4 - x_5 = 6\\
+				-x_1 - x_2 - x_3 + 4x_4 = 6\\
+				2x_2 - x_3 + x_4 + 4x_5 = 6
+			\end{array}$
+		\end{multicols}
+      \end{enumerate}		
+    \item Obtenga las dos primeras iteraciones del método de Jacobi para los siguientes sistemas lineales, use $\textbf{x}^{(0)} = \textbf{0}$.
+      \begin{enumerate}
+		\begin{multicols}{2}
+		\item $\begin{array}{r}
+				4x_1 + x_2 - x_3 = 5\\
+				-x_1 + 3x_2 + x_3 = -4\\
+				2x_1 + 2x_2 + 5x_3 = 1
+			  \end{array}$
+		\item $\begin{array}{r}
+				-2x_1 + x_2 + \frac{1}{2}x_3 = 4\\
+				x_1 - 2x_2 - \frac{1}{2}x_3 = -4\\
+				x_2 + 2x_3 = 0
+			\end{array}$
+		\item $\begin{array}{r}
+				4x_1 + x_2 - x_3 + x_4 = -2\\
+				x_1 + 4x_2 - x_3 - x_4 = -1\\
+				-x_1 - x_2 + 5x_3 + x_4 = 0\\
+				x_1 - x_2 + x_3 + 3x_4 = 1
+			   \end{array}$
+		\item $\begin{array}{r}
+				4x_1 - x_2 - x_4 = 0\\
+				-x_1 + 4x_2 - x_3 - x_5 = 5\\
+				-x_2 + 4x_3 - x_6 = 0\\
+				-x_1 + 4x_4 - x_5 = 6\\
+				-x_2 - x_4 + 4x_5 - x_6 = -2\\
+				-x_3 - x_5 + 4x_6 = 6
+			\end{array}$
+		\end{multicols}		
+      \end{enumerate}
+\end{enumerate}
+
+
+
+\subsection{Método de Gauss-Seidel}
+Si se analiza la expresión \ref{eq:jacobi1} se puede observar una posible mejora del algoritmo \ref{algo:jacobi}. Utilizamos las componentes
+de $\textbf{x}^{(k-1)}$ para calcular todas las componentes $x_i^{(k)}$ de $\textbf{x}^{(k)}$. Pero para $i>1$, ya se calcularon los componentes
+$x_1^{(k)}, \dots, x_{i-1}^{(k)}$ de $\textbf{x}^{(k)}$, y probablemente sean mejores aproximaciones a las soluciones reales $x_1,\dots,x_{i-1}$
+que $x_1^{(k-1)},\dots, x_{i-1}^{(k-1)}$. Entonces parece más razonable calcular $x_i^{(k)}$ por medio de los valores calculados más recientemente.
+Esto es, podemos usar
+\begin{equation}
+  x_i^{(k)}=\frac{1}{a_{ii}}\left[-\sum_{j=1}^{i-1}\left(a_{ij}x_j^{(k)}\right) - \sum_{j=i+1}^{n}\left(a_{ij}x_j^{(k-1)}\right) + b_i \right],
+  \label{eq:Gauss-Seidel}
+\end{equation}
+para cada $i=1,2,\dots,n$, en vez de la ecuación \ref{eq:jacobi1}. A esta modificación se le llama \textbf{método iterativo de Gauss-Seidel}.
+
+\begin{exerciseT}
+Utilice el método iterativo Gauss-Seidel para encontrar las soluciones aproximadas de
+$$\begin{array}{r}
+    10x_1 - x_2 + 2x_3 = 6,\\
+    -x_1 + 11x_2 - x_3 + 3x_4 = 25,\\
+    2x_1 - x_2 + 10x_3 - x_4 = -11,\\
+    3x_2 - x_3 + 8x_4 = 15
+  \end{array}$$
+comenzando con $\textbf{x}=(0,0,0,0)^t$ e iterando hasta $10^{-2}$.
+
+\subsubsection*{Solución.}
+En primer lugar se escribe el sistema de la siguiente forma:
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lcrcrcrcrcr}
+    	$x_1^{(k)}$ & $=$ &  &  & $\frac{1}{10}x_2^{(k-1)}$ & $-$ & $\frac{1}{5}x_3^{(k-1)}$ & & & $+$ & $\frac{3}{5}$,\\
+	    $x_2^{(k)}$ & $=$ & $\frac{1}{11}x_1^{(k)}$ &  &  & $+$ & $\frac{1}{11}x_3^{(k-1)}$ & $-$ & $\frac{3}{11}x_4^{(k-1)}$ & $+$ & $\frac{25}{11}$,\\
+    	$x_3^{(k)}$ & $=$ & $-\frac{1}{5}x_1^{(k)}$ & $+$ & $\frac{1}{10}x_2^{(k)}$ & & & $+$ & $\frac{1}{10}x_4^{(k-1)}$ & $-$ & $\frac{11}{10}$,\\
+	    $x_4^{(k)}$ & $=$ &  & $-$ & $\frac{3}{8}x_2^{(k)}$ & $+$ & $\frac{1}{8}x_3^{(k)}$ & & & $+$ & $\frac{15}{8}$.\\
+  	\end{tabular}
+\end{table}
+
+La sustitución ocurre de la siguiente forma:
+\begin{table}[H]
+	\centering
+	\begin{tabular}{lcrcrcrcrcrcr}
+    	$x_1^{(k)}$ & $=$ &  &  & $\frac{1}{10}(0)$ & $-$ & $\frac{1}{5}(0)$ & & & $+$ & $\frac{3}{5}$ & $=$ & $\frac{3}{5} = 0.6000$,\\
+    	$x_2^{(k)}$ & $=$ & $\frac{1}{11}(0.6)$ &  &  & $+$ & $\frac{1}{11}(0)$ & $-$ & $\frac{3}{11}(0)$ & $+$ & $\frac{25}{11}$ & $=$ 
+    	& $\frac{128}{55}=2.3272$,\\
+	    $x_3^{(k)}$ & $=$ & $-\frac{1}{5}(\frac{3}{5})$ & $+$ & $\frac{1}{10}(\frac{128}{55})$ & & & $+$ & $\frac{1}{10}(0)$ & $-$ 
+	    & $\frac{11}{10}$ & $=$ & $-\frac{543}{550} = -0.9873$,\\
+	    $x_4^{(k)}$ & $=$ &  & $-$ & $\frac{3}{8}(\frac{128}{55})$ & $+$ & $\frac{1}{8}(-\frac{543}{550})$ & & & $+$ & $\frac{15}{8}$ & $=$ 
+	    & $\frac{3867}{4400} = 0.8789$.\\
+  \end{tabular}
+\end{table}
+
+Por tanto cuando $\textbf{x}^{(0)} = (0,0,0,0)^t$ tenemos $x^{(1)} = (0.6000, 2.3272, -0.9873, 0.8789)^t$. Las iteraciones subsecuentes generan los valores
+de la tabla \ref{table:gauss-seidel1}.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{r|rrrrr}
+		\toprule
+		$k$ & 0 & 1 & 2 & 3 & 4 \\\midrule
+		$x_1^{(k)}$ & 0.0000 & 0.6000 & 1.030 & 1.0065 & 1.0009 \\
+		$x_2^{(k)}$ & 0.0000 & 2.2727 & 2.037 & 2.0036 & 2.0003 \\
+		$x_3^{(k)}$ & 0.0000 &-0.9873 &-1.014 &-1.0025 &-1.0003 \\
+		$x_4^{(k)}$ & 0.0000 & 0.8789 &0.9844 & 0.9983 & 0.9999 \\
+		\bottomrule
+	\end{tabular}
+	\caption{Iteraciones del Ejercicio \ref{ex:gauss-seidel1}}
+    \label{table:gauss-seidel1}
+\end{table}  
+
+Dado que $||\textbf{x}^{(4)} - \textbf{x}^{(3)}|| = 0.00710962 < 10^{-2}$ se acepta $\textbf{x}^{(4)}$ como una aproximación razonable a la solución.  
+\label{ex:gauss-seidel1}
+\end{exerciseT}
+
+El algoritmo \ref{algo:gauss-seidel} describe el método Gauss-Seidel.
+
+\begin{algorithm}[ht]
+  \SetKwInOut{Input}{Entrada}
+  \SetKwInOut{Output}{Salida}
+  \SetKwFunction{Salida}{Salida}
+  \Input{$n, A = [a_{ij}]$, donde $1\leq i,j\leq n$, $b=[b_i]$ donde $1\leq i\leq n$, $XO=x^{(0)}$,TOL y $N$}
+  \Output{$x_1,x_2,\dots,x_n$}
+  \Begin{
+    $k=1$\\
+    \While{$k\leq N$}{
+      \For{$i=1$ \KwTo $n$}{
+	$\displaystyle{x_i = \frac{1}{a_{ii}}\left[-\sum_{j=1}^{i-1} a_{ij}x_j -\sum_{j=i+1}^{n}a_{ij}XO_j + b_i\right]}$
+      }
+      \If{$||\textbf{x}-\textbf{XO}||<TOL$}{
+	\Salida{$x_1,x_2,\dots,x_n$}\\
+	$fin$
+      }
+      $k=k+1$\\
+      \For{$i=1$ \KwTo $n$}{
+	$XO_i = x_i$
+      } 
+    }
+    \Salida{Número máximo de iteraciones excedido.}
+  }
+\caption{Método iterativo de Gauss-Seidel}
+\label{algo:gauss-seidel}
+\end{algorithm}
+
+Los resultados de los ejemplos \ref{ex:jacobi1} y \ref{ex:gauss-seidel1} parecen indicar que este método es superior al de Jacobi, y generalmente es 
+así. Sin embargo hay sistemas lineales en los que el método de Jacobi converge y el de Gauss-Seidel no.
+
+\subsection*{Ejercicios}
+  \begin{enumerate}
+    \item Obtenga las dos primeras iteraciones del método de Gauss-Seidel para los siguientes sistemas lineales, use $\textbf{x}^{(0)} = \textbf{0}$.
+      \begin{enumerate}
+		\begin{multicols}{2}
+		\item $\begin{array}{r}
+				3x_1 - x_2 + x_3 = 1\\
+				3x_1 + 6x_2 + 2x_3 = 0\\
+				3x_1 + 3x_2 + 7x_3 = 4\\
+			  \end{array}$
+		\item $\begin{array}{r}
+				10x_1 - x_2 = 9\\
+				-x_1 + 10x_2 - 2x_3 = 7\\
+				-2x_2 + 10x_3 = 6\\
+			\end{array}$
+		\item $\begin{array}{r}
+				10x_1 + 5x_2 = 6\\
+				5x_1 + 10x_2 - 4x_3 = 25\\
+				-4x_2 + 8x_3 - x_4 = -11\\
+				-x_3 + 5x_4 = -11\\
+			   \end{array}$
+		\item $\begin{array}{r}
+				4x_1 + x_2 + x_3 + x_5 = 6\\
+				-x_1 - 3x_2 + x_3 + x_4 = 6\\
+				2x_1 + x_2 + 5x_3 - x_4 - x_5 = 6\\
+				-x_1 - x_2 - x_3 + 4x_4 = 6\\
+				2x_2 - x_3 + x_4 + 4x_5 = 6
+			\end{array}$
+		\end{multicols}
+      \end{enumerate}		
+    \item Obtenga las dos primeras iteraciones del método de Gauss-Seidel para los siguientes sistemas lineales, use $\textbf{x}^{(0)} = \textbf{0}$.
+      \begin{enumerate}
+		\begin{multicols}{2}
+		\item $\begin{array}{r}
+				4x_1 + x_2 - x_3 = 5\\
+				-x_1 + 3x_2 + x_3 = -4\\
+				2x_1 + 2x_2 + 5x_3 = 1
+			  \end{array}$
+		\item $\begin{array}{r}
+				-2x_1 + x_2 + \frac{1}{2}x_3 = 4\\
+				x_1 - 2x_2 - \frac{1}{2}x_3 = -4\\
+				x_2 + 2x_3 = 0
+			\end{array}$
+		\item $\begin{array}{r}
+				4x_1 + x_2 - x_3 + x_4 = -2\\
+				x_1 + 4x_2 - x_3 - x_4 = -1\\
+				-x_1 - x_2 + 5x_3 + x_4 = 0\\
+				x_1 - x_2 + x_3 + 3x_4 = 1
+			   \end{array}$
+		\item $\begin{array}{r}
+				4x_1 - x_2 - x_4 = 0\\
+				-x_1 + 4x_2 - x_3 - x_5 = 5\\
+				-x_2 + 4x_3 - x_6 = 0\\
+				-x_1 + 4x_4 - x_5 = 6\\
+				-x_2 - x_4 + 4x_5 - x_6 = -2\\
+				-x_3 - x_5 + 4x_6 = 6
+			\end{array}$
+		\end{multicols}		
+      \end{enumerate}
+\end{enumerate}

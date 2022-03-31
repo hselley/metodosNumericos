@@ -97,14 +97,16 @@ Por otro lado, cuando se realizan operaciones con números truncados podrían ob
 Vayamos a un ejemplo. En este ejemplo utilizaremos nuevamente el número $\frac{1}{3}$ y realizaremos operaciones aritméticas con el para mostrar el 
 error de truncamiento. Supongamos que el sistema digital solo es capaz de almacenar 6 cifras significativas.
 
-\begin{table}
+\begin{table}[H]
 	\centering
-	\begin{tabular}{c|c}
-	\textbf{Aritmética convencional} & \textbf{Aritmética digital con truncamiento}\\
-	\hline
-	$\frac{1}{3}$ & $0.333333$\\
-	$3\times\frac{1}{3}$ & $3\times 0.333333$\\
-	$1$ & $0.999999$		
+	\begin{tabular}{cc}
+		\toprule
+		\textbf{Aritmética convencional} & \textbf{Aritmética digital con truncamiento}\\
+		\midrule
+		$\frac{1}{3}$ & $0.333333$\\
+		$3\times\frac{1}{3}$ & $3\times 0.333333$\\
+		$1$ & $0.999999$	\\	
+		\bottomrule
 	\end{tabular}
 	\caption{Ejemplo del error de truncamiento}
 	\label{table:errorTruncamiento}
@@ -122,13 +124,15 @@ número de su valor absoluto, se dice que ocurre un \textbf{error de redondeo}. 
 Veamos un ejemplo en el que ocurre el error de redondeo y afecta al resultado obtienido en la operación. Considere los siguientes números y qu se hará
 un redondeo de 6 cifras significativas del número.
 
-\begin{table}[ht]
+\begin{table}[H]
 	\centering
-	\begin{tabular}{c|c|c}
-	\textbf{Número racional} & \textbf{Valor numérico} & \textbf{Valor numérico redondeado}\\
-	\hline
-	$2/7$ & $0.2857142857$ & $0.285710$\\
-	$5/7$ & $0.7142857143$ & $0.714285$	
+	\begin{tabular}{ccc}
+		\toprule
+		\textbf{Número racional} & \textbf{Valor numérico} & \textbf{Valor numérico redondeado}\\
+		\midrule
+		$2/7$ & $0.2857142857$ & $0.285710$\\
+		$5/7$ & $0.7142857143$ & $0.714285$	\\
+		\bottomrule
 	\end{tabular}
 	\caption{Valor numérico redondeado}
 	\label{table:errorRedondeo}
@@ -136,16 +140,17 @@ un redondeo de 6 cifras significativas del número.
 
 Al realizar la suma de los números se obtiene un resultado inesperado e incorrecto debido al error de redondeo.
 
-\begin{table}[ht]
+\begin{table}[H]
 	\centering
-	\begin{tabular}{c|c}
-	\textbf{Aritmética convencional} & \textbf{Aritmética digital con redondeo}\\
-	\hline
-	$\frac{2}{7}$ & $0.285710$\\
-	+ & + \\
-	$\frac{5}{7}$ & $0.714285$\\
-	= & = \\
-	$1$ & $0.999995$		
+	\begin{tabular}{cc}
+		\toprule
+		\textbf{Aritmética convencional} & \textbf{Aritmética digital con redondeo}\\
+		\midrule
+		$\frac{2}{7}$ & $0.285710$\\
+		+ & + \\
+		$\frac{5}{7}$ & $0.714285$\\
+		= & = \\
+		$1$ & $0.999995$		
 	\end{tabular}
 	\caption{Ejemplo del error de redondeo}
 	\label{table:errorTruncamiento}

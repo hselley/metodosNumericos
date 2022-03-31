@@ -1,9 +1,365 @@
 \chapter{Sistemas de ecuaciones no lineales}
 
-\section{Solución de ecuaciones}
-\section{Búsqueda de valores iniciales Tabulación y graficación}
-\section{Métodos cerrados y sus interpretaciones geométricas (bisección y regla falsa)}
-\section{Iteración y convergencia de sistemas de ecuaciones}
+%\section{Solución de ecuaciones}
+%\section{Búsqueda de valores iniciales Tabulación y graficación}
+%\section{Métodos cerrados y sus interpretaciones geométricas (bisección y regla falsa)}
+%\section{Iteración y convergencia de sistemas de ecuaciones}
+
+\section{Método del Punto Fijo}
+\subsection{Iteración funcional}
+
+Un sistema de ecuaciones no lineales tiene la forma
+\begin{equation}
+	\begin{matrix}
+		f_1(x_1,x_2,\dots,x_n) & = & 0,\\
+		f_1(x_1,x_2,\dots,x_n) & = & 0,\\
+		\vdots & & \vdots\\
+		f_n(x_1,x_2,\dots,x_n) & = & 0,\\	
+	\end{matrix}
+	\label{eq:SNLpuntoFijo1} 	
+\end{equation}
+donde podemos considerar cada función $f_i$ como un mapeo de un vector $\textbf{x}=(x_1,x_2,\dots,x_n)^t$ del espacio $\mathbb{R}^n$ de dimensión
+$n$ en la recta real $\mathbb{R}$. 
+Este sistema de $n$ ecuaciones no lineales con $n$ incógnitas puede representarse también mediante la definición de una función $\mathbb{F}$ que
+mapea $\mathbb{R}^n$ en $\mathbb{R}^n$ como
+ 
+$$\mathbb{F}(x_1,x_2,\dots,x_n) = (f_1(x_1,x_2,\dots,x_n),f_2(x_1,x_2,\dots,x_n),\dots,f_n(x_1,x_2,\dots,x_n))^t.$$
+
+Si se emplea una notación vectorial para representar las variables $x_1,x_2,\dots,x_n$, el sistema \ref{eq:SNLpuntoFijo1} adopta la forma
+\begin{equation}
+	\mathbb{F}(x) = 0
+\end{equation}
+
+Las funciones $f_a,f_2,\dots,f_n$ se denominan las \textbf{funciones coordenadas} de \textbf{F}.
+
+\begin{exerciseT}
+Aplique la iteración funcional para aproximar la solución con una exactitud de $10^{-5}$.
+
+\begin{center}
+  $\begin{array}{rcl}
+    3x_1 - \cos (x_2x_3) - \frac{1}{2} & = & 0,\\
+    x_1^2 - 81(x_2 + 0.1)^2 + \sin x_3 + 1.06 & = & 0,\\
+    e^{-x_1x_2} + 20x_3 + \frac{10\pi - 3}{3} & = & 0
+  \end{array}$
+\end{center}
+
+en la forma de punto fijo $x=G(x)$ resolviendo la í-esima ecuación para $x_i$, para demostrar que existe una única solución en
+
+$$D=\{(x_1,x_2,x_3)^t | -a\leq x_i\leq 1, \mbox{ para cada } i=1,2,3\}.$$
+e itere comenzando con $x^{(0)}=(0.1,0.1,-0.1)^t$ hasta obtener una precisión de $10^{-5}$ en la norma $l_\infty$.
+
+\subsubsection*{Solución.}
+Si resolvemos la í-esima ecuación para $x_i$, el sistema se transforma en un problema de punto fijo.
+
+\begin{equation}
+  \begin{array}{ccl}
+    x_1 & = & \frac{1}{3}\cos (x_2x_3) + \frac{1}{6},\\
+    x_2 & = & \frac{1}{9}\sqrt{x_1^2 + \sin x_3 + 1.06} - 0.1,\\ 
+    x_3 & = & -\frac{1}{20}e^{-x_1x_2}-\frac{10\pi-3}{60}.
+  \end{array}
+  \label{eq:exSNLpuntoFijo1}
+\end{equation}
+
+Sea $G:\mathbb{R}^3\rightarrow\mathbb{R}^3$ definida por $G(x) = (g_1(x),g_2(x),g_3(x))^t$, donde
+
+\begin{equation*}
+  \begin{array}{ccl}
+    g_1(x_1,x_2,x_3) & = & \frac{1}{3}\cos (x_2x_3) + \frac{1}{6},\\
+    g_2(x_1,x_2,x_3) & = & \frac{1}{9}\sqrt{x_1^2 + \sin x_3 + 1.06} - 0.1,\\ 
+    g_3(x_1,x_2,x_3) & = & -\frac{1}{20}e^{-x_1x_2}-\frac{10\pi-3}{60}.    
+  \end{array}
+\end{equation*}
+
+Para aproximar el punto fijo \textbf{p}, escogemos $x^{(0)} = (0.1, 0.1, -0.1)^t$. La sucesión de vectores generada por
+
+\begin{equation*}
+  \begin{array}{ccl}
+    x_1^{(k)} & = & \frac{1}{3}\cos \left(x_2^{(k-1)}x_3^{(k-1)}\right) + \frac{1}{6},\\
+    x_2^{(k)} & = & \frac{1}{9}\sqrt{\left(x_1^{(k-1)}\right)^2 + \sin x_3^{(k-1)} + 1.06} - 0.1,\\ 
+    x_3^{(k)} & = & -\frac{1}{20}e^{-x_1^{(k-1)}x_2^{(k-1)}}-\frac{10\pi-3}{60}.    
+  \end{array}
+\end{equation*}
+
+converge en la solución única del sistema en \ref{eq:exSNLpuntoFijo1}. Los resultados en la tabla \ref{table:exSNLpuntoFijo1} se generan hasta que
+$$||\textbf{x}^{(k)} - \textbf{x}^{(k-1)}||_\infty < 10^{-5}.$$
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ccccc}
+		\toprule
+		$k$ & $x_1^{(k)}$ & $x_2^{(k)}$ & $x_3^{(k)}$ & $||\textbf{x}^{(k)} - \textbf{x}^{(k-1)}||_\infty$ \\\midrule
+		0 & 0.10000000 & 0.10000000 & -0.10000000 & \\
+		1 & 0.49998333 & 0.00944115 & -0.52310127 & 0.423 \\
+		2 & 0.49999593 & 0.00002557 & -0.52336331 & $9.4\times 10^{-3}$\\
+		3 & 0.50000000 & 0.00001234 & -0.52359814 & $2.3\times 10^{-4}$\\
+		4 & 0.50000000 & 0.00000003 & -0.52359847 & $1.2\times 10^{-5}$\\
+		5 & 0.50000000 & 0.00000002 & -0.52359877 & $3.1\times 10^{-7}$\\
+		\bottomrule
+	\end{tabular}
+	\caption{Iteraciones del Ejercicio \ref{ex:SNLpuntoFijo1}}
+    \label{table:exSNLpuntoFijo1}
+\end{table} 
+
+Por lo tanto, la aproximación a la solución es $x^{(5)} = (0.50000000, 0.00000002, -0.52359877)$.  
+ \label{ex:SNLpuntoFijo1}
+\end{exerciseT}
+
+
+\subsection{Iteración funcional acelerada}
+
+Una forma de acelerar la convergencia de la iteración de punto fijo consiste en usar las estimaciones más recientes de $x_1^{(k)}, \dots, x_{i-1}^{(k)}$
+para calcular $x_i^{(k)}$, igual que en el método de Gauss-Seidel para sistemas lineales. Entonces las ecuaciones componentes se transforman en
+
+\begin{equation*}
+  \begin{array}{ccl}
+    x_1^{(k)} & = & \frac{1}{3}\cos \left(x_2^{(k-1)}x_3^{(k-1)}\right) + \frac{1}{6},\\
+    x_2^{(k)} & = & \frac{1}{9}\sqrt{\left(x_1^{(k)}\right)^2 + \sin x_3^{(k-1)} + 1.06} - 0.1,\\ 
+    x_3^{(k)} & = & -\frac{1}{20}e^{-x_1^{(k)}x_2^{(k)}}-\frac{10\pi-3}{60}.    
+  \end{array}
+\end{equation*}
+
+Con $x^{(0)} = (0.1, 0.1, -0.1)^t$, los resultados de estos cálculos se dan en la tabla \ref{table:exSNLpuntoFijo2}.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{ccccc}
+		\toprule
+		$k$ & $x_1^{(k)}$ & $x_2^{(k)}$ & $x_3^{(k)}$ & $||\textbf{x}^{(k)} - \textbf{x}^{(k-1)}||_\infty$ \\\midrule
+		0 & 0.10000000 & 0.10000000 & -0.10000000 & \\
+		1 & 0.49998333 & 0.02222979 & -0.52304613 & 0.423 \\
+		2 & 0.49997747 & 0.00002815 & -0.52359807 & $2.2\times 10^{-2}$\\
+		3 & 0.50000000 & 0.00000004 & -0.52359877 & $2.8\times 10^{-5}$\\
+		4 & 0.50000000 & 0.00000000 & -0.52359877 & $3.8\times 10^{-8}$\\
+		\bottomrule
+	\end{tabular}
+    \caption{Convergencia Acelerada del Ejercicio \ref{ex:SNLpuntoFijo1}}
+    \label{table:exSNLpuntoFijo2}
+\end{table} 
+
+Por lo tanto, la aproximación a la solución es $x^{(4)} = (0.50000000, 0.00000000, -0.52359877)$.    
+
+\subsection*{Ejercicios}
+Aplique la iteración funcional para aproximar la solución con una exactitud de $10^{-4}´$.
+\begin{enumerate}
+	\item 
+		$$G(x_1,x_2,x_3) = \left(\frac{\cos (x_2x_3) + 0.5}{3}, \frac{1}{25}\sqrt{x_1^2+0.3125}-0.03, -\frac{1}{20}e^{-x_1x_2}-\frac{10\pi-3}{60} \right)$$
+		$$D=\{ (x_1,x_2,x_3)| -1\leq x_i\leq 1, i=1,2,3 \}$$
+		
+	\item
+		$$G(x_1,x_2,x_3) = \left( \frac{13-x_2^2+4x_3}{15}, \frac{11+x_3-x_1^2}{10}, \frac{22+x_2^3}{25} \right)$$
+		$$D=\{ (x_1,x_2,x_3)| 0\leq x_i\leq 1.5, i=1,2,3 \}$$
+			
+	\item 
+		$$G(x_1,x_2,x_3) = \left(1-\cos(x_2x_3), 1-(1-x_1)^{1/4}-0.05x_3^2+0.15x_3, x_1^2+0.1x_2^2-0.01x_2+1 \right)$$
+		$$D=\{ (x_1,x_2,x_3)| -0.1\leq x_1\leq 0.1, -0.1\leq x_2\leq 0.3, 0.5\leq x_3\leq 1.1 \}$$
+			
+	\item
+		$$G(x_1,x_2,x_3) = \left( \frac{1}{3}\cos(x_2x_3) + \frac{1}{6}, -\frac{1}{9}\sqrt{x_1^2+\sin x_3+1.06}-0.1, -\frac{1}{20}e^{-x_1x_2}
+			-\frac{10\pi -3}{60} \right)$$
+		$$D=\{ (x_1,x_2,x_3)| -1\leq x_i\leq 1, i=1,2,3 \}$$			
+\end{enumerate}
+
+
 \section{Solución de sistemas de ecuaciones mediante Newton}
-\section{Método de Bairstow}
+
+El problema del ejemplo \ref{ex:SNLpuntoFijo1} de la sección anterior convierte un problema de punto fijo convergente si se resuelve 
+algebraicamente las tres ecuaciones para las tres variables $x_1,x_2$ y $x_3$. Sin embargo, no es usual poder encontrar una representación 
+explícita para todas las variables. En esta sección estudiaremos un procedimiento algorítmico para efectuar la transformación en una 
+situación más general.
+
+Para construir el algoritmo que nos lleve a un método de punto fijo apropiado en el caso unidimensional, obtuvimos una función $\phi$ con 
+la siguiente propiedad
+
+\begin{equation*}
+	g(x) = x - \phi(x)f(x)
+\end{equation*}
+
+da una convergencia cuadrática en el punto fijo $p$ de la función $g$. A partir de esta condición, el método de Newton se desarrolla 
+seleccionando $\phi(x) = 1/f'(x)$, suponiendo que $f'(x)=0$.
+
+La aplicación de un procedimiento semejante en el caso de dimensión $n$ incluye una matriz
+
+\begin{equation}
+	A = \begin{bmatrix}
+		a_{11}(x) & a_{12}(x) & \cdots & a_{1n}(x) \\ 
+		a_{21}(x) & a_{22}(x) & \cdots & a_{2n}(x) \\ 
+		\vdots & \vdots &  & \vdots \\ 
+		a_{n1}(x) & a_{n2}(x) & \cdots & a_{nn}(x)
+	\end{bmatrix}
+	\label{eq:SENLNewton1}
+\end{equation}
+
+donde todos los elementos $a_{ij}(x)$ son una función de $\mathbb{R}^n$ en $\mathbb{R}$. Esto requiere obtener $A(x)$ de modo que 
+
+\begin{equation*}
+	G(x) = x-A(x)^{-1}F(x)
+\end{equation*}
+
+de la convergencia cuadrática a la solución de $F(x) = 0$, suponiendo que $A(x)$ es no singular en el punto fijo $p$ de $G$.
+
+\begin{theorem}[]
+	Sea $p$ una solución de $G(x)=x$. Suponga que existe un número $\delta >0$ con
+	\begin{enumerate}[(i)]
+		\item $\delta g_i/\delta x_j$ es continua en $N_\delta = \{x| ||x-p||<\delta \}$, para cada $i=1,2,\dots,n$ y $j=1,2,\dots,n$;
+		\item $\delta^2g_i(x)/(\delta x_j\delta x_k)$ es continua y $|\delta^2g_i(x)/(\delta x_j\delta x_k)|\leq M$ para alguna constante $M$, 
+			siempre que $x\in N_{\delta}$, para cada $i=1,2,\dots, n$, $j=1,2,\dots,n$ y $k=1,2,\dots,n$; 
+		\item $\delta g_i(p)/\delta x_k = 0$, para cada $i=1,2,\dots,n$ y $k=1,2,\dots,n$.
+	\end{enumerate}		
+	Entonces existe un número $\hat{\delta}\leq \delta$ tal que la sucesión generada por $x^{(k)} = G(x^{(k-1)})$ converge cuadráticamente a $p$ 
+	para cualquier elección de $x^{(0)}$ a condición de que $||x^{(0)} - p|| < \hat{\delta}$. Más aún,
+	\begin{equation*}
+		||x^{(k)} - p||_\infty \leq \frac{n^2M}{2}||x^{(k-1)}-p||_\infty^2, \text{ para cada } k\geq 1.
+	\end{equation*}	 
+	\label{teo:SENLNewton}	
+\end{theorem}
+
+Para utilizar el teorema \ref{teo:SENLNewton} supongamos que $A(x)$ es una matriz de funciones $n\times n$ de $\mathbb{R}^n\rightarrow \mathbb{R}$ 
+en la forma de la ecuación \ref{eq:SENLNewton1}, cuyas entradas específicas se escogerán más adelante. Supongamos además que $A(x)$ es no singular 
+cerca de una solución $p$ de $F(x)=0$, y denotemos con $b_{ij}(x)$ la entrada de $A(x)^{-1}$ en el i-ésimo renglón y la j-ésima columna.
+
+Para $G(x) = x - A(x)^{-1}F(x)$, tenemos $g_i(x) = x_i - \sum_{j=1}^n b_{ij}(x)f_j(x)$. Entonces 
+\begin{equation*}
+	\frac{\delta g_i}{\delta x_k}(x) = \left\{
+		\begin{array}{lc}
+			1 - \displaystyle{\sum_{j=1}^n \left( b_{ij}(x)\frac{\delta f_i}{\delta x_k}(x) + \frac{\delta b_{ij}}{\delta x_k}(x) f_j(x) \right)}, 
+			& \mbox{ si } i=k,\\
+			  & \\
+			-\displaystyle{\sum_{j=1}^n}\left( b_{ij}(x)\frac{\delta f_i}{\delta x_k}(x) + \frac{\delta b_{ij}}{\delta x_k}(x) f_j(x) \right), 
+			& \mbox{ si } i\not=k.
+		\end{array}	
+	\right.
+\end{equation*}
+
+El teorema \ref{teo:SENLNewton} implica que necesitamos $\dfrac{\delta g_i(p)}{\delta x_k} = 0$, para cada $i=1,2,\dots,n$ y $k=1,2,\dots,n$. 
+Esto significa que, para $i=k$,
+\begin{equation*}
+  0 = 1 - \sum_{j=1}^n b_{ij}(p)\frac{\delta f_j}{\delta x_i}(p),
+\end{equation*}
+
+esto es,
+\begin{equation}
+	\sum_{j=1}^n b_{ij}(p)\dfrac{\delta f_j}{\delta x_i}(p) = 1
+	\label{eq:SENLNewton2}
+\end{equation}
+	
+Cuando $k\not=i$,
+\[
+	0 = -\sum_{j=1}^n b_{ij}(p) \dfrac{\delta f_j}{\delta x_k}(p) = 0,
+\]
+
+por lo que
+\begin{equation}
+	\sum_{j=1}^n b_{ij}(p)\dfrac{\delta f_j}{\delta x_k}(p) = 0.
+	\label{eq:SENLNewton3}
+\end{equation}
+
+\subsection*{Matriz Jacobiana}
+
+Al definir la matriz $J(x)$ por medio de
+\[
+	J(x) = 
+	\left[
+	\begin{matrix}
+		\dfrac{\delta f_1}{\delta x_1}(x) & \dfrac{\delta f_1}{\delta x_2}(x) & \cdots & \dfrac{\delta f_1}{\delta x_n}(x) \\\\
+		\dfrac{\delta f_2}{\delta x_1}(x) & \dfrac{\delta f_2}{\delta x_2}(x) & \cdots & \dfrac{\delta f_2}{\delta x_n}(x) \\
+		\vdots & \vdots & & \vdots \\
+		\dfrac{\delta f_n}{\delta x_1}(x) & \dfrac{\delta f_n}{\delta x_2}(x) & \cdots & \dfrac{\delta f_n}{\delta x_n}(x)
+	\end{matrix}
+	\right].
+\]
+
+Las condiciones \ref{eq:SENLNewton2} y \ref{eq:SENLNewton3} requieren que $A(p)^{-1}J(p) = I$, por lo que $A(p)=J(p)$. En
+consecuencia, una elección apropiada de $A(x)$ es aquella que $A(x)=J(x)$, dado que cumple la condición $(iii)$ del teorema 
+\ref{teo:SENLNewton}. La función $G$ definida por
+\[
+	G(x) = x - J(x)^{-1}F(x),
+\]
+y el procedimiento de iteración funcional es consecuencia de seleccionar $x^{(0)}$ y generar, para $k\geq 1$,
+\[ 
+	x^{(k)} = G\left(x^{(k-1)} \right) = x^{(k-1)} - J\left(x^{(k)}\right)^{-1}F\left(x^{(k-1)} \right).
+\]
+
+A esto se le llama \textbf{método de Newton para sistemas no lineales} y generalmente se espera que dé una convergencia 
+cuadrática, siempre y cuando se conozca un valor inicial suficientemente preciso y exista $J(p)^{-1}$.
+
+\begin{exerciseT}
+Utilice el método de Newton para sistemas de ecuaciones no lineales para encontrar una aproximación a una solución. 
+Considere una tolerancia $10^{-3}$.
+\begin{center}
+  $\begin{array}{rcl}
+    3x_1 - \cos (x_2x_3) - \frac{1}{2} & = & 0,\\
+    x_1^2 - 81(x_2 + 0.1)^2 + \sin x_3 + 1.06 & = & 0,\\
+    e^{-x_1x_2} + 20x_3 + \frac{10\pi - 3}{3} & = & 0
+  \end{array}$
+\end{center}
+Considere además que se sabe que la solución se encuentra en la región:
+\[
+	D=\{(x_1,x_2,x_3)^t | -a\leq x_i\leq 1, \mbox{ para cada } i=1,2,3\}.
+\]
+
+\subsection*{Planteamiento}
+Se define la función $F(x)$:
+\begin{align*}
+	f_1(x_1,x_2,x_3) &= 3x_1 - \cos (x_2x_3) - \frac{1}{2} \\
+	f_2(x_1,x_2,x_3) &= x_1^2 - 81(x_2 + 0.1)^2 + \sin x_3 + 1.06 \\
+	f_3(x_1,x_2,x_3) &= e^{-x_1x_2} + 20x_3 + \frac{10\pi - 3}{3} \\
+	F(x_1,x_2,x_3) &= \left(f_1(x_1,x_2,x_3), f_2(x_1,x_2,x_3), f_3(x_1,x_2,x_3) \right) 
+\end{align*}
+
+Se define la matriz Jacobiana $J(x)$:
+\[
+	J(x) = 
+	\left[
+	\begin{matrix}
+		3 & x_3\sin x_2x_3 & x_2\sin x_2x_3 \\
+		2x_1 & -162(x_2+0.1) & \cos x_3\\
+		-x_2e^{-x_1x_2} & -x_1e^{-x_1x_2} & 20
+	\end{matrix}
+	\right].
+\]
+Se define el vector inicial $x^{(0)}$:
+\[
+	x^{(0)} = (0.1, 0.1, -0.1)
+\]
+
+\subsection*{Desarrollo}
+Es necesario hacer las evaluaciones en la siguiente expresión 
+\[ 
+	x^{(k)} = x^{(k-1)} - J\left(x^{(k)}\right)^{-1}F\left(x^{(k-1)} \right)\\
+	\forall k\geq 1
+\]
+comenzando con el vector inicial $x^{(0)}$. Cuando $k=1$, esta expresión se reduce a:
+\begin{align*}
+	x^{(1)} &= x^{(0)} - J\left(x^{(0)}\right)^{-1}F\left(x^{(0)} \right)\\
+		&= (0.1, 0.1, -0.1) - J\left((0.1, 0.1, -0.1)\right)^{-1}F\left((0.1, 0.1, -0.1) \right)\\
+		&= (0.4998696782, 0.01946684853, -0.5215204718)
+\end{align*}
+Este vector $x_1$ es la primer aproximación del método, se repite el procedimiento hasta alcanzar la tolerancia.
+Los resultados se presentan en la tabla siguiente:
+\begin{table}[H]
+	\centering
+	\begin{tabular}{cccc}
+		\toprule
+		$k$ & $x_1^{(k)}$ & $x_2^{(k)}$ & $x_3^{(k)}$ \\
+		\midrule
+		1 & 0.4998696782 & 0.0194668485 & -0.5215204718 \\
+		2 & 0.5000142403 & 0.0015885914 & -0.5235569638 \\
+		3 & 0.5000000113 & 0.0000124448 & -0.5235984500 \\
+		4 & 0.5000000000 & $8.516\times 10^{-10}$ & -0.5235987755\\
+		\bottomrule	
+	\end{tabular}
+\end{table}
+En esta iteración se cumple la tolerancia:
+\[ |x^{(4)} - x^{(3)}| = 1.244\times 10^{-5} < 10^{-3}\]
+
+\subsection*{Resultado}
+\begin{align*}
+	x^{(4)} &= (0.5, 8.516\times 10^{-10}, -0.5235987755) \\
+	ER &= 0.001718\%
+\end{align*}
+
+\end{exerciseT}
+
+
+%\section{Método de Bairstow}
 \section{Aplicaciones}

@@ -31,7 +31,7 @@ Ahora se construye un polinomio de primer grado con la ecuación \textit{punto-p
 La expresión \ref{eq:interpolacionSimple} es una \textit{fórmula de interpolación lineal}, donde la notación $f_1(x)$ indica que se trata de 
 un polinomio de primer grado.
 
-\begin{example}{\rm
+\begin{exerciseT}
 Estime el logaritmo natural de 2 mediante interpolación lineal. Utilice $\ln 1 = 0$ y $\ln 6 = 1.791759$. Repita el ejercicio utilizando 
 ahora $\ln 1 = 0$ y $\ln 4 = 1.386294$.
 
@@ -64,23 +64,24 @@ ahora $\ln 1 = 0$ y $\ln 4 = 1.386294$.
 			\ln 2 &\approx 0.462098
 		\end{align*}
 \end{enumerate}
-}\end{example}
+\end{exerciseT}
 
-\begin{example}{\rm 
+\begin{exerciseT}
 Utilice los datos de la tabla \ref{table:ejemplo2InterpolacionSimple} para obtener una aproximación al valor de $f(1.5)$. 
 Utilice la interpolación simple.
 	
 	\begin{table}[H]
 		\centering
-      \begin{tabular}{|c|c|}
-				\hline 
-				\rowcolor[gray]{0.9} $x$ & $f(x)$\\ \hline
-					$1.0$ & $0.7651977$ \\
-					$1.3$ & $0.6200860$ \\
-					$1.6$ & $0.4554022$ \\
-					$1.9$ & $0.2818186$ \\
-					$2.2$ & $0.1103623$ \\
-				\hline
+      	\begin{tabular}{cc}
+			\toprule
+			$x$ & $f(x)$\\
+			\midrule
+			$1.0$ & $0.7651977$ \\
+			$1.3$ & $0.6200860$ \\
+			$1.6$ & $0.4554022$ \\
+			$1.9$ & $0.2818186$ \\
+			$2.2$ & $0.1103623$ \\
+			\bottomrule
       	\end{tabular}
       	\caption{Datos del Ejemplo \ref{ex:ejemplo2InterpolacionSimple}}
       	\label{table:ejemplo2InterpolacionSimple}
@@ -99,7 +100,7 @@ Utilice la interpolación simple.
 	\end{align*}
 	
 	\label{ex:ejemplo2InterpolacionSimple}
-}\end{example}
+\end{exerciseT}
 
 \section{Interpolación polinomial de Newton}
 En la sección anterior utilizamos la interpolación para generar aproximaciones de primer grado. Los métodos de diferencias 
@@ -179,23 +180,24 @@ El valor de $f[x_0, x_1, \dots, x_k]$ es independiente del orden de los números
 \end{algorithm}
 
 
-\begin{example}
+\begin{exerciseT}
 \label{ex:ejemplo1DiferenciasDivididasNewton}
-{\rm Con los datos de la tabla \ref{table:ejemplo1ADiferenciasDivididasNewton} construya el 
+Con los datos de la tabla \ref{table:ejemplo1ADiferenciasDivididasNewton} construya el 
 		polinomio de interpolación de mayor grado posible. Utilizando el polinomio resultante, aproxime $P(1.5)$.
 	
 	\begin{table}[H]
 		\label{table:ejemplo1ADiferenciasDivididasNewton}
 		\centering
-      \begin{tabular}{|c|c|}
-				\hline 
-				\rowcolor[gray]{0.9} $x$ & $f(x)$\\ \hline
-					$1.0$ & $0.7651977$ \\
-					$1.3$ & $0.6200860$ \\
-					$1.6$ & $0.4554022$ \\
-					$1.9$ & $0.2818186$ \\
-					$2.2$ & $0.1103623$ \\
-				\hline
+		\begin{tabular}{cc}
+			\toprule
+			$x$ & $f(x)$\\
+			\midrule
+			$1.0$ & $0.7651977$ \\
+			$1.3$ & $0.6200860$ \\
+			$1.6$ & $0.4554022$ \\
+			$1.9$ & $0.2818186$ \\
+			$2.2$ & $0.1103623$ \\
+			\bottomrule
       	\end{tabular}
       	\caption{Datos del Ejemplo \ref{ex:ejemplo1DiferenciasDivididasNewton}}
 	\end{table}	
@@ -207,20 +209,20 @@ El valor de $f[x_0, x_1, \dots, x_k]$ es independiente del orden de los números
 	
 	\begin{table}[H]
 		\centering
-      \begin{tabular}{|c|c|c|c|c|c|c|}
-				\hline 
-				\rowcolor[gray]{0.9} $i$ & $x_i$ & $f[x_i]$ & $f[x_{i-1}, x_i]$ & $f[x_{i-2},x_{i-1},x_i]$ & $f[x_{i-3},\dots,x_i]$ & $f[x_{i-4},\dots, x_i]$\\
-				 \hline
-					0 & $1.0$ & $0.7651977$ & & & & \\ 
-						&&&$-0.4837057$&&&\\
-					1 & $1.3$ & $0.6200860$ &  & $-0.1087339$ & & \\
-						&&&$-0.5489460$&&$0.0658784$&\\
-					2 & $1.6$ & $0.4554022$ &  & $-0.0494433$ & & $0.0018251$\\
-						&&&$-0.5786120$&&$0.0680685$&\\
-					3 & $1.9$ & $0.2818186$ &  & $ 0.0118183$ &  & \\
-						&&&$-0.5715210$&&&\\
-					4 & $2.2$ & $0.1103623$ &  &  &  &  \\
-				\hline
+      	\begin{tabular}{ccccccc}
+      		\toprule
+      		$i$ & $x_i$ & $f[x_i]$ & $f[x_{i-1}, x_i]$ & $f[x_{i-2},x_{i-1},x_i]$ & $f[x_{i-3},\dots,x_i]$ & $f[x_{i-4},\dots, x_i]$\\
+			\midrule
+			0 & $1.0$ & $0.7651977$ & & & & \\ 
+			&&&$-0.4837057$&&&\\
+			1 & $1.3$ & $0.6200860$ &  & $-0.1087339$ & & \\
+			&&&$-0.5489460$&&$0.0658784$&\\
+			2 & $1.6$ & $0.4554022$ &  & $-0.0494433$ & & $0.0018251$\\
+			&&&$-0.5786120$&&$0.0680685$&\\
+			3 & $1.9$ & $0.2818186$ &  & $ 0.0118183$ &  & \\
+			&&&$-0.5715210$&&&\\
+			4 & $2.2$ & $0.1103623$ &  &  &  &  \\
+			\bottomrule
       	\end{tabular}
       	\caption{Diferencias Divididas del Ejemplo \ref{ex:ejemplo1DiferenciasDivididasNewton}}
       	\label{table:ejemplo1BDiferenciasDivididasNewton}
@@ -241,10 +243,11 @@ El valor de $f[x_0, x_1, \dots, x_k]$ es independiente del orden de los números
 	$$P_4(1.5) = 0.7651977 - 0.4837057\cdot(1.5-1.0) - 0.1087339\cdot(1.5-1.0)(1.5-1.3) + $$
 	$$0.0658784\cdot(1.5-1.0)(1.5-1.3)(1.5-1.6) + 0.0018251\cdot(1.5-1.0)(1.5-1.3)(1.5-1.6)(1.5-1.9)$$
 	$$P_4(1.5) = 0.5118200$$ 
-}\end{example}
+\end{exerciseT}
 \hrulefill\\
 
-\begin{example}{\rm Construya el polinomio de aproximación de mayor grado posible para los siguientes datos: $f(8.1)=16.94410$, $f(8.3)=17.56492$,
+\begin{exerciseT}
+	Construya el polinomio de aproximación de mayor grado posible para los siguientes datos: $f(8.1)=16.94410$, $f(8.3)=17.56492$,
 		$f(8.6)=18.50515$ y $f(8.7)=18.82091$. Use el polinomio para aproximar a $f(8.4)$.\\
 	\subsubsection*{Solución.} 
 		Calculamos las primeras diferencias divididas.
@@ -259,14 +262,14 @@ El valor de $f[x_0, x_1, \dots, x_k]$ es independiente del orden de los números
 	Todos los resultados anteriores los concentramos en la tabla \ref{table:ejemplo2DiferenciasDivididasNewton}.
 	\begin{table}[H]
 		\centering
-      \begin{tabular}{|c|c|c|c|c|c|}
-				\hline 
-				\rowcolor[gray]{0.9} $i$ & $x_i$ & $f[x_i]$ & $f[x_{i-1}, x_i]$ & $f[x_{i-2},x_{i-1},x_i]$ & $f[x_{i-3},\dots,x_i]$\\ \hline
-					0 & $8.1$ & $16.94410$ & & & \\
-					1 & $8.3$ & $17.56492$ & $3.1041$ &  & \\
-					2 & $8.6$ & $18.50515$ & $3.1341$ & $0.06$ & \\
-					3 & $8.7$ & $18.82091$ & $3.1576$ & $0.058750$ & $-0.00208333$ \\
-				\hline
+      	\begin{tabular}{cccccc}
+ 			\toprule
+ 			$x_i$ & $f[x_i]$ & $f[x_{i-1}, x_i]$ & $f[x_{i-2},x_{i-1},x_i]$ & $f[x_{i-3},\dots,x_i]$\\ \midrule
+			0 & $8.1$ & $16.94410$ & & & \\
+			1 & $8.3$ & $17.56492$ & $3.1041$ &  & \\
+			2 & $8.6$ & $18.50515$ & $3.1341$ & $0.06$ & \\
+			3 & $8.7$ & $18.82091$ & $3.1576$ & $0.058750$ & $-0.00208333$ \\
+			\bottomrule
       	\end{tabular}
       	\caption{Diferencias Divididas del Ejemplo \ref{ex:ejemplo2DiferenciasDivididasNewton}}
       	\label{table:ejemplo2DiferenciasDivididasNewton}
@@ -281,7 +284,7 @@ El valor de $f[x_0, x_1, \dots, x_k]$ es independiente del orden de los números
 	$$0.00208333\cdot(8.4-8.1)(8.4-8.3)(8.4-8.6) = 17.8771175$$
 	
 	\label{ex:ejemplo2DiferenciasDivididasNewton}
-}\end{example}
+\end{exerciseT}
 
 %\section{Interpolación de Punto Fijo}
 
@@ -311,7 +314,7 @@ y
 $$P(x_1) = 0\cdot f(x_0) + 1\cdot f(x_1) = f(x_1) = y_1$$
 Así $P$ es el único polinomio de primer grado como máximo que pasa por $(x_0, y_0)$ y $(x_1, y_1)$.
 
-\begin{example}{\rm 
+\begin{exerciseT}
 	Determine el polinomio de interpolación lineal de Lagrange que pasa por los puntos $(2, 4)$ y $(5, 1)$.\\
 	\subsubsection*{Solución.} En este caso tenemos
 		$$L_0(x) = {x-5\over 2-5} = -\frac{1}{3}(x-5)$$	
@@ -319,7 +322,7 @@ Así $P$ es el único polinomio de primer grado como máximo que pasa por $(x_0,
 		$$L_1(x) = {x-2\over 5-2} = \frac{1}{3}(x-2)$$
 		por lo que
 		$$P(x) = -\frac{1}{3}(x-5)\cdot 4 + \frac{1}{3}(x-2)\cdot 1 = -\frac{4}{3}x + \frac{20}{3} + \frac{1}{3}x - \frac{2}{3} = -x + 6$$
-}\end{example}
+\end{exerciseT}
 
 A fin de generalizar el concepto a partir de la interpolación lineal, consideremos la construcción de un polinomio de grado máximo $n$ 
 que pase por los $n+1$ puntos
@@ -356,7 +359,7 @@ El polinomio de interpolación se describe fácilmente ahora que conocemos la fo
 
 Escribiremos $L_{n,k}(x)$ simplemente como $L_{k}(x)$ cuando no hay confusión respecto a su grado.
 
-\begin{example}{\rm 
+\begin{exerciseT}
 		\begin{enumerate}[a)]
 			\item Utilice los números (o nodos) $x_0 = 2$, $x_1 = 2.75$ y $x_2 = 4$ para obtener el segundo polinomio de interpolación de 
 				Lagrange para $f(x) = 1/x$.
@@ -382,10 +385,11 @@ Escribiremos $L_{n,k}(x)$ simplemente como $L_{k}(x)$ cuando no hay confusión r
 			\item Una aproximación a $f(3) = 1/3$ es
 				$$f(3) \approx P(3) = \frac{9}{22} - \frac{105}{88} + \frac{49}{44} = \frac{29}{88} \approx 0.32955.$$
 		\end{enumerate}
-}\end{example}
+\end{exerciseT}
 
 
-\begin{example}{\rm Para la función dada $f(x) = \sin (\pi x)$, sean $x_0=1$, $x_1=1.25$ y $x_2=1.6$. Construya el polinomio de interpolación 
+\begin{exerciseT}
+Para la función dada $f(x) = \sin (\pi x)$, sean $x_0=1$, $x_1=1.25$ y $x_2=1.6$. Construya el polinomio de interpolación 
 de segundo grado para aproximar $f(1.4)$, y calcule el error máximo.\\
 	\subsubsection*{Solución.} Dado que $n=2$, los coeficientes de Lagrange $L_0(x)$, $L_1(x)$ y $L_2(x)$ de la expresión \ref{eq:coeficientesLagrange} son:
 			$$L_0(x) = \prod_{i=0, i\not= 0}^{2} {(x-x_i) \over (x_0 - x_i)} = {(x-x_1)(x-x_2)\over (x_0-x_1)(x_0-x_2)}$$	
@@ -407,9 +411,10 @@ de segundo grado para aproximar $f(1.4)$, y calcule el error máximo.\\
 			$$P(x) = 3.55238x^2 - 10.8213x + 7.2689$$
 		Calculando la aproximación al punto $x=1.4$
 			$$P(1.4) = 3.55238(1.4)^2 - 10.8213(1.4) + 7.2689 \approx -0.91826$$
-}\end{example}
+\end{exerciseT}
 
-\begin{example}{\rm Use el polinomio de interpolación de Lagrange apropiados de grado tres para aproximar lo siguiente: $f(8.4)$ si 
+\begin{exerciseT}
+	Use el polinomio de interpolación de Lagrange apropiados de grado tres para aproximar lo siguiente: $f(8.4)$ si 
 	$f(8.1)=16.94410$, $f(8.3)=17.56492$, $f(8.6)=18.50515$, $f(8.7)=18.82091$.
 	\subsubsection*{Solución.} Dado que $n=3$, es necesario encontrar los coeficientes $L_0(x)$, $L_1(x)$, $L_2(x)$ y $L_3(x)$. 
 	La expresión \ref{eq:coeficientesLagrange} 
@@ -436,7 +441,7 @@ de segundo grado para aproximar $f(1.4)$, y calcule el error máximo.\\
 			$$P(8.4) = -0.0020833(8.4)^3 + 0.112083(8.4)^2 + 1.6861(8.4) - 2.96077 = 17.8771062368$$
 		Dado que se cumple que $f(8.3)\leq P(8.4)\leq f(8.6)$, es decir, $17.56492 \leq 17.8771062368 \leq 18.50515$ la aproximación es válida y apropiada.
 		
-}\end{example}
+\end{exerciseT}
 
 
 \section{Interpolación de mínimos cuadrados}
@@ -545,17 +550,18 @@ Una vez calculados los valores de $a_0$ y $a_1$, la recta aproximada a los punto
 	\label{eq:minimosCuadrados3}
 \end{equation}
 
-\begin{example}{\rm Obtenga la línea de mínimos cuadrados que aproxima a los datos de la tabla \ref{table:ejemplo1MinimosCuadradosLineales}.
+\begin{exerciseT}
+	Obtenga la línea de mínimos cuadrados que aproxima a los datos de la tabla \ref{table:ejemplo1MinimosCuadradosLineales}.
 	Utilice el polinomio para encontrar la aproximación $P(6)$.
 	\subsubsection*{Solución.} 
 	Primero se extiende la tabla con los valores experimentales agregando tres columnas. Dos de ellas tendrán
 	el resultado de las operaciones $x_i^2$ y $x_iy_i$. La tercera columna se llena al final, después de calcular el valor de $a_0$
 	y $a_1$. Esta columna contiene el valor de la línea de aproximación para cada punto experimental.
 	\begin{table}[H]
-    	\centering
-      \begin{tabular}{|r|r|r|r|c|}
-		\hline
-		\rowcolor[gray]{0.9} $x_i$ & $y_i$ & $x_i^2$ & $x_iy_i$ & $P(x_i) = 1.538x_i - 0.360$\\\hline
+		\centering
+      	\begin{tabular}{rrrrc}
+			\toprule
+			$x_i$ & $y_i$ & $x_i^2$ & $x_iy_i$ & $P(x_i) = 1.538x_i - 0.360$\\\midrule
 			1 & 1.3 & 1 & 1.3 & 1.18\\
 			2 & 3.5 & 4 & 7.0 & 2.72\\
 			3 & 4.2 & 9 & 12.6 & 4.25\\
@@ -565,13 +571,13 @@ Una vez calculados los valores de $a_0$ y $a_1$, la recta aproximada a los punto
 			7 & 10.1 & 49 & 70.7 & 10.41\\
 			8 & 12.5 & 64 & 100.0 & 11.94\\
 			9 & 13.0 & 81 & 117.0 & 13.48\\
-			10 & 15.6 & 100 & 156.0 & 15.02\\\hline
-			55 & 81.0 & 385 & 572.4 & $E=\sum_{i=1}^{10} (y_i-P(x_i))^2 \approx 2.34$\\
-		\hline
-      \end{tabular}
-      \label{table:ejemplo1MinimosCuadradosLineales}
-      \caption{Valores experimentales}
-  \end{table} 	
+			10 & 15.6 & 100 & 156.0 & 15.02\\
+			\bottomrule
+			55 & 81.0 & 385 & 572.4 & $E=\sum_{i=1}^{10} (y_i-P(x_i))^2 \approx 2.34$
+		\end{tabular}
+		\label{table:ejemplo1MinimosCuadradosLineales}
+		\caption{Valores experimentales}
+	\end{table} 	
 	
 	Las ecuaciones normales \ref{eq:minimosCuadrados1} y \ref{eq:minimosCuadrados2} implican que
 	\begin{align*}
@@ -587,7 +593,7 @@ Una vez calculados los valores de $a_0$ y $a_1$, la recta aproximada a los punto
 		P(6) &= 1.538(6) - 0.360 = 8.868.
 	\end{align*}
 	Este valor es consistente con los datos contenidos en la tabla \ref{table:ejemplo1MinimosCuadradosLineales}.
-}\end{example}
+\end{exerciseT}
 
 \subsection{Caso no lineal}
 El problema general de aproximar un conjunto de datos $\{(x_i, y_i)| i=1,2,\dots,m\}$, con un polinomio algebraico
@@ -620,22 +626,22 @@ $$a_0\sum_{i=1}^m x_i^n + a_1\sum_{i=1}^m x_i^{n+1} + a_2\sum_{i=1}^m x_i^{n+2} 
 
 Puede demostrarse que las ecuaciones normales tienen una solución única, a condición de que las $x_i$ sean distintas.
 
-\begin{example}{\rm Ajustar los datos de la tabla \ref{table:minimosCuadrados2} con el polinomio discreto de mínimos cuadrados de segundo grado.
-    \begin{table}[ht]
-      \begin{center}
-		\begin{tabular}{|r|r|r|}
-	  		\hline
-	  		\rowcolor[gray]{0.9} $i$ & $x_i$ & $y_i$\\\hline
-	      		1 & 0 & 1.0000\\
-	      		2 & 0.25 & 1.2840\\
-	      		3 & 0.50 & 1.6487\\
-	      		4 & 0.75 & 2.1170\\
-	      		5 & 1.00 & 2.7183\\
-	      		\hline
-			\end{tabular}
-			\caption{Valores del Ejemplo 2}
-			\label{table:minimosCuadrados2}
-      \end{center}
+\begin{exerciseT}
+	Ajustar los datos de la tabla \ref{table:minimosCuadrados2} con el polinomio discreto de mínimos cuadrados de segundo grado.
+    \begin{table}[H]
+		\centering		
+		\begin{tabular}{rrr}
+			\toprule
+			$i$ & $x_i$ & $y_i$\\\midrule
+      		1 & 0 & 1.0000\\
+     		2 & 0.25 & 1.2840\\
+      		3 & 0.50 & 1.6487\\
+      		4 & 0.75 & 2.1170\\
+      		5 & 1.00 & 2.7183\\
+	      	\bottomrule
+		\end{tabular}
+		\caption{Valores del Ejemplo 2}
+		\label{table:minimosCuadrados2}
     \end{table}   
   \subsubsection*{Solución.} 
 	En este problema, $n=2$, $m=5$ y las tres ecuaciones normales son:
@@ -644,23 +650,21 @@ Puede demostrarse que las ecuaciones normales tienen una solución única, a con
 	$$a_0\sum_{i=1}^5 x_i^2 + a_1\sum_{i=1}^5 x_i^3 + a_2\sum_{i=1}^5 x_i^4 = \sum_{i=1}^5 y_ix_i^n,$$
  
 	Al realizar las operaciones de las sumatorias quedan los resultados de la tabla \ref{table:minimosCuadrados3}
-	\begin{table}[ht]
-	  \begin{center}
-	    \begin{tabular}{|r|r|r|r|r|r|r|r|r|r|r|}
-	      \hline
-	      \rowcolor[gray]{0.9} $i$ & $x_i$ & $y_i$ & $x_i^0$ & $x_i^1$ & $x_i^2$ & $x_i^3$ & $x_i^4$ & $y_ix_i^0$ & $y_ix_i^1$ & $y_ix_i^2$ \\
-	      \hline
-		  1 & 0 & 1.0000 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
-		  2 & 0.25 & 1.2840 & 1 & 0.25 & 0.0625 & 0.015625 & 0.00390625 & 1.284 & 0.321 & 0.08025\\
-		  3 & 0.50 & 1.6487 & 1 & 0.5 & 0.25 & 0.125 & 0.0625 & 1.6487 & 0.82435 & 0.412175\\
-		  4 & 0.75 & 2.1170 & 1 & 0.75 & 0.5625 & 0.421875 & 0.31640625 & 2.117 & 1.58775 & 1.1908125\\
-		  5 & 1.00 & 2.7183 & 1 & 1 & 1 & 1 & 1 & 2.7183 & 2.7183 & 2.7183\\\hline
+	\begin{table}[H]
+		\centering
+	    \begin{tabular}{rrrrrrrrrrr}
+	    	\toprule
+	    	$i$ & $x_i$ & $y_i$ & $x_i^0$ & $x_i^1$ & $x_i^2$ & $x_i^3$ & $x_i^4$ & $y_ix_i^0$ & $y_ix_i^1$ & $y_ix_i^2$ \\
+	      	\midrule
+			1 & 0 & 1.0000 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 0\\
+		  	2 & 0.25 & 1.2840 & 1 & 0.25 & 0.0625 & 0.015625 & 0.00390625 & 1.284 & 0.321 & 0.08025\\
+			3 & 0.50 & 1.6487 & 1 & 0.5 & 0.25 & 0.125 & 0.0625 & 1.6487 & 0.82435 & 0.412175\\
+		  	4 & 0.75 & 2.1170 & 1 & 0.75 & 0.5625 & 0.421875 & 0.31640625 & 2.117 & 1.58775 & 1.1908125\\
+		  	5 & 1.00 & 2.7183 & 1 & 1 & 1 & 1 & 1 & 2.7183 & 2.7183 & 2.7183\\\bottomrule
 		    & 2.5 & 8.768 & 5 & 2.5 & 1.875 & 1.5625 & 1.3828125 & 8.768 & 5.4514 & 4.4015375\\
-		  \hline
 	    \end{tabular}
 	    \caption{Resultados del Ejemplo 2}
 	    \label{table:minimosCuadrados3}
-	  \end{center}
 	\end{table}   
 	
 	Con estos resultados se puede formar el sistema de ecuaciones, dado que $n=2$ se debe encontrar el valor de los coeficientes
@@ -677,26 +681,25 @@ Puede demostrarse que las ecuaciones normales tienen una solución única, a con
 	El error total se obtiene de la siguiente forma
 	$$E = \sum_{i=1}^m (y_i - P(x_i))^2$$
 	Para facilitar los cálculos se hace la tabla \ref{table:minimosCuadrados4}.
-	\begin{table}[ht]
-      \begin{center}
-		\begin{tabular}{|r|r|r|r|r|}
-	  		\hline
-	  		\rowcolor[gray]{0.9} $i$ & $x_i$ & $y_i$ & $P(x_i)$ & $(y-P(x_i))^2$\\\hline
-	      		1 & 0 & 1.0000 & 1.0051 & $2.601\times 10^{-5}$\\
-	      		2 & 0.25 & 1.2840 & 1.2740 & $1\times 10^{-4}$\\
-	      		3 & 0.50 & 1.6487 & 1.6482 & $2.5\times 10^{-7}$\\
-	      		4 & 0.75 & 2.1170 & 2.1279 & $1.1881\times 10^{-4}$\\
-	      		5 & 1.00 & 2.7183 & 2.7129 & $2.916\times 10^{-5}$\\
-	      		\hline
-			\end{tabular}
-			\caption{Calculo del error de la aproximación del Ejemplo 2}
-			\label{table:minimosCuadrados4}
-      \end{center}
-    \end{table}	
-	Por lo tanto, el error vale
-	$$E = 2.74\times 10^{-4}$$
-	el cual es el menor error que se puede obtener utilizando un polinomio de segundo grado.  
-}\end{example}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{rrrrr}
+		\toprule
+		$i$ & $x_i$ & $y_i$ & $P(x_i)$ & $(y-P(x_i))^2$\\\midrule
+   		1 & 0 & 1.0000 & 1.0051 & $2.601\times 10^{-5}$\\
+   		2 & 0.25 & 1.2840 & 1.2740 & $1\times 10^{-4}$\\
+   		3 & 0.50 & 1.6487 & 1.6482 & $2.5\times 10^{-7}$\\
+   		4 & 0.75 & 2.1170 & 2.1279 & $1.1881\times 10^{-4}$\\
+   		5 & 1.00 & 2.7183 & 2.7129 & $2.916\times 10^{-5}$\\
+   		\bottomrule
+	\end{tabular}
+	\caption{Calculo del error de la aproximación del Ejemplo 2}
+	\label{table:minimosCuadrados4}
+\end{table}	
+Por lo tanto, el error vale
+$$E = 2.74\times 10^{-4}$$
+el cual es el menor error que se puede obtener utilizando un polinomio de segundo grado.  
+\end{exerciseT}
 
 
 \section{Interpolación inversa}
@@ -708,23 +711,24 @@ aproximar el valor de $x$ para cierto valor de $P(x)$. Esto es lo que se denomin
 La idea consiste en encontrar un polinomio de aproximación mediante algún método numérico y luego encontrar el valor de $x$ para cierto valor de $P(x)$. Este
 problema se transforma en la búsqueda de raíces de un polinomio de grado $n$.
 
-\begin{example}{\rm
+\begin{exerciseT}
 Retomemos el ejemplo \ref{ex:ejemplo1DiferenciasDivididasNewton}. Se utilizan entonces los mismos datos que se muestran en la tabla
 \ref{table:ejemplo1ADiferenciasDivididasNewton}. En esta ocasión, se encontrará una aproximación al valor $x$ con el que $P(x)=0.5$.
 \begin{table}[H]
-		\centering
-      \begin{tabular}{|c|c|}
-				\hline 
-				\rowcolor[gray]{0.9} $x$ & $f(x)$\\ \hline
-					$1.0$ & $0.7651977$ \\
-					$1.3$ & $0.6200860$ \\
-					$1.6$ & $0.4554022$ \\
-					$1.9$ & $0.2818186$ \\
-					$2.2$ & $0.1103623$ \\
-				\hline
-      	\end{tabular}
-      	\caption{Datos del Ejemplo \ref{ex:ejemplo1DiferenciasDivididasNewton}}
-	\end{table}
+	\centering
+	\begin{tabular}{cc}
+		\toprule
+		$x$ & $f(x)$\\ \midrule
+		$1.0$ & $0.7651977$ \\
+		$1.3$ & $0.6200860$ \\
+		$1.6$ & $0.4554022$ \\
+		$1.9$ & $0.2818186$ \\
+		$2.2$ & $0.1103623$ \\
+		\bottomrule
+	\end{tabular}
+    \caption{Datos del Ejemplo \ref{ex:ejemplo1DiferenciasDivididasNewton}}
+\end{table}
+
 Utilizando el polinomio obtenido en el ejemplo \ref{ex:ejemplo1DiferenciasDivididasNewton} se tiene:
 \begin{align*}
 	P_4(x) &= 0.7651977 - 0.4837057\cdot(x-1.0) - 0.1087339\cdot(x-1.0)(x-1.3)\\ 
@@ -751,7 +755,7 @@ es de cuarto grado), dichas raíces son las siguientes:
 \end{align*}
 Dados estos resultados, el que resulta consistente con los valores originales de la tabla \ref{ex:ejemplo1DiferenciasDivididasNewton}, 
 se puede saber que el valor adecuado resulta ser $x_3 = 1.52113$.
-}\end{example}
+\end{exerciseT}
 
 
 \section{Ejercicios}
@@ -769,25 +773,30 @@ polinomio para aproximar el valor especificado.\\
 	\item Aproximar a $f(0.25)$ si $f(0.1)=-0.62049958$, $f(0.2)=-0.28398668$, $f(0.3)=0.00660095$ y $f(0.4)=0.24842440$.
 	\item Aproximar a $P(0)$.
 		\begin{table}[H]
-		\centering
-      		\begin{tabular}{r|c}
-					$x$ & $f[x]$ \\ \hline
-					-0.1 & 5.30\\
-					0.1 & 2.00\\
-					0.2 & 3.19\\
-					0.3 & 1.00\\
+			\centering
+      		\begin{tabular}{rc}
+      			\toprule
+				$x$ & $f[x]$ \\ \midrule
+				-0.1 & 5.30\\
+				0.1 & 2.00\\
+				0.2 & 3.19\\
+				0.3 & 1.00\\
+				\bottomrule
       		\end{tabular}
 		\end{table}
+		
 	\item Aproximar a $P(0.5)$.
 		\begin{table}[H]
-		\centering
-      		\begin{tabular}{r|c}
-					$x$ & $f[x]$ \\ \hline
-					0.0 & -6.00000\\
-					0.1 & -5.89483\\
-					0.3 & -5.65014\\
-					0.6 & -5.17788\\
-					1.0 & -4.28172\\
+			\centering
+      		\begin{tabular}{rc}
+      			\toprule
+				$x$ & $f[x]$ \\ \midrule
+				0.0 & -6.00000\\
+				0.1 & -5.89483\\
+				0.3 & -5.65014\\
+				0.6 & -5.17788\\
+				1.0 & -4.28172\\
+				\bottomrule
       		\end{tabular}
 		\end{table}
 \end{enumerate}
