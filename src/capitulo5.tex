@@ -139,7 +139,7 @@ Con $x^{(0)} = (0.1, 0.1, -0.1)^t$, los resultados de estos cálculos se dan en 
 Por lo tanto, la aproximación a la solución es $x^{(4)} = (0.50000000, 0.00000000, -0.52359877)$.    
 
 \subsection*{Ejercicios}
-Aplique la iteración funcional para aproximar la solución con una exactitud de $10^{-4}´$.
+Aplique la iteración funcional para aproximar la solución con una exactitud de $10^{-4}$.
 \begin{enumerate}
 	\item 
 		$$G(x_1,x_2,x_3) = \left(\frac{\cos (x_2x_3) + 0.5}{3}, \frac{1}{25}\sqrt{x_1^2+0.3125}-0.03, -\frac{1}{20}e^{-x_1x_2}-\frac{10\pi-3}{60} \right)$$
@@ -190,13 +190,10 @@ La aplicación de un procedimiento semejante en el caso de dimensión $n$ incluy
 \end{equation}
 
 donde todos los elementos $a_{ij}(x)$ son una función de $\mathbb{R}^n$ en $\mathbb{R}$. Esto requiere obtener $A(x)$ de modo que 
-
 \begin{equation*}
 	G(x) = x-A(x)^{-1}F(x)
 \end{equation*}
-
 de la convergencia cuadrática a la solución de $F(x) = 0$, suponiendo que $A(x)$ es no singular en el punto fijo $p$ de $G$.
-
 \begin{theorem}[]
 	Sea $p$ una solución de $G(x)=x$. Suponga que existe un número $\delta >0$ con
 	\begin{enumerate}[(i)]
@@ -362,4 +359,4 @@ En esta iteración se cumple la tolerancia:
 
 
 %\section{Método de Bairstow}
-\section{Aplicaciones}
+%\section{Aplicaciones}

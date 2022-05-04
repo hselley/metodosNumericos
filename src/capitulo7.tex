@@ -1,9 +1,646 @@
 \chapter{Solución de ecuaciones diferenciales}
 
-\section{Método de Euler y Euler mejorado}
+Las ecuaciones diferenciales sirven para modelar problemas de ciencias e ingeniería que involucran el cambio de una 
+variable con respecto a otra. En la mayor parte de ellos hay que resolver un problema de valores iniciales, es decir, 
+resolver una ecuación diferencial que satisface una condición inicial dada.
+
+En situaciones comunes de la vida real, la ecuación diferencial que modela el problema puede resultar ser demasiado 
+complicada para resolverla de forma analítica, por lo que se recurre a métodos de aproximación que nos permitan conocer 
+la solución numérica de la ecuación diferencial con una cota de error sin necesidad de resolverla analíticamente.
+
+\section{Problemas bien planteados}
+Para aplicar cualquiera de los métodos en este capítulo, es necesario plantear el problema con toda la información
+que los métodos requieren para su aplicación. Esto se consigue a través de los problemas bien planteados.
+
+\begin{definition}
+	Se dice que el problema de valores iniciales
+	\begin{align}
+		\dfrac{dy}{dt} &= f(t,y) \nonumber\\
+		a&\leq t\leq b \nonumber\\
+		y(a)&=\alpha
+		\label{eq:EDBienPlanteada}
+	\end{align}
+	es un \textbf{problema bien planteado} si:
+	\begin{itemize}
+		\item el problema tiene una solución única: $y(t)$
+		\item existen constantes $\epsilon_0>0$ y $k>0$ tales que para toda $\epsilon$, con $\epsilon_0>\epsilon>0$, siempre que $\delta(t)$ sea continua con
+			$|\delta (t)|<\epsilon$ para toda $t\in [a,b]$ y cuando $|\delta_0| < \epsilon$, el problema con valores iniciales
+			\begin{equation}
+				{dz\over dt} = f(t,z), \, a\leq t\leq b, \, z(a) = \alpha + \delta_0,
+			\end{equation}
+	\end{itemize}
+	tiene una única solución $z(t)$ que satisface
+	\begin{center}
+		$|z(t) - y(t)| < k\epsilon$ para toda $t\in [a,b]$.
+	\end{center}	 
+\end{definition}
+
+
+\section{Método de Euler}
+El método de Euler es la técnica de aproximación más sencilla para resolver problemas con valores iniciales. Aunque rara vez 
+se emplea en la práctica, la simplicidad de su deducción sirve para ejemplificar las técnicas con las que se desarrollan 
+algunos de los métodos más avanzados, sin el álgebra tan engorrosa que acompaña a tales desarrollos.
+Este método tiene por objetivo obtener una aproximación de un problema bien planteado con valores iniciales
+
+\begin{equation}
+	{dy\over dt} = f(t,y), \\ 
+	a\leq t\leq b, \\ 
+	y(a) = \alpha.
+	\label{eq:PVIBienPlanteado}
+\end{equation}
+
+Puede que no se obtenga una aproximación continua a la solución $y(t)$; por el contrario, se generarán aproximaciones a $y$ 
+en varios valores, llamados \textbf{puntos de red}, en el intervalo $[a,b]$. Una vez obtenida la solución aproximada en los 
+puntos, podemos obtener por interpolación la solución aproximada en otros puntos del intervalo.
+
+En primer lugar estipulamos que los puntos de red tienen una distribución uniforme en todo el intervalo $[a,b]$. Garantizamos 
+esta condición al seleccionar un entero positivo $N$ (\textbf{numero de pasos}) y los puntos de red
+\begin{align*}
+	t_i &= a + ih, \\
+	&\forall\, i=0,1,2,\dots,N.
+\end{align*}
+
+La distancia común entre los puntos 
+\begin{align*}
+	h=\dfrac{b-a}{N} = t_{i+1}-t_i
+\end{align*}
+recibe el nombre de \textbf{tamaño de paso}. 
+
+Utilizaremos el teorema de Taylor para deducir el método de Euler. Supongamos que $y(t)$, la única solución de la ecuación 
+(\ref{eq:PVIBienPlanteado}), tiene dos derivadas continuas en $[a,b]$, de modo que para cada $i=0,1,2,\dots,N-1$,
+\[y(t_{i+1}) = y(t_i) + (t_{i+1} - t_i)y'(t_i) + \frac{(t_{i+1} - t_i)^2}{2}y''(\xi_i),\]
+para algún número $\xi_i$ en $(t_i, t_{i+1})$. Como $h=t_{i+1} - t_i$, se tiene
+\[y(t_{i+1}) = y(t_i) + hy'(t_i)) + \frac{h^2}{2}y''(\xi_i),\]
+y como $y(t)$ satisface la ecuación diferencial \ref{eq:PVIBienPlanteado},
+\begin{equation}
+	y(t_{i+1}) = y(t_i) + hf(t_i, y(t_i)) + \frac{h^2}{2}y''(\xi_i).
+	\label{eq:ySiguiente}
+\end{equation}
+El método de Euler construye $w_i\approx y(t_i)$ para cada $i=1,2,\dots,N$, al eliminar el término restante. Por tanto,
+\begin{definition}[Método de Euler]
+	\begin{align}
+		w_0 &= \alpha, \nonumber\\ 
+		w_{i+1} &= w_i + hf(t_i, w_i) \nonumber\\
+		&\forall \, i=0,1,2,\dots ,N-1. 
+		\label{eq:ecuacionEnDiferenicas}
+	\end{align}
+\end{definition}
+
+A la ecuación \ref{eq:ecuacionEnDiferenicas} se le llama \textbf{ecuación en diferencias} asociada al método de Euler. En el algoritmo 
+\ref{algo:Euler} se pone en ejecución el método de Euler.
+
+\begin{algorithm}[h]
+  	\SetKwInOut{Input}{Entrada}
+  	\SetKwInOut{Output}{Salida}
+  	\SetKwFunction{Salida}{Salida}
+	\SetKwFunction{euler}{Euler}	
+	\Input{$a,b,N,\alpha$}
+	\Output{$w_N$.}
+	\euler ($a,b,N,\alpha$) \Begin {
+		$h=\dfrac{b-a}{N}$\\
+		$w_0=\alpha$\\  		 
+  		\For{$i=0$ \KwTo $N-1$}{
+  		    $t=a+ih$\\
+  			$w=w_0+hf(t,w_0)$\\
+  			$w_0 = w$\\
+  		}
+		\Salida($w$)\\
+  	}
+\caption{Método de Euler}
+\label{algo:Euler}
+\end{algorithm}
+
+Para interpretar geométricamente el método de Euler, observe que cuando $w_i$ es una aproximación cercana a $y(t_i)$, la suposición 
+de que el problema está bien planteado implica que 
+\[f(t_i,w_i) \approx y'(t_i) = f(t_i, y(t_i)).\]
+En la figura \ref{fig:funcionEuler} aparece la gráfica de la función, donde se resalta $y(t_i)$. En la figura \ref{fig:pasoMetodoEuler} 
+se muestra un paso del método de Euler y en la figura \ref{fig:seriePasosMetodoEuler} se ve una serie de pasos. 
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.2]{../img/euler1.png}
+  \caption{Gráfica de la función}
+  \label{fig:funcionEuler}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.2]{../img/euler2.png}
+  \caption{Paso del Método de Euler}
+  \label{fig:pasoMetodoEuler}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.2]{../img/euler3.png}
+  \caption{Serie de pasos del Método Euler}
+  \label{fig:seriePasosMetodoEuler}
+\end{figure}
+
+
+\begin{exerciseT}{\rm Utilice el método de Euler con $N=10$ para encontrar una aproximación a la solución del problema
+de valores iniciales en $t=2$. 
+\begin{align*}
+	y' &= y - t^2 +1\\
+	0&\leq t\leq 2\\
+	y(0) &= 0.5
+\end{align*}
+
+\subsubsection*{Solución.}
+Dado que $N=10$, entonces
+\begin{align*}
+	h &= \dfrac{b-a}{N} = \dfrac{2-0}{10} = 0.2 \\
+	t_i &= 0.2i \\
+	w_0 &= 0.5\\
+	w_{i+1} &= w_i + h(w_i - t_i^2 + 1)\\ 
+		&= w_i + 0.2[w_i - 0.04i^2 + 1]\\ 
+		&= 1.2w_i - 0.008i^2 + 0.2
+\end{align*}
+para $i=0,1,\dots,9$. Por lo tanto
+\[\begin{array}{ll}
+	\mbox{$i=0: $} & w_1 = 1.2(0.5) - 0.008(0)^2 + 0.2 = 0.8 \\
+	\mbox{$i=0: $} & w_2 = 1.2(0.8) - 0.008(1)^2 + 0.2 = 1.152
+\end{array}\]
+
+
+y así sucesivamente. En la tabla \ref{table:resultadosEjemplo2Euler} se muestra la comparación entre los valores aproximados en 
+$t_i$ y los valores reales.
+
+	\begin{table}[H]
+    	\centering
+      	\begin{tabular}{ccc}
+      		\toprule
+      		$i$ & $t_i$ & $w_{i+1}$ \\
+      		\midrule
+			0 & 0.0 & 0.8000000 \\
+			1 & 0.2 & 1.1520000 \\
+			2 & 0.4 & 1.5504000 \\
+			3 & 0.6 & 1.9884800 \\
+			4 & 0.8 & 2.4581760 \\
+			5 & 1.0 & 2.9498112 \\
+			6 & 1.2 & 3.4517734 \\
+			7 & 1.4 & 3.9501281 \\
+			8 & 1.6 & 4.4281538 \\
+			9 & 1.8 & 4.8657845 \\
+			\bottomrule
+      	\end{tabular}
+      	\caption{Resultados de las aproximaciones del Ejemplo \ref{ex:euler2}}
+      	\label{table:resultadosEjemplo2Euler}
+  	\end{table} 
+  	
+Finalmente, la aproximación obtenida por el método es \[y(2) \approx w_{10} = 4.8657845.\]
+\label{ex:euler2}
+}\end{exerciseT}
+
+\section{Método de Euler mejorado}
+El método de Euler mejorado corresponde a $a_1=a_2=\frac{1}{2}$ y $\alpha_2 = \delta_2 = h$ y presenta la siguiente forma de 
+ecuación en diferencias que corresponde a un método $O(h^2)$.
+
+\begin{definition}[Método de Euler mejorado]
+	\begin{align*}
+		w_0 &= \alpha,\\
+		w_{i+1} &= w_i + \dfrac{h}{2}\left[f(t_i,w_i) + f(t_{i+1}, w_i + hf(t_i,w_i))\right], && \mbox{para } i=0,1,\dots,N-1.
+	\end{align*}
+\end{definition}
+
+\begin{algorithm}[h]
+  	\SetKwInOut{Input}{Entrada}
+  	\SetKwInOut{Output}{Salida}
+  	\SetKwFunction{Salida}{Salida}
+	\SetKwFunction{eulermejorado}{EulerMejorado}	
+	\Input{$a,b,N,\alpha$}
+	\Output{$w_N$.}
+	\eulermejorado ($a,b,N,\alpha$) \Begin {
+		$h=\dfrac{b-a}{N}$\\
+		$w_0=\alpha$\\  		 
+  		\For{$i=0$ \KwTo $N-1$}{
+  		    $t_i=a+ih$\\
+  			$w=w_0+\dfrac{h}{2}\left[f(t_i,w_0) + f(t_{i+1}, w_0 + hf(t_i,w_0))\right]$\\
+  			$w_0=w$\\
+  		}
+		\Salida($w$)\\
+  	}
+\caption{Método de Euler mejorado}
+\label{algo:EulerMejorado}
+\end{algorithm}
+
+
+\begin{exerciseT}{\rm
+	Utilice el método de Euler mejorado con $N=10$ para aproximar la solución del Problema de Valores Iniciales.
+	\begin{align*}
+		y'=y-t^2+1, && 0\leq t\leq 2, && y(0)=0.5
+	\end{align*}
+	\begin{align*}
+		\intertext{Planteamiento}
+		h &= \dfrac{b-a}{N} = \dfrac{2-0}{10} = \dfrac{1}{5}\\
+		t_i &= a+ih = 0+ i\dfrac{1}{5} = \dfrac{i}{5}\\
+		w_0 &= 0.5\\
+		f(t_i,w_i) &= w_i-t_i^2+1
+	\end{align*}
+	\begin{align*}
+		w_{i+1} &= w_i + \dfrac{h}{2}\left[f(t_i,w_i) + f(t_{i+1}, w_i + hf(t_i,w_i))\right], && \forall i=0,1,\dots,N-1\\
+		f(t_{i+1}, w_i + hf(t_i,w_i)) &= f\left(t_{i+1}, w_i + \dfrac{1}{5}\left[w_i - t_i^2 + 1 \right]\right)\\
+			&= f\left(\dfrac{i+1}{5}, w_i + \dfrac{1}{5}w_i - \dfrac{(i/5)^2}{5} + \dfrac{1}{5} \right)\\
+			&= f\left(\dfrac{i}{5}+\dfrac{1}{5}, \dfrac{6}{5}w_i - \dfrac{i^2}{125} + \dfrac{1}{5} \right)\\
+			&= \dfrac{6}{5}w_i - \dfrac{i^2}{125} + \dfrac{1}{5} - \left(\dfrac{i}{5}+\dfrac{1}{5}\right)^2+1\\
+			&= \dfrac{6}{5}w_i - \dfrac{6}{125}i^2 - \dfrac{2}{25}i + \dfrac{29}{25}\\
+		w_{i+1} &= w_i + \dfrac{1/5}{2}\left[w_i - \left(\dfrac{i}{5}\right)^2 + 1 + \dfrac{6}{5}w_i - \dfrac{6}{125}i^2 - \dfrac{2}{25}i 
+			+ \dfrac{29}{25} \right]\\
+		w_{i+1} &= \dfrac{61}{50}w_i - \dfrac{11}{1250}i^2 - \dfrac{1}{125}i + \dfrac{27}{125}\\
+		w_{i+1} &= 1.22w_i - 0.0088i^2 - 0.008i + 0.216 && \forall i=0,1,\dots,9
+	\end{align*}
+	Obteniendo las aproximaciones para cada $i=0,1,\dots ,9$.
+	\[\begin{array}{ll}
+		i=0: & w_1 = \frac{61}{50}(0.5) - \frac{11}{1250}(0^2) - \frac{1}{125}(0) + \frac{27}{125} = 0.826\\
+		i=1: & w_2 = \frac{61}{50}(0.826) - \frac{11}{1250}(1^2) - \frac{1}{125}(1) + \frac{27}{125} = 1.20692
+	\end{array}\]
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{ccc}
+			\toprule
+			$i$ & $t_i$ & $w_{i+1}$\\
+			\midrule
+			0 & 0.0 & 0.826\\
+			1 & 0.2 & 1.20692\\
+			2 & 0.4 & 1.63724\\
+			3 & 0.6 & 2.11024\\
+			4 & 0.8 & 2.61769\\
+			5 & 1.0 & 3.14958\\
+			6 & 1.2 & 3.69369\\
+			7 & 1.4 & 4.2351\\
+			8 & 1.6 & 4.75562\\
+			9 & 1.8 & 5.23305\\
+			\bottomrule
+		\end{tabular}
+		\caption{Aproximaciones del método de Euler mejorado.}
+	\end{table}
+	
+La aproximación obtenida por el método es \[y(2) \approx w_{10} = 5.23305.\]	
+}\end{exerciseT}
+
 \section{Método de Ruge-Kutta}
-\section{Método de pasos múltiples}
-\section{Sistemas de ecuaciones diferenciales ordinarias}
+Los métodos de Runge-Kutta tienen error de truncamiento local de orden alto, como los métodos de Taylor, pero permiten prescindir 
+del cálculo y evaluación de las derivadas de $f(t,y)$. 
+
+El primer paso al deducir el método de Runge-Kutta, es determinar los valores de $a_1$, $\alpha_1$ y $\beta_a$, con la propiedad de 
+que $a_1f(t+\alpha_1, y+\beta_1)$ aproxima
+\[ T^{(2)}(t,y) = f(t,y) + \dfrac{h}{2}f'(t,y), \]
+con un error no mayor que $O(h^2)$, el cual es igual que el error de truncamiento local del método de Taylor de orden dos.
+
+El método de la ecuación en diferencias que resulta al sustituir $T^{(2)}(t,y)$ en el método de Taylor de orden dos por 
+$f\left(t+\left(\dfrac{h}{2}\right), y + \left(\dfrac{h}{2}\right)f(t,y) \right)$ es un método específico de Runge-Kutta, conocido 
+como \textit{método del punto medio}.
+
+\begin{definition}[Método de Runge Kutta: punto medio]
+	\begin{align*}
+		w_0 &= \alpha,\\
+		w_{i+1} &= w_i + hf\left(t_i + \dfrac{h}{2}, w_i + \dfrac{h}{2}f(t_i,w_i) \right) && \mbox{para } i=0,1,\dots,N-1.
+	\end{align*}
+\end{definition}
+
+El algoritmo \ref{algo:RungeKuttaPuntoMedio} muestra el procedimiento para implementar el método de Runge-Kutta del punto medio.
+
+\begin{algorithm}[h]
+  	\SetKwInOut{Input}{Entrada}
+  	\SetKwInOut{Output}{Salida}
+  	\SetKwFunction{Salida}{Salida}
+	\SetKwFunction{rungekutta}{Runge-Kutta}	
+	\Input{$a,b,N,\alpha$}
+	\Output{$w_N$.}
+	\rungekutta ($a,b,N,\alpha$) \Begin {
+		$h=\dfrac{b-a}{N}$\\
+		$w_0=\alpha$\\  		 
+  		\For{$i=0$ \KwTo $N-1$}{
+  		    $t_i=a+ih$\\
+  			$w=w_0+hf\left(t_i + \dfrac{h}{2}, w_0 + \dfrac{h}{2}f(t_i,w_0) \right)$\\
+  			$w_0=w$\\
+  		}
+  		\Salida($w$)\\
+  	}
+\caption{Método de Runge Kutta: Punto medio}
+\label{algo:RungeKuttaPuntoMedio}
+\end{algorithm}
+
+\begin{exerciseT}{\rm
+	Utilice el método de Runge Kutta del punto medio con $N=10$ para aproximar la solución del Problema de Valores Iniciales.
+	\begin{align*}
+		y'=y-t^2+1, && 0\leq t\leq 2, && y(0)=0.5
+	\end{align*}
+	\begin{align*}
+		h &= \dfrac{b-a}{N} = \dfrac{2-0}{10} = \dfrac{1}{5}\\
+		t_i &= a+ih = 0+ i\left(\dfrac{1}{5}\right) = \dfrac{i}{5}\\
+		w_0 &= \alpha = 0.5\\
+		f(t_i,w_i) &= w_i-t_i^2+1 = w_i - \dfrac{i^2}{25} + 1
+	\end{align*}
+	\begin{align*}
+		w_{i+1} &= w_i + hf\left(t_i + \dfrac{h}{2}, w_i + \dfrac{h}{2}f(t_i,w_i) \right) && \mbox{para } i=0,1,\dots,N-1.\\
+		f\left(t_i+\frac{h}{2}, w_i+\frac{h}{2}f(t_i,w_i)\right) &= f\left(\dfrac{i}{5}+\frac{1}{10}, w_i + \frac{1}{10}f(t_i,w_i)\right)\\
+			&= f\left(\dfrac{i}{5}+\frac{1}{10}, w_i + \dfrac{1}{10}\left[w_i-t_i^2+1\right] \right)\\
+			&= f\left(\dfrac{i}{5}+\frac{1}{10}, \dfrac{11}{10}w_i - \dfrac{i^2}{250} + \dfrac{1}{10} \right)\\
+			&= \dfrac{11}{10}w_i - \dfrac{i^2}{250} + \dfrac{1}{10} - \left(\dfrac{i}{5}+\frac{1}{10}\right)^2 + 1\\
+			&= \dfrac{11}{10}w_i - \dfrac{11}{250}i^2 - \dfrac{i}{25} + \dfrac{109}{100}\\
+		w_{i+1} &= w_i + \dfrac{1}{5}\left[\dfrac{11}{10}w_i - \dfrac{11}{250}i^2 - \dfrac{1}{25}i + \dfrac{109}{100} \right]\\
+		w_{i+1} &= \dfrac{61}{50}w_i - \dfrac{11}{1250}i^2 - \dfrac{1}{125}i + \dfrac{109}{500} && \forall i=0,1,\dots,9\\
+		w_{i+1} &=1.22w_i - 0.008i^2 - 0.0088i + 0.218 && \forall i=0,1,\dots,9
+	\end{align*}
+	\begin{align*}
+		\intertext{Obteniendo las aproximaciones para cada $i=0,1,\dots ,9$.}
+		\mbox{$i=0:$} && w_1 &= \dfrac{61}{50}(0.5) - \dfrac{11}{1250}(0^2) - \dfrac{1}{125}(0) + \dfrac{109}{500} = 0.828\\
+		\mbox{$i=1$:} && w_2 &= \dfrac{61}{50}(0.828) - \dfrac{11}{1250}(1^2) - \dfrac{1}{125}(1) + \dfrac{109}{500} = 1.21136\\
+	\end{align*}
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{c|c|c}
+		    \toprule
+			$i$ & $t_i$ & $w_{i+1}$\\
+			\midrule
+			0 & 0.0 & 0.828 \\
+			1 & 0.2 & 1.21136 \\
+			2 & 0.4 & 1.64466 \\
+			3 & 0.6 & 2.12128 \\
+			4 & 0.8 & 2.63317 \\
+			5 & 1.0 & 3.17046 \\
+			6 & 1.2 & 3.72117 \\
+			7 & 1.4 & 4.27062 \\
+			8 & 1.6 & 4.80096 \\
+			9 & 1.8 & 5.29037 \\
+			\bottomrule
+		\end{tabular}
+		\caption{Aproximaciones del método de Runge-Kutta: Punto medio}
+	\end{table}
+    La aproximación obtenida por el método es \[y(2) \approx w_{10} = 5.29037.\]	
+}\end{exerciseT}
+
+
+
+% \section{Método de pasos múltiples}
+% \section{Sistemas de ecuaciones diferenciales ordinarias}
 \section{Aplicaciones}
 
+\subsection{Crecimiento Poblacional}
+
+Uno de los primeros intentos para modelar el \textbf{crecimiento de la población} humana por medio de las matemáticas fue realizado en 
+1798 por el economista inglés Thomas Malthus. Básicamente la idea detrás del modelo de Malthus es la suposición de que la rapidez con 
+la que crece una población con respecto al tiempo es directamente proporcional a la población en ese momento. En otras palabras, entre 
+más personas estén presentes al tiempo $t$, habrá más en el futuro. En términos matemáticos, la ecuación \ref{eq:proporcionPoblacional} 
+muestra esta relación.
+
+\begin{equation}
+	\dfrac{dP}{dt} \propto P
+	\label{eq:proporcionPoblacional}
+\end{equation}
+
+donde $P(t)$ es la población para algún tiempo $t$ y $\dfrac{dP}{dt}$ es la razón de cambio de $P$ con respecto al tiempo $t$.
+
+Para convertir esta relación de proporcionalidad en una ecuación se agrega una constante de proporcionalidad $k$. De esta forma, la ecuación 
+resultante \ref{eq:modeloPoblacional} que es el modelo de crecimiento poblacional será:
+
+\begin{equation}
+	\dfrac{dP}{dt} = kP(t)
+	\label{eq:modeloPoblacional}
+\end{equation}
+
+La constante de proporcionalidad indica el comportamiento de la población, si $k>0$ será un crecimiento en la población, si $k<0$ será un 
+decrecimiento y si $k=0$ entonces no habrá cambios en la población. En este modelo, dicha constante esta dada por la expresión 
+\ref{eq:constanteMPoblacional}.
+
+\begin{equation}
+	k = \frac{\ln \left(\dfrac{P(t)}{P_0} \right)}{t}
+	\label{eq:constanteMPoblacional}
+\end{equation}
+
+Este modelo solo considera la reproducción de la población existente y no toma en cuenta  muchos otros factores que pueden influir en el 
+crecimiento o decrecimiento, como por ejemplo inmigración y emigración. 
+
+\begin{exerciseT}{\rm La población de un pueblo crece con una razón proporcional a la población en el tiempo $t$. La población inicial 
+de 500 aumenta 15\% en 10 años. ¿Cuál será la población a los 30 años?
+
+\subsubsection*{Solución.}
+	El modelo aplicado en este problema queda:
+	$$\dfrac{dP}{dt} = kP, \, 0\leq t\leq 30$$
+	La condición inicial $P(0)=500$ y la condición $P(10)=575$.\\
+	Calculando la constante de proporcionalidad del modelo de acuerdo a la ecuación \ref{eq:constanteMPoblacional}:	
+	$$k=\frac{ln \left(\dfrac{575}{500} \right)}{10} = 0.0139761.$$
+	Planteando el problema para el método de Euler:
+	$$N=5,$$
+	$$h=\frac{b-a}{N} = \frac{30-0}{5} = 6,$$
+	$$t_0 = a = 0,$$
+	$$w_0 = \alpha = 500,$$
+	$$t_i = a+ih = 0 + i(6) = 6i,$$
+	$$w_{i+1} = w_i + hf(t_i,w_i) = w_i + 6[kw_i] = 1.0838w_i.$$
+	Cabe mencionar que es importante que le ecuación diferencial se encuentre en la forma normal para poder determinar la función $f(t,y)$ 
+	(en este caso $f(t,P)$).
+	
+	Ahora solo sigue realizar las $N=5$ iteraciones del método de Euler, dichos resultados se encuentran en la tabla \ref{table:resEjPoblacional}
+	
+	\begin{table}[H]
+    	\begin{center}
+      	\begin{tabular}{c|c}
+      		\toprule
+      		$t_i$ & $w_i$\\
+      		\midrule
+			0 & 541.9238\\
+			6 & 587.3725\\
+			12 & 636.6273\\
+			18 & 690.01305\\
+			24 & 747.8752\\
+			\bottomrule
+      	\end{tabular}
+      	\caption{Resultados de las aproximaciones del Ejemplo \ref{ex:ejPoblacional}}
+      	\label{table:resEjPoblacional}
+    	\end{center}
+  	\end{table} 
+
+	Luego de 5 iteraciones la aproximación obtenida por el método es $P(30) = 747.8752$.\\
+	Al repetir el método de Euler con $N=100$ la aproximación es $P(30) = 759.7690$, y con $N=1000$ la aproximación es $P(30) = 760.3685$. 
+	Por otro lado, el resultado exacto obtenido a través de la solución analítica de la ecuación diferencial es $P(30) = 760$.
+	\label{ex:ejPoblacional}
+}\end{exerciseT}
+
+\subsection{Decaimiento Radiactivo - Vida Media}
+
+El núcleo de un átomo está formado por combinaciones de protones y neutrones. Muchas de esas combinaciones son inestables, esto es, los 
+átomos se desintegran o se convierten en átomos de otras sustancias. Se dice que estos núcleos son radiactivos. Por ejemplo, con el tiempo, 
+el radio Ra 226, intensamente radiactivo, se transforma en el radiactivo gas radón, Rn-222. Para modelar el fenómeno del \textbf{decaimiento 
+radiactivo}, se supone que la razón $dA/dt$ con la que los núcleos de una sustancia se desintegran es proporcional a la cantidad (más precisamente, 
+el número de núcleos), $A(t)$ de la sustancia que queda en el tiempo $t$:
+
+\begin{equation}
+	{dA\over dt} = kA(t)
+	\label{eq:vidaMedia}
+\end{equation}
+
+El decaimiento de sustancias radiactivas se comporta de acuerdo al modelo poblacional (ecuación \ref{eq:modeloPoblacional}). Para este caso 
+$A(t)$ indica la cantidad de sustancia radiactiva existente en el tiempo $t$, y la constante de proporcionalidad es estrictamente $k<0$. 
+La ecuación \ref{eq:vidaMedia} muestra el modelo.
+
+La vida media se define como el tiempo $t_m$ necesario para que una sustancia radiactiva se reduzca a la mitad. 
+
+La constante de proporcionalidad también se obtiene con la ecuación \ref{eq:constanteMPoblacional} debido a que el modelo es muy similar al 
+Poblacional.
+
+\begin{exerciseT}{\rm Se encuentra que un hueso fosilizado y se estima que su edad es de 55,800 años. Determine la cantidad de C-14 que 
+tiene el fósil al momento del descubrimiento si se sabe que (inicialmente) al momento de su muerte había 100 gramos de C-14.
+	
+	\subsubsection*{Solución}
+	El modelo aplicado en este problema queda:
+	$${dA\over dt} = kA, \, 0\leq t\leq 55,800$$
+	La condición inicial $A(0)=100$ y la vida media del C-14 determina la condición $A(5,600)=\displaystyle{\frac{A_0}{2}}$.\\
+	Calculando la constante de proporcionalidad del modelo de acuerdo a la ecuación \ref{eq:constanteMPoblacional}:	
+	$$k=\frac{ln \left(\displaystyle{\frac{50}{100}} \right)}{5600} = -0.000123776.$$
+	Planteando el problema para el método de Euler:
+	$$N=5,$$
+	$$h=\frac{b-a}{N} = \frac{55800-0}{5} = 11,160,$$
+	$$t_0 = a = 0,$$
+	$$w_0 = \alpha = 100,$$
+	$$t_i = a+ih = 0 + i(11,160) = 11,160i,$$
+	$$w_{i+1} = w_i + hf(t_i,w_i) = w_i + 11,160[kw_i] = -0.3813w_i.$$
+	
+	Ahora solo sigue realizar las $N=5$ iteraciones del método de Euler, dichos resultados se encuentran en la tabla \ref{table:resEjVidaMedia}
+	
+	\begin{table}[H]
+    	\centering
+      	\begin{tabular}{c|c}
+      		\toprule
+      		$t_i$ & $w_{i+1}$\\
+      		\midrule
+			0 		& -38.13\\
+			11,160 	& 14.53\\
+			22,320 	& -5.543\\
+			33,480	& 2.1138\\
+			44,640	& -0.805\\
+			\bottomrule
+      	\end{tabular}
+      	\caption{Resultados de las aproximaciones del Ejemplo \ref{ex:ejVidaMedia}}
+      	\label{table:resEjVidaMedia}
+  	\end{table} 
+	
+	Luego de $N=5$ iteraciones la aproximación del método es $A(55,800) = 0.805g$. Se toma como positivo el resultado dado que se trata de masa.
+	\label{ex:ejVidaMedia}
+}\end{exerciseT}
+
+\subsection{Ley de Enfriamiento y Calentamiento de Newton}
+
+De acuerdo con la ley empírica de Newton de enfriamiento/calentamiento, la rapidez con la que cambia la temperatura de un cuerpo es proporcional
+a la diferencia entre la temperatura del cuerpo y la del medio que lo rodea, que se llama temperatura ambiente. Si $T(t)$ representa la 
+temperatura del cuerpo al tiempo $t$, $T_m$ es la temperatura constante del medio que lo rodea y $dT/dt$ es la rapidez con que cambia la 
+temperatura del cuerpo, entonces la ley de Newton de enfriamiento/calentamiento traducida en una expresión matemática es 
+
+\begin{equation}
+	{dT\over dt} = k(T-T_m)
+	\label{eq:leyEnfCalNewton}
+\end{equation}
+
+donde $k$ es una constante de proporcionalidad. En ambos casos, enfriamiento o calentamiento, si $T_m$ es una constante, se establece que $k<0$.
+
+\begin{equation}
+	k = \frac{\ln \left( \dfrac{T(t)-T_m}{T(0)-T_m} \right)}{t}
+	\label{eq:constanteLECNewton}
+\end{equation}
+
+\begin{exerciseT}{\rm Un termómetro se cambia de una habitación donde la temperatura es de $70\ensuremath{^\circ}F$ al exterior, donde 
+la temperatura del aire es de $10\ensuremath{^\circ}F$. Después de medio minuto el termómetro indica $50\ensuremath{^\circ}F$. ¿Cuál es 
+la lectura del termómetro en $t=1$ y $t=10$ minutos?
+
+	\subsubsection*{Solución}
+	El modelo aplicado en este problema queda:
+	$$\dfrac{dT}{dt} = k(T-T_m), \, 0\leq t\leq 10$$
+	La condición inicial $T(0)=70$, $T(1/2)=50$ y $T_m=10$.\\
+	Calculando la constante de proporcionalidad del modelo de acuerdo a la ecuación \ref{eq:constanteLECNewton}:	
+	$$k=\frac{\ln \left(\dfrac{50-10}{70-10} \right)}{\frac{1}{2}} = -0.81093.$$
+	Planteando el problema para el método de Euler:
+	$$N=10,$$
+	$$h=\frac{b-a}{N} = \frac{10-0}{10} = 1,$$
+	$$t_0 = a = 0,$$
+	$$w_0 = \alpha = 70,$$
+	$$t_i = a+ih = 0 + i(1) = i,$$
+	$$w_{i+1} = w_i + hf(t_i,w_i) = w_i + 1[k(w_i-10)] = 0.189069w_i + 8.1093.$$
+	
+	Ahora solo sigue realizar las $N=10$ iteraciones del método de Euler, dichos resultados se encuentran en la tabla \ref{table:resEjTemperatura}
+	
+	\begin{table}[H]
+	    \centering
+      	\begin{tabular}{c|c}
+      		\toprule
+      		$t_i$ & $w_{i+1}$\\
+      		\midrule
+      		0 & 21.344200000000001\\
+			1 & 12.144847894000000\\
+			2 & 10.405526391318579\\
+			3 & 10.076672874806604\\
+			4 & 10.014496540439685\\
+			5 & 10.002740860900932\\
+			6 & 10.000518214570539\\
+			7 & 10.000097978828851\\
+			8 & 10.000018524857170\\
+			9 & 10.000003502494746\\
+			\bottomrule
+      	\end{tabular}
+      	\caption{Resultados de las aproximaciones del Ejemplo \ref{ex:ejTemperatura}}
+      	\label{table:resEjTemperatura}
+  	\end{table} 
+	
+	Luego de $N=10$ iteraciones las aproximaciones del método son $T(1) = 21.344200000000001$ y $T(10) = 10.000003502494746$.
+	\label{ex:ejTemperatura}
+}\end{exerciseT}
+
+\subsection{Propagación de Enfermedades}
+
+Una enfermedad contagiosa, por ejemplo un virus de gripe, se propaga a través de una comunidad por personas que han estado en contacto 
+con otras personas enfermas. Sea que $x(t)$ denote el número de personas que han contraído la enfermedad y sea que $y(t)$ denote el número 
+de personas que aún no han sido expuestas al contagio. Es lógico suponer que la razón $dx/dt$ con la que se propaga la enfermedad es 
+proporcional al número de encuentros, o interacciones, entre estos dos grupos de personas. Si suponemos que el número de interacciones 
+es conjuntamente proporcional a $x(t)$ y $y(t)$, esto es, proporcional al producto $xy$, entonces
+
+\begin{equation}
+	\dfrac{dx}{dt} = kxy,
+	\label{eq:propEnfermedades}
+\end{equation}
+
+donde $k$ es la constante usual de proporcionalidad. 
+
+Suponga que una pequeña comunidad  tiene una población fija de $n$ personas. Si se introduce una persona infectada dentro de esa comunidad, 
+entonces se podría argumentar que $x(t)$ y $y(t)$ están relacionadas por $x+y=n+1$. Utilizando esta última ecuación para eliminar $y$ en 
+la ecuación \ref{eq:propEnfermedades} se obtiene el modelo
+
+\begin{equation}
+	\dfrac{dx}{dt} = kx(n+1-x)
+	\label{eq:propEnfermedades2}
+\end{equation}
+
+Una condición inicial obvia que acompaña a la ecuación \ref{eq:propEnfermedades2} es $x(0)=1$.
+
+\subsection*{Ejercicios}
+
+\subsubsection{Modelo Poblacional}
+
+\begin{enumerate}
+	\item Se sabe que la población de una comunidad crece con una razón proporcional al número de personas presentes en el tiempo $t$. 
+	    Si la población inicial $P_0 = 1000$ personas se duplicó en 5 años, ¿en cuánto tiempo se triplicará y cuadruplicará?
+	\item La población de bacterias en un cultivo crece a una razón proporcional a la cantidad de bacterias presentes al tiempo $t$. 
+	    Suponga que inicialmente había 1 bacteria y después de tres horas se observa que hay 400 bacterias presentes. ¿Cuál es la 
+	    cantidad de bacterias luego de 10 horas?. 
+\end{enumerate}
+
+
+\subsubsection{Ley de Enfriamiento/Calentamiento de Newton}
+
+\begin{enumerate}
+	\item Una pequeña barra de metal, cuya temperatura inicial era de 20\ensuremath{^\circ}C, se deja caer en un gran tanque de agua 
+	    hirviendo. ¿Cuánto tiempo tardará la barra en alcanzar los 90\ensuremath{^\circ}C si se sabe que su temperatura aumentó 
+	    2\ensuremath{^\circ}C en 1 segundo?.
+	\item Un termómetro que indica 70\ensuremath{^\circ}F se coloca en un horno precalentado a una temperatura constante de 
+	    180\ensuremath{^\circ}C. A través de una ventana de vidrio en la puerta del horno, un observador registra que el termómetro lee
+	    110\ensuremath{^\circ}F, ¿cuál será la temperatura que registrará el termómetro a los 5 y 10 minutos?
+\end{enumerate}
+
+\subsubsection{Decaimiento Radiactivo}
+
+\begin{enumerate}
+	\item Inicialmente había 100 miligramos de una sustancia radiactiva. Después de 6 horas la masa disminuyó 3\%. Si la razón de 
+	    decaimiento, en cualquier momento, es proporcional a la cantidad de la sustancia presente al tiempo $t$, determine la cantidad 
+	    que queda después de 24 horas. 
+	\item El isótopo radiactivo del plomo Pb-209, decae con una razón proporcional a la cantidad presente al tiempo $t$ y tiene una 
+	    vida media de 3.3 horas. Si al principio había 1 gramo de plomo, ¿cuánto sustancia queda luego de 10 horas?
+\end{enumerate}
 

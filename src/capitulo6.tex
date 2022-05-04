@@ -324,15 +324,356 @@ entonces la ecuación (\ref{eq:formula2d(n+1)Puntos}) se reduce a la expresión 
 			\item ¿Qué fórmula permite encontrar un mejor resultado?, ¿porque?
 			\item Utilice también la fórmula de los 3 puntos para obtener una aproximación a la segunda derivada de $f(x)$ en $x=2$.
 		\end{enumerate}	
+	\subsection*{Desarrollo}
+	Dado que no se indica el valor de $h$ se asume que tiene el valor de $0.1$.\\
+	a) Primera derivada
+	\begin{align*}
+		&\mbox{Fórmula de 3 puntos - punto extremo}\\
+		x_0 &= 2\\
+		h &= 0.1\\
+		f'(2) &= \dfrac{1}{2(0.1)}\left[-3f(2) + 4f(2.1) - f(2.2)\right]\\
+			&= 22.03230486614652
+	\end{align*}
+	\begin{align*}
+		&\mbox{Fórmula de 3 puntos - punto medio}\\
+		x_0 &= 2\\
+		h &= 0.1\\
+		f'(2) &= \dfrac{1}{2(0.1)}\left[f(2.1)-f(1.9)\right]\\
+			&= 22.228786880307297
+	\end{align*}
+	\begin{align*}
+		&\mbox{Fórmula de 5 puntos - punto extremo}\\
+		x_0 &= 2\\
+		h &= 0.1\\
+		f'(2) &= \dfrac{1}{12(0.1)}\left[-25f(2)+48f(2.1)-36f(2.2)+16f(2.3)-3f(2.4)\right]\\
+			&= 22.165914568055193
+	\end{align*}
+	\begin{align*}
+		&\mbox{Fórmula de 5 puntos - punto medio}\\
+		x_0 &= 2\\
+		h &= 0.1\\
+		f'(2) &= \dfrac{1}{12(0.1)}\left[f(1.8)-8f(1.9)+8f(2.1)-f(2.2)\right]\\
+			&= 22.166995621399924
+	\end{align*}
+	b) Las fórmulas de los 5 puntos dan mejores resultados que las de 3 puntos en términos generales. Para 
+	mejorar aún más la aproximación sería conveniente hacer más pequeño el valor de $h$.\\
+	c) Segunda derivada
+	\begin{align*}
+		&\mbox{Fórmula de 3 puntos - punto medio}\\
+		x_0 &= 2\\
+		h &= 0.1\\
+		f''(2) &= \dfrac{1}{(0.1)^2}\left[f(1.9)-2f(2)+f(2.1)\right]\\
+			&= 29.593186100007426
+	\end{align*}
+\end{exerciseT}
+
+\section{Integración numérica: Método del trapecio}
+Para deducir la regla del trapecio para aproximar la integral definida \[\int_a^b f(x)dx, \] sea $x_0=a$, $x_1=b$, $h=b-a$  se puede
+utilizar la misma estrategía que en la derivación numérica. Esto es, se construye un polinomio de interpolación $P(x)$ para $f(x)$ 
+y finalmente este es el que se integra. De esta forma, se utiliza un polinomio lineal de Lagrange para los valores $x_0=a$ y $x_1=b$,
+esto es: 
+\[ P_1(x) = \dfrac{x-x_1}{x_0-x_1}f(x_0) + \dfrac{x-x_0}{x_1-x_0}f(x_1).\]
+Luego se integra $P_1$,
+\begin{align}
+  \int_a^b f(x)dx = \int_{x_0}^{x_1} \left[ \dfrac{x-x_1}{x_0-x_1}f(x_0) + \dfrac{x-x_0}{x_1-x_0}f(x_1)  \right]dx.
+  \label{eq:trapecio1}
+\end{align}
+Resolviendo la integral de la ecuación (\ref{eq:trapecio1})
+\begin{align*}
+  \int_a^b f(x)dx &= \left[ {(x-x_1)^2\over 2(x_0-x_1) }f(x_0) + {(x-x_0)^2\over 2(x_1-x_0)}f(x_1) \right]_{x_0}^{x_1} \\
+	&= \left[ \dfrac{x_1-x_0}{2}f(x_1) - \dfrac{x_0-x_1}{2}f(x_0) \right] \\
+  	&= \frac{x_1-x_0}{2}\left[f(x_0) + f(x_1)\right].
+\end{align*}
+
+Retomando la notación $h=x_1-x_0$ se tiene:
+\subsection*{}
+\begin{definitionT}[Regla del Trapecio]
+	\begin{equation}
+		\int_a^b f(x)dx = \dfrac{h}{2}\left[f(x_0) + f(x_1)\right].
+		\label{eq:reglaTrapecio} 
+	\end{equation}	
+\end{definitionT}
+
+La expresión (\ref{eq:reglaTrapecio}) se llama \textbf{regla del trapecio} que justamente utiliza un trapecio para realizar
+la aproximación al área bajo la curva de $f(x)$ desde $x=a$ hasta $x=b$. Esto se muestra en la figura \ref{fig:reglaTrapecio}.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.15]{../img/reglaTrapecio.jpg}
+  	\caption{Regla del Trapecio}
+  	\label{fig:reglaTrapecio}
+\end{figure}
+
+
+\section{Integración numérica: Método de Simpson}
+Para este método se utiliza la misma estrategia que el método del trapecio. Ahora para el método de Simpson se integra el polinomio 
+de Lagrange de segundo grado. Por esta razón es que se requieren de tres valores $x_0$, $x_1$ y $x_2$. Los puntos se encuentran
+igualmente distanciados y ubicados en los límites de integración $[a,b]$, esto es:
+\begin{align*}
+	h &= \dfrac{b-a}{2} \\
+	x_0 &= a \\
+	x_1 &= x_0+h \\
+	x_2 &= b 
+\end{align*}
+Esto se puede apreciar en la figura \ref{fig:reglaSimpson}.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.15]{../img/reglaSimpson.jpg}
+  \caption{Regla de Simpson}
+  \label{fig:reglaSimpson}
+\end{figure}
+El polinomio de Lagrange para estos puntos es:
+\begin{align*}
+	P_2(x) &= \dfrac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}f(x_0) +  \dfrac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}f(x_1) 
+		\dfrac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}f(x_2).
+\end{align*}
+
+Este polinomio se integra en el intervalo $[x_0, x_2]$:
+\begin{align*}
+	\int_a^b f(x)dx = \int_{x_0}^{x_2} \left[ \dfrac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}f(x_0) +  
+	\dfrac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}f(x_1) \dfrac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}f(x_2) \right]dx
+\end{align*}
+
+Resolviendo la integral, evaluando y simplificando términos se obtiene la expresión (\ref{eq:reglaSimpson}).
+
+\begin{definitionT}[Regla de Simpson]
+	\begin{equation}
+		\int_{x_0}^{x_2} f(x)dx = \dfrac{h}{3}\left[f(x_0) + 4f(x_1) + f(x_2)\right]
+		\label{eq:reglaSimpson}
+	  \end{equation}
+\end{definitionT}
+
+\begin{exerciseT}
+	Utilice las reglas del trapecio y Simpson para encontrar aproximaciones a la integral dada.
+	\[ A = \int_0^{\pi/2} \sin xdx\]
+	\begin{enumerate}[a)]
+		\item Regla del trapecio
+			\begin{align*}
+				x_0 &= 0\\
+				x_1 &= \dfrac{\pi}{2}\\
+				h &= \dfrac{\pi}{2}-0 = \dfrac{\pi}{2}\\
+				A &= \dfrac{\pi/2}{2}\left[\sin 0 + \sin\frac{\pi}{2}\right] = \dfrac{\pi}{4}\sin\dfrac{\pi}{2} = 0.785398 u^2
+			\end{align*}
+		\item Regla de Simpson
+			\begin{align*}
+				x_0 &= 0 \\
+				x_2 &= \dfrac{\pi}{2}\\
+				h &= \dfrac{\frac{\pi}{2}-0}{2} = \dfrac{\pi}{4}\\
+				x_1 &= 0 + \dfrac{\pi}{4} = \dfrac{\pi}{4}\\
+				A &= \dfrac{\frac{\pi}{4}}{3}\left[\sin 0 + 4\sin \frac{\pi}{4} + \sin \frac{\pi}{2} \right] 
+					= \dfrac{\pi}{12}\left[4\sin \frac{\pi}{4} + \sin \frac{\pi}{2} \right] = 1.002279 u^2
+			\end{align*}
+	\end{enumerate}
+\end{exerciseT}
+
+\section{Integración numérica: Integración de Romberg}
+La integración de Romberg requiere de la realización de un proceso de extrapolación. Para que la extrapolación obtenga  
+buenos resultados, el fenómeno que se estudia debe ser predecible en cierto grado, es decir que siga un patrón definido. 
+Ese fenómeno en el caso de la integración se trata del error en la aproximación (dado por la regla del trapecio), el cuál tiene en 
+efecto un patrón predecible. Por esta razón, la extrapolación resulta muy adecuada para la aproximación a una integral definida.
+
+La estrategia a seguir es la siguiente, partimos de aproximaciones iniciales y a través de la extrapolación se mejorarán dramáticamente.
+Las aproximaciones iniciales podrían ser las obtenidas por la regla del trapecio, pero utilizar mejores valores iniciales mejora
+los resultados obtenidos por la extrapolación. Por esa razón es que se opta por utilizar la regla compuesta del trapecio 
+descrita por la expresión (\ref{eq:reglaCompuestaTrapecio}).
+
+
+\begin{definitionT}[Regla compuesta del trapecio]
+	Si $h=\frac{b-a}{n}$ y $x_j = a+j\cdot h$ entonces
+	\begin{align}
+		\int_a^b f(x)dx &= \dfrac{h}{2}\left[f(a) + 2\sum_{j=1}^{n-1} f(x_j) + f(b) \right] - \dfrac{b-a}{12}h^2f''(\mu),
+		\label{eq:reglaCompuestaTrapecio}
+	\end{align}	
+	La regla del trapecio tiene un error de truncamiento de orden $O(h^2)$.
+\end{definitionT}
+
+Para encontrar las aproximaciones iniciales orden $O(h^2)$ de la integral $\int_a^b f(x)dx$ se usa la regla compuesta del trapecio 
+(\ref{eq:reglaCompuestaTrapecio}) con $n=1,2,4,8,16,\dots$, y se dichas aproximaciones se denotan $R_{1,1}$, $R_{2,1}$, $R_{3,1}$, 
+$R_{4,1}$, $R_{5,1}$, \dots respectivamente. 
+
+Ahora ya se puede aplicar la extrapolación para obtener las aproximaciones orden $O(h^4): R_{2,2}, R_{3,2}, R_{4,2}$, $\dots$ mediante:
+\begin{align*}
+	R_{k,2} = R_{k,1} + \dfrac{1}{3}\left(R_{k,1} - R_{k-1,1} \right), \mbox{ para } k=2,3,\dots
+\end{align*}
+Luego las aproximaciones orden $O(h^6): R_{3,3}, R_{4,3}, R_{5,3}$, $\dots$ mediante:
+\begin{align*}
+	R_{k,3} = R_{k,2} + \dfrac{1}{15}\left(R_{k,2} - R_{k-1,2} \right), \mbox{ para } k=3,4,\dots.
+\end{align*}
+En términos generales, para obtener las aproximaciones orden $O(h^{2j})$ conociendo las aproximaciones $R_{k,j-1}$ se tiene:
+\begin{align}
+	R_{k,j} = R_{k,j-1} + \dfrac{1}{4^{j-1}-1}\left(R_{k,j-1} - R_{k-1,j-1} \right), \mbox{ para } k=j,j+1,\dots.
+	\label{eq:extrapolacionRomberg}
+\end{align}
+
+El algoritmo \ref{algo:Romberg} muestra el método de la integración de Romberg.
+\begin{algorithm}[ht]
+  	\SetKwInOut{Input}{input}
+  	\SetKwInOut{Output}{output}
+  	\SetKwFunction{Salida}{Salida}
+	\SetKwFunction{Romberg}{Romberg}
+
+	\Romberg($a$,$b$,$f(x)$,$n$) \Begin {	
+		$m\leftarrow $ cantidad de niveles de aproximación\\
+		\For{$j\leftarrow 1$ \KwTo $m$}{
+			\For{$k\leftarrow j$ \KwTo $m$}{
+				$n\leftarrow 2^{k-1}$\\
+				$h\leftarrow \dfrac{b-a}{n}$\\		
+				\If{$j=1$}{
+					\lnl{compuestaTrapecio} $\displaystyle{R_{k,j}\leftarrow \dfrac{h}{2}\left[ f(a)+\sum_{i=1}^{n-1}f(a+ih) + f(b)\right]}$\\
+				}
+				\Else{
+					\lnl{extrapolacionRomberg} $R_{k,j}\leftarrow R_{k,j-1} + \dfrac{1}{4^{j-1}-1}\left[R_{k,j-1} - R_{k-1,j-1}\right]$				
+				}	
+			}		
+		}	
+  	}
+	\caption{Método de Integración de Romberg}
+	\label{algo:Romberg}
+\end{algorithm}
+
+Observe que cuando se realiza la aproximación del nivel $O(h^2)$ se utiliza la formula compuesta del trapecio 
+(\ref{eq:reglaCompuestaTrapecio}), en el algoritmo \ref{algo:Romberg} esto ocurre cuando $j=1$ y se realiza la operación de la línea 
+\ref{compuestaTrapecio}. Para las siguientes aproximaciones se utiliza la extrapolación de Romberg (\ref{eq:extrapolacionRomberg}), 
+esto es cuando $j\not=1$ y se realiza la operación de la línea \ref{extrapolacionRomberg} del algoritmo \ref{algo:Romberg}.\\
+
+\begin{exerciseT}
+	Use la regla compuesta del trapecio para hallar aproximaciones de la integral dada con $n=1,2,4,8$ y 16. Luego realice la extrapolación de Romberg en los resultados.
+	\[ \int_0^\pi \sin x dx \]
 	
+	En primer lugar, se calculan las aproximaciones del primer nivel $O(h^2)$ para $n=1,2,4,8$ y 16 utilizando la regla compuesta del trapecio \ref{eq:reglaCompuestaTrapecio}.
+
+	\begin{align*}
+		n &=1\\
+		h &= \dfrac{b-a}{n} = \dfrac{\pi-0}{1} = \pi\\
+		x_j &= a+jh = \pi j\\
+		R_{1,1} &= \dfrac{\pi}{2}\left[f(0) + 2\sum_{j=1}^0 f(x_j) + f(\pi) \right] \\
+			&= \dfrac{\pi}{2}\left[\sin 0 + \sin \pi \right]\\
+			&= 0.
+	\end{align*}
+	\begin{align*}
+		n &= 2\\
+		h &= \dfrac{\pi-0}{2} = \dfrac{\pi}{2}\\
+		x_j &= a+jh = \dfrac{\pi}{2}j\\
+		R_{2,1} &= \dfrac{\pi/2}{2}\left[f(0) + 2\sum_{j=1}^1 f(x_j) + f(\pi) \right]\\
+			&= \dfrac{\pi}{4}\left[f(0) + 2f\left(\dfrac{\pi}{2}\right) + f(\pi) \right]\\
+			&= \dfrac{\pi}{4}\left[\sin 0 + 2\sin\dfrac{\pi}{2} + \sin \pi\right]\\ 
+			&= 1.57079633.
+	\end{align*}
+	\begin{align*}
+		n &= 4\\
+		h &= \dfrac{\pi-0}{4} = \dfrac{\pi}{4}\\
+		x_j &= a+jh = \dfrac{\pi}{4}j\\
+		R_{3,1} &= \dfrac{\pi/4}{2}\left[f(0) + 2\sum_{j=1}^3 f(x_j) + f(\pi) \right]\\
+			&= \dfrac{\pi}{8}\left\lbrace f(0) + 2\left[f(x_1) + f(x_2) + f(x_3) \right] + f(\pi) \right\rbrace\\
+			&= \dfrac{\pi}{8}\left\lbrace \sin 0 + 2\left[\sin\dfrac{\pi}{4} + \sin\dfrac{\pi}{2} + \sin\dfrac{3\pi}{4} \right] + \sin\pi \right\rbrace\\
+			&= 1.89611890.
+	\end{align*}
+	\begin{align*}
+		n &= 8\\
+		h &= \dfrac{\pi-0}{8} = \dfrac{\pi}{8}\\
+		x_j &= a+jh = \dfrac{\pi}{8}j\\
+		R_{4,1} &= \dfrac{\pi/8}{2}\left[f(0) + 2\sum_{j=1}^7 f(x_j) + f(\pi) \right]\\
+			&= \dfrac{\pi}{16}\left\lbrace f(0) + 2\left[ f(x_1) + f(x_2) + f(x_3) + f(x_4) + f(x_5) + f(x_6) + f(x_7) \right] + f(\pi) \right\rbrace\\
+			&= \dfrac{\pi}{16}\left\lbrace \sin 0 + 2\left[ \sin \dfrac{\pi}{8} + \sin\dfrac{\pi}{4} + \sin\dfrac{3\pi}{8} + \sin\dfrac{\pi}{2} + 
+				\sin\dfrac{5\pi}{8} + \sin\dfrac{3\pi}{4} + \sin\dfrac{7\pi}{8} \right] + \sin\pi \right\rbrace\\
+			&= 1.9742316.
+	\end{align*}
+	\begin{align*}
+		n &= 16\\
+		h &= \dfrac{\pi-0}{16} = \dfrac{\pi}{16}\\
+		x_j &= a+jh = \dfrac{\pi}{16}j\\
+		R_{5,1} &= \dfrac{\pi/16}{2} \left[f(0) + 2\sum_{j=1}^{15} f(x_j) + f(\pi) \right]\\
+			&= \dfrac{\pi}{32}\left\lbrace f(0) + 2\left[f(x_1) + f(x_2) + f(x_3) + f(x_4) + f(x_5) + f(x_6) + f(x_7) + f(x_8) + f(x_9) + f(x_{10})\right.\right.\\ 
+			&+ \left.\left. f(x_{11})	+ f(x_{12}) + f(x_{13}) + f(x_{14}) + f(x_{15})  \right] + f(\pi) \right\rbrace\\
+			&= \dfrac{\pi}{32} \left\lbrace \sin 0 + 2\left[\sin\dfrac{\pi}{16} + \sin\dfrac{\pi}{8} + \sin\dfrac{3\pi}{16} + \sin\dfrac{\pi}{4} + \sin\dfrac{5\pi}{16}
+				+ \sin\dfrac{3\pi}{8} + \sin\dfrac{7\pi}{16} + \sin\dfrac{\pi}{2}\right.\right.\\
+			&\left.\left. + \sin\dfrac{9\pi}{16} + \sin\dfrac{5\pi}{8} + \sin\dfrac{11\pi}{16} + \sin\dfrac{3\pi}{4} + \sin\dfrac{13\pi}{16} + \sin\dfrac{7\pi}{8} + 
+				+ \sin\dfrac{15\pi}{16} \right] + \sin\pi \right\rbrace\\
+			&= 1.99357034.
+	\end{align*}
+	Para la extrapolación de los siguientes niveles se utiliza la expresión \ref{eq:extrapolacionRomberg}.
+	\begin{align*}
+		\intertext{Aproximaciones $O(h^4)$}
+		j &= 2\\
+		O(h^{2j}) &= O(h^4)\\
+		k &= 2\\
+		R_{2,2} &= R_{2,1} + \dfrac{1}{4^{2-1}-1}\left[R_{2,1}-R_{1,1}\right]\\
+			&= 1.57079633 + \dfrac{1}{3}[1.57079633-0]\\
+			&= 2.09439511.\\
+		k &= 3\\
+		R_{3,2} &= R_{3,1} + \dfrac{1}{4^{2-1}-1}[R_{3,1}-R_{2,1}]\\
+			&= 1.8961189 + \dfrac{1}{3}[1.8961189-1.57079633]\\
+			&= 2.00455976.\\
+		k &= 4\\
+		R_{4,2} &= R_{4,1} + \dfrac{1}{4^{2-1}-1}[R_{4,1}-R_{3,1}]\\
+			&= 1.9742316 + \dfrac{1}{3}[1.9742316-1.89611890]\\
+			&= 2.00026917.\\
+		k &= 5\\
+		R_{5,2} &= R_{5,1} + \dfrac{1}{4^{2-1}-1}[R_{5,1}-R_{4,1}]\\
+			&= 1.99357034 + \dfrac{1}{3}[1.99357034-1.97423160]\\
+			&= 2.00001659.
+	\end{align*}
+	\begin{align*}
+		\intertext{Aproximaciones $O(h^6)$}
+		j &= 3\\
+		O(h^{2j}) &= O(h^6)\\
+		k &= 3\\
+		R_{3,3} &= R_{3,2} + \dfrac{1}{4^{3-1}-1}[R_{3,2}-R_{2,2}]\\
+			&= 2.00455976 + \dfrac{1}{15}[2.00455976-2.09439511]\\
+			&= 1.99857073.\\
+		k &= 4\\
+		R_{4,3} &= R_{4,2} + \dfrac{1}{4^{3-1}-1}[R_{4,2}-R_{3,2}]\\
+			&= 2.00026917 + \dfrac{1}{15}[2.00026917-2.00455976]\\
+			&= 1.99998313.\\
+		k &= 5\\
+		R_{5,3} &= R_{5,2} + \dfrac{1}{4^{3-1}-1}[R_{5,2}-R_{4,2}]\\
+			&= 2.00001659 + \dfrac{1}{15}[2.00001659-2.00026917]\\
+			&= 1.99999975.
+	\end{align*}
+	\begin{align*}
+		\intertext{Aproximaciones $O(h^8)$}
+		j &= 4\\
+		O(h^{2j}) &= O(h^8)\\
+		k &= 4\\
+		R_{4,4} &= R_{4,3} + \dfrac{1}{4^{4-1}-1}[R_{4,3}-R_{3,3}]\\
+			&= 1.99998313 + \dfrac{1}{63}[1.99998313-1.99857073]\\
+			&= 2.00000555.\\
+		k &= 5\\
+		R_{5,4} &= R_{5,3} + \dfrac{1}{4^{4-1}-1}[R_{5,3}-R_{4,3}]\\
+			&= 1.99999975 + \dfrac{1}{63}[1.99999975-1.99998313]\\
+			&= 2.00000001.
+	\end{align*}
+	\begin{align*}
+		\intertext{Aproximaciones $O(h^{10})$}
+		j &= 5\\
+		O(h^{2j}) &= O(h^{10})\\
+		k &= 5\\
+		R_{5,5} &= R_{5,4} + \dfrac{1}{4^{5-1}-1}[R_{5,4}-R_{4,4}]\\
+			&= 2.00000001 + \dfrac{1}{255}[2.00000001-2.00000555]\\
+			&= 1.99999999.
+	\end{align*}
+	La tabla \ref{table:exIntRomberg1} muestra los resultados obtenidos por las aproximaciones.
+	\begin{table}[H]
+		\centering
+		\begin{tabular}{lllll}
+			\toprule
+			$O(h^2)$ & $O(h^4)$ & $O(h^6)$ & $O(h^8)$ & $O(h^{10})$\\
+			\midrule
+			0	& & & &\\
+			1.57079633 & 2.09439511 & & & \\
+			1.89611890 & 2.00455976 & 1.99857073 & & \\
+			1.97423160 & 2.00026917 & 1.99998313 & 2.00000555 & \\
+			1.99357034 & 2.00001659 & 1.99999975 & 2.00000001 & 1.99999999 \\
+			\bottomrule
+		\end{tabular}
+		\caption{Resultados de las aproximaciones}
+		\label{table:exIntRomberg1}
+	\end{table}
 \end{exerciseT}
 
 
-\section{Integración numérica: Método del trapecio}
-\section{Integración numérica: Métodos de Simpson}
-\section{Integración numérica: Integración de Romberg}
-\section{Integración numérica: Método de cuadratura gaussiana}
-\section{Integración múltiple}
-\section{Aplicaciones}
+%\section{Integración numérica: Método de cuadratura gaussiana}
+%\section{Integración múltiple}
+%\section{Aplicaciones}
 
 
