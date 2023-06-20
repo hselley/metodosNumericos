@@ -12,18 +12,18 @@ Un sistema de ecuaciones no lineales tiene la forma
 \begin{equation}
 	\begin{matrix}
 		f_1(x_1,x_2,\dots,x_n) & = & 0,\\
-		f_1(x_1,x_2,\dots,x_n) & = & 0,\\
+		f_2(x_1,x_2,\dots,x_n) & = & 0,\\
 		\vdots & & \vdots\\
 		f_n(x_1,x_2,\dots,x_n) & = & 0,\\	
 	\end{matrix}
 	\label{eq:SNLpuntoFijo1} 	
 \end{equation}
-donde podemos considerar cada función $f_i$ como un mapeo de un vector $\textbf{x}=(x_1,x_2,\dots,x_n)^t$ del espacio $\mathbb{R}^n$ de dimensión
-$n$ en la recta real $\mathbb{R}$. 
-Este sistema de $n$ ecuaciones no lineales con $n$ incógnitas puede representarse también mediante la definición de una función $\mathbb{F}$ que
-mapea $\mathbb{R}^n$ en $\mathbb{R}^n$ como
+donde podemos considerar cada función $f_i$ como un mapeo de un vector $\textbf{x}=(x_1,x_2,\dots,x_n)$ del espacio $\mathbb{R}^n$ 
+de dimensión $n$ en la recta real $\mathbb{R}$. 
+Este sistema de $n$ ecuaciones no lineales con $n$ incógnitas puede representarse también mediante la definición de una función 
+$\mathbb{F}$ que mapea $\mathbb{R}^n$ en $\mathbb{R}^n$ como
  
-$$\mathbb{F}(x_1,x_2,\dots,x_n) = (f_1(x_1,x_2,\dots,x_n),f_2(x_1,x_2,\dots,x_n),\dots,f_n(x_1,x_2,\dots,x_n))^t.$$
+\[\mathbb{F}(x_1,x_2,\dots,x_n) = \left(f_1(x_1,x_2,\dots,x_n),f_2(x_1,x_2,\dots,x_n),\dots,f_n(x_1,x_2,\dots,x_n)\right).\]
 
 Si se emplea una notación vectorial para representar las variables $x_1,x_2,\dots,x_n$, el sistema \ref{eq:SNLpuntoFijo1} adopta la forma
 \begin{equation}
@@ -35,13 +35,13 @@ Las funciones $f_a,f_2,\dots,f_n$ se denominan las \textbf{funciones coordenadas
 \begin{exerciseT}
 Aplique la iteración funcional para aproximar la solución con una exactitud de $10^{-5}$.
 
-\begin{center}
-  $\begin{array}{rcl}
+\[
+  \begin{array}{rcl}
     3x_1 - \cos (x_2x_3) - \frac{1}{2} & = & 0,\\
     x_1^2 - 81(x_2 + 0.1)^2 + \sin x_3 + 1.06 & = & 0,\\
     e^{-x_1x_2} + 20x_3 + \frac{10\pi - 3}{3} & = & 0
-  \end{array}$
-\end{center}
+  \end{array}
+\]
 
 en la forma de punto fijo $x=G(x)$ resolviendo la í-esima ecuación para $x_i$, para demostrar que existe una única solución en
 
@@ -81,7 +81,7 @@ Para aproximar el punto fijo \textbf{p}, escogemos $x^{(0)} = (0.1, 0.1, -0.1)^t
 \end{equation*}
 
 converge en la solución única del sistema en \ref{eq:exSNLpuntoFijo1}. Los resultados en la tabla \ref{table:exSNLpuntoFijo1} se generan hasta que
-$$||\textbf{x}^{(k)} - \textbf{x}^{(k-1)}||_\infty < 10^{-5}.$$
+\[||\textbf{x}^{(k)} - \textbf{x}^{(k-1)}||_\infty < 10^{-5}.\]
 
 \begin{table}[H]
 	\centering
@@ -273,7 +273,7 @@ consecuencia, una elección apropiada de $A(x)$ es aquella que $A(x)=J(x)$, dado
 \]
 y el procedimiento de iteración funcional es consecuencia de seleccionar $x^{(0)}$ y generar, para $k\geq 1$,
 \[ 
-	x^{(k)} = G\left(x^{(k-1)} \right) = x^{(k-1)} - J\left(x^{(k)}\right)^{-1}F\left(x^{(k-1)} \right).
+	x^{(k)} = G\left(x^{(k-1)} \right) = x^{(k-1)} - J\left(x^{(k-1)}\right)^{-1}F\left(x^{(k-1)} \right).
 \]
 
 A esto se le llama \textbf{método de Newton para sistemas no lineales} y generalmente se espera que dé una convergencia 
@@ -322,7 +322,7 @@ Se define el vector inicial $x^{(0)}$:
 \subsection*{Desarrollo}
 Es necesario hacer las evaluaciones en la siguiente expresión 
 \[ 
-	x^{(k)} = x^{(k-1)} - J\left(x^{(k)}\right)^{-1}F\left(x^{(k-1)} \right)\\
+	x^{(k)} = x^{(k-1)} - J\left(x^{(k-1)}\right)^{-1}F\left(x^{(k-1)} \right)\\
 	\forall k\geq 1
 \]
 comenzando con el vector inicial $x^{(0)}$. Cuando $k=1$, esta expresión se reduce a:

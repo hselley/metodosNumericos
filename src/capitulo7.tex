@@ -484,19 +484,22 @@ tiene el fósil al momento del descubrimiento si se sabe que (inicialmente) al m
 	
 	\subsubsection*{Solución}
 	El modelo aplicado en este problema queda:
-	$${dA\over dt} = kA, \, 0\leq t\leq 55,800$$
+	\begin{align*}
+	    \dfrac{dA}{dt} = kA && 0\leq t\leq 55,800
+	\end{align*}
 	La condición inicial $A(0)=100$ y la vida media del C-14 determina la condición $A(5,600)=\displaystyle{\frac{A_0}{2}}$.\\
 	Calculando la constante de proporcionalidad del modelo de acuerdo a la ecuación \ref{eq:constanteMPoblacional}:	
 	$$k=\frac{ln \left(\displaystyle{\frac{50}{100}} \right)}{5600} = -0.000123776.$$
 	Planteando el problema para el método de Euler:
-	$$N=5,$$
-	$$h=\frac{b-a}{N} = \frac{55800-0}{5} = 11,160,$$
-	$$t_0 = a = 0,$$
-	$$w_0 = \alpha = 100,$$
-	$$t_i = a+ih = 0 + i(11,160) = 11,160i,$$
-	$$w_{i+1} = w_i + hf(t_i,w_i) = w_i + 11,160[kw_i] = -0.3813w_i.$$
+	\begin{align*}
+	    N &= 10\\
+	    h &= \dfrac{b-a}{N} = \dfrac{55800-0}{10} = 5580 \\
+	    t_i &= a + ih = 5580i\\
+        w_0 &= \alpha = 100\\
+        w_{i+1} &= w_i + hf(t_i,w_i) = w_i + 5580[kw_i] = w_i-0.69067165w_i = 0.30932835w_i.
+	\end{align*}
 	
-	Ahora solo sigue realizar las $N=5$ iteraciones del método de Euler, dichos resultados se encuentran en la tabla \ref{table:resEjVidaMedia}
+	Ahora solo sigue realizar las $N=10$ iteraciones del método de Euler, dichos resultados se encuentran en la tabla \ref{table:resEjVidaMedia}
 	
 	\begin{table}[H]
     	\centering
@@ -504,18 +507,23 @@ tiene el fósil al momento del descubrimiento si se sabe que (inicialmente) al m
       		\toprule
       		$t_i$ & $w_{i+1}$\\
       		\midrule
-			0 		& -38.13\\
-			11,160 	& 14.53\\
-			22,320 	& -5.543\\
-			33,480	& 2.1138\\
-			44,640	& -0.805\\
+			0 		& 30.93\\
+			5,580   & 9.56\\
+			11,160 	& 2.95\\
+			16,740  & 0.9155\\
+			22,320 	& 0.2832\\
+			27,900  & 0.0876\\
+			33,480  & 0.0270\\
+			39,060  & 0.0083\\
+			44,640	& 0.0025\\
+			50,220  & 0.0008\\
 			\bottomrule
       	\end{tabular}
       	\caption{Resultados de las aproximaciones del Ejemplo \ref{ex:ejVidaMedia}}
       	\label{table:resEjVidaMedia}
   	\end{table} 
 	
-	Luego de $N=5$ iteraciones la aproximación del método es $A(55,800) = 0.805g$. Se toma como positivo el resultado dado que se trata de masa.
+	Luego de $N=10$ iteraciones la aproximación del método es $A(55,800) = 0.0008g$.
 	\label{ex:ejVidaMedia}
 }\end{exerciseT}
 
@@ -643,4 +651,3 @@ Una condición inicial obvia que acompaña a la ecuación \ref{eq:propEnfermedad
 	\item El isótopo radiactivo del plomo Pb-209, decae con una razón proporcional a la cantidad presente al tiempo $t$ y tiene una 
 	    vida media de 3.3 horas. Si al principio había 1 gramo de plomo, ¿cuánto sustancia queda luego de 10 horas?
 \end{enumerate}
-
