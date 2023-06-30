@@ -519,7 +519,7 @@ El algoritmo \ref{algo:Romberg} muestra el método de la integración de Romberg
 				$n\leftarrow 2^{k-1}$\\
 				$h\leftarrow \dfrac{b-a}{n}$\\		
 				\If{$j=1$}{
-					\lnl{compuestaTrapecio} $\displaystyle{R_{k,j}\leftarrow \dfrac{h}{2}\left[ f(a)+\sum_{i=1}^{n-1}f(a+ih) + f(b)\right]}$\\
+					\lnl{compuestaTrapecio} $\displaystyle{R_{k,j}\leftarrow \dfrac{h}{2}\left[ f(a)+2\times\sum_{i=1}^{n-1}f(a+ih) + f(b)\right]}$\\
 				}
 				\Else{
 					\lnl{extrapolacionRomberg} $R_{k,j}\leftarrow R_{k,j-1} + \dfrac{1}{4^{j-1}-1}\left[R_{k,j-1} - R_{k-1,j-1}\right]$				
