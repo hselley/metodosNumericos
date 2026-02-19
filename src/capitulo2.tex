@@ -125,7 +125,7 @@ constante y lineal,
 $$P_n(x_1) = f(x_0) + a_1(x_1-x_0) = f(x_1);$$ 
 de manera análoga se iguala con $f(x_1)$ y despejando el término $a_1$:
 \begin{equation}
-	a_1 = {f(x_1) - f(x_0)\over x_1 - x_0}
+	a_1 = \dfrac{f(x_1) - f(x_0)}{x_1 - x_0}
 	\label{eq:segundoTerminoPolinomioDD}
 \end{equation}
 
@@ -137,13 +137,13 @@ El resto de las diferencias divididas se definen en forma recursiva utilizando c
 la \textit{primera diferencia dividida} de $f$ con respecto a $x_i$ y $x_{i+1}$ se denota:
 $f[x_i, x_{i+1}]$ y se define así
 \begin{equation}
-	f[x_i, x_{i+1}] = {f[x_{i+1}] - f[x_i]\over x_{i+1} - x_i}.
+	f[x_i, x_{i+1}] = \dfrac{f[x_{i+1}] - f[x_i]}{x_{i+1} - x_i}.
 	\label{eq:primeraDiferenciaDividida}
 \end{equation}
 La \textit{segunda diferencia dividida}, $f[x_i, x_{i+1}, x_{i+2}]$, se define como sigue
-$$f[x_i, x_{i+1}, x_{i+2}] = {f[x_{i+1}, x_{i+2}] - f[x_i, x_{i+1}]\over x_{i+2} - x_i}$$
+$$f[x_i, x_{i+1}, x_{i+2}] = \dfrac{f[x_{i+1}, x_{i+2}] - f[x_i, x_{i+1}]}{x_{i+2} - x_i}$$
 El proceso termina con la $n$-ésima diferencia dividida,
-$$f[x_0, x_1, \dots, x_n] = {f[x_1, x_2, \dots , x_n] - f[x_0, x_1, \dots, x_{n-1}] \over x_n - x_0}$$
+$$f[x_0, x_1, \dots, x_n] = \dfrac{f[x_1, x_2, \dots , x_n] - f[x_0, x_1, \dots, x_{n-1}]}{x_n - x_0}$$
 Por tanto el polinomio de interpolación en la ecuación \ref{eq:polinomioDiferenciasDivididas} es
 $$P_n(x) = f[x_0] + f[x_0, x_1](x-x_0) + a_2(x-x_0)(x-x_1) + \cdots + a_n(x-x_0)(x-x_1)\cdots (x-x_{n-1}).$$
 Podemos reescribir $P_n(x)$ en una forma llamada diferencia dividida de Newton:
@@ -170,7 +170,7 @@ El valor de $f[x_0, x_1, \dots, x_k]$ es independiente del orden de los números
 	\Begin{
 		\For{$i=1$ \KwTo $n$}{
 			\For{$j=1$ \KwTo $i$}{
-				$F_{i,j} = \displaystyle{F_{i,j-1} - F_{i-1,j-1}\over x_i - x_{i-j}}$
+				$F_{i,j} = \dfrac{F_{i,j-1} - F_{i-1,j-1}}{x_i - x_{i-j}}$
 			}	
 		}
 		\Salida($F_{0,0}, F_{1,1}, \dots, F_{n,n}$;)
@@ -203,7 +203,7 @@ Con los datos de la tabla \ref{table:ejemplo1ADiferenciasDivididasNewton} constr
 	\end{table}	
 	
 	\subsubsection*{Solución.} La primera diferencia dividida que involucra a $x_0$ y $x_1$ es
-		$$f[x_0,x_1] = {f[x_1] - f[x_0]\over x_1 - x_0} = {0.6200860-0.7651877\over 1.3-1.0} = -0.4837057.$$
+		$$f[x_0,x_1] = \dfrac{f[x_1] - f[x_0]}{x_1 - x_0} = \dfrac{0.6200860-0.7651877}{1.3-1.0} = -0.4837057.$$
 		El resto de las primeras diferencias divididas se calcularon de manera similar y se muestran el la cuarta columna de la tabla
 		\ref{table:ejemplo1BDiferenciasDivididasNewton}.
 	
@@ -229,12 +229,12 @@ Con los datos de la tabla \ref{table:ejemplo1ADiferenciasDivididasNewton} constr
 	\end{table}
 	
 	La segunda diferencia dividida que implica a $x_0, x_1$ y $x_2$ es
-	$$f[x_0,x_1,x_2] = {f[x_1,x_2]-f[x_0-x_1]\over x_2-x_0} = {-0.5489460-(-0.4837057)\over 1.6 - 1.0} = -0.1087339$$
+	$$f[x_0,x_1,x_2] = \dfrac{f[x_1,x_2]-f[x_0-x_1]}{x_2-x_0} = \dfrac{-0.5489460-(-0.4837057)}{1.6 - 1.0} = -0.1087339$$
 	La segunda diferencia dividida restante se muestra en la quinta columna de la tabla \ref{table:ejemplo1BDiferenciasDivididasNewton}. La tercera diferencia
 	dividida que involucra a $x_0, x_1, x_2$ y $x_3$ y la cuarta diferencia dividida que involucra todos los puntos existentes son, respectivamente,
-	$$f[x_0,x_1,x_2,x_3] = {f[x_1,x_2,x_3]-f[x_0,x_1,x_2]\over x_3-x_0} = {-0.0494433-(-0.1087339)\over 1.9-1.0} = 0.0658784,$$
+	$$f[x_0,x_1,x_2,x_3] = \dfrac{f[x_1,x_2,x_3]-f[x_0,x_1,x_2]}{x_3-x_0} = \dfrac{-0.0494433-(-0.1087339)}{1.9-1.0} = 0.0658784,$$
 	y
-	$$f[x_0,x_1,x_2,x_3,x_4] = {f[x_1,x_2,x_3,x_4]-f[x_0,x_1,x_2,x_3]\over x_4-x_0} = {0.0680685-0.0658784\over 2.2-1.0} = 0.0018251.$$
+	$$f[x_0,x_1,x_2,x_3,x_4] = \dfrac{f[x_1,x_2,x_3,x_4]-f[x_0,x_1,x_2,x_3]}{x_4-x_0} = \dfrac{0.0680685-0.0658784}{2.2-1.0} = 0.0018251.$$
 	Los coeficientes de la fórmula de las diferencias divididas del polinomio de interpolación de Newton se encuentran a lo largo de la diagonal 
 	de la tabla \ref{table:ejemplo1BDiferenciasDivididasNewton}. Por lo tanto, el polinomio es
 	$$P_4(x) = 0.7651977 - 0.4837057\cdot(x-1.0) - 0.1087339\cdot(x-1.0)(x-1.3) + $$
@@ -251,14 +251,14 @@ Con los datos de la tabla \ref{table:ejemplo1ADiferenciasDivididasNewton} constr
 		$f(8.6)=18.50515$ y $f(8.7)=18.82091$. Use el polinomio para aproximar a $f(8.4)$.\\
 	\subsubsection*{Solución.} 
 		Calculamos las primeras diferencias divididas.
-		$$f[x_0,x_1] = {f[x_1] - f[x_0]\over x_1 - x_0} = {17.56492-16.94410\over 8.3-8.1} = 3.1041.$$
-		$$f[x_1,x_2] = {f[x_2] - f[x_1]\over x_2 - x_1} = {18.50515-17.56492\over 8.6-8.3} = 3.1341.$$
-		$$f[x_2,x_3] = {f[x_3] - f[x_2]\over x_3 - x_2} = {18.82091-18.50515\over 8.7-8.7} = 3.1576.$$
+		$$f[x_0,x_1] = \dfrac{f[x_1] - f[x_0]}{x_1 - x_0} = \dfrac{17.56492-16.94410}{8.3-8.1} = 3.1041.$$
+		$$f[x_1,x_2] = \dfrac{f[x_2] - f[x_1]}{x_2 - x_1} = \dfrac{18.50515-17.56492}{8.6-8.3} = 3.1341.$$
+		$$f[x_2,x_3] = \dfrac{f[x_3] - f[x_2]}{x_3 - x_2} = \dfrac{18.82091-18.50515}{8.7-8.7} = 3.1576.$$
 		Ahora las segundas diferencias divididas.
-		$$f[x_0,x_1,x_2] = {f[x_1,x_2] - f[x_0-x_1]\over x_2 - x_0} = {3.1341-3.1041\over 8.6-8.1} = 0.06.$$
-		$$f[x_1,x_2,x_3] = {f[x_2,x_3] - f[x_1,x_2]\over x_3 - x_1} = {3.1576-3.1341\over 8.7-8.3} = 0.05875.$$
+		$$f[x_0,x_1,x_2] = \dfrac{f[x_1,x_2] - f[x_0-x_1]}{x_2 - x_0} = \dfrac{3.1341-3.1041}{8.6-8.1} = 0.06.$$
+		$$f[x_1,x_2,x_3] = \dfrac{f[x_2,x_3] - f[x_1,x_2]}{x_3 - x_1} = \dfrac{3.1576-3.1341}{8.7-8.3} = 0.05875.$$
 		La tercera y última diferencia dividida.
-		$$f[x_0,x_1,x_2,x_3] = {f[x_1,x_2,x_3]-f[x_0,x_1,x_2]\over x_3-x_0} = {0.058750-0.06\over 8.7-8.1} = -0.00208333$$
+		$$f[x_0,x_1,x_2,x_3] = \dfrac{f[x_1,x_2,x_3]-f[x_0,x_1,x_2]}{x_3-x_0} = \dfrac{0.058750-0.06}{8.7-8.1} = -0.00208333$$
 	Todos los resultados anteriores los concentramos en la tabla \ref{table:ejemplo2DiferenciasDivididasNewton}.
 	\begin{table}[H]
 		\centering
@@ -297,11 +297,11 @@ por los extremos es llamado polinomio de \textbf{interpolación}.
 Definamos las funciones 
 
 \begin{center}
-	$L_0 = \displaystyle{x - x_1\over x_0 - x_1}$ y $L_1 = \displaystyle{x - x_0\over x_1 - x_0}$.
+	$L_0 = \dfrac{x - x_1}{x_0 - x_1}$ y $L_1 = \dfrac{x - x_0}{x_1 - x_0}$.
 \end{center}
 
 El polinomio de interpolación de Lagrange lineal que pasa por $(x_0, y_0)$ y $(x_1, y_1)$ es
-$$P(x) = L_0(x)f(x_0) + L_1(x)f(x_1) = {x - x_1\over x_0 - x_1}f(x_0) + {x - x_0\over x_1 - x_0}f(x_1).$$
+$$P(x) = L_0(x)f(x_0) + L_1(x)f(x_1) = \dfrac{x - x_1}{x_0 - x_1}f(x_0) + \dfrac{x - x_0}{x_1 - x_0}f(x_1).$$
 Observe que
 
 \begin{center}
@@ -317,9 +317,9 @@ Así $P$ es el único polinomio de primer grado como máximo que pasa por $(x_0,
 \begin{exerciseT}
 	Determine el polinomio de interpolación lineal de Lagrange que pasa por los puntos $(2, 4)$ y $(5, 1)$.\\
 	\subsubsection*{Solución.} En este caso tenemos
-		$$L_0(x) = {x-5\over 2-5} = -\frac{1}{3}(x-5)$$	
+		$$L_0(x) = \dfrac{x-5}{2-5} = -\frac{1}{3}(x-5)$$	
 		y
-		$$L_1(x) = {x-2\over 5-2} = \frac{1}{3}(x-2)$$
+		$$L_1(x) = \dfrac{x-2}{5-2} = \frac{1}{3}(x-2)$$
 		por lo que
 		$$P(x) = -\frac{1}{3}(x-5)\cdot 4 + \frac{1}{3}(x-2)\cdot 1 = -\frac{4}{3}x + \frac{20}{3} + \frac{1}{3}x - \frac{2}{3} = -x + 6$$
 \end{exerciseT}
@@ -333,7 +333,7 @@ cuando $i\not= k$ y $L_{n,k}(x_i) = 1$.
 Para satisfacer $L_{n,k}(x_i) = 0$ para cada $i\not= k$ se requiere que el numerador de $L_{n,k}(x)$ contenga el término
 $$(x-x_0)(x-x_1)\cdots (x-x_{k-1})(x-x_{k+1})\cdots (x-x_n).$$
 Para satisfacer $L_{n,k}(x_k) = 1$, el denominador de $L_{n,k}(x)$ debe ser este término pero evaluado en $x=x_k$; es decir,
-$$L_{n,k}(x) = {(x-x_0)(x-x_1)\cdots (x-x_{k-1})(x-x_{k+1})\cdots (x-x_n) \over (x_k-x_0)(x_k-x_1)\cdots (x_k-x_{k-1})(x_k-x_{k+1})\cdots (x_k-x_n)}.$$
+$$L_{n,k}(x) = \dfrac{(x-x_0)(x-x_1)\cdots (x-x_{k-1})(x-x_{k+1})\cdots (x-x_n)}{(x_k-x_0)(x_k-x_1)\cdots (x_k-x_{k-1})(x_k-x_{k+1})\cdots (x_k-x_n)}.$$
 
 El polinomio de interpolación se describe fácilmente ahora que conocemos la forma de $L_{n,k}$. Este polinomio, denominado 
 \textbf{$\textbf{n}$-ésimo polinomio de interpolación de Lagrange}, se describe en el siguiente teorema.
@@ -351,8 +351,8 @@ El polinomio de interpolación se describe fácilmente ahora que conocemos la fo
 	
 	donde, para cada $k=0,1,\dots , n,$
 	\begin{equation}
-		L_{n,k}(x) = {(x-x_0)(x-x_1)\cdots (x-x_{k-1})(x-x_{k+1})\cdots (x-x_n) \over (x_k-x_0)(x_k-x_1)\cdots (x_k-x_{k-1})(x_k-x_{k+1})\cdots (x_k-x_n)} \\
-		= \prod_{i=0, i\not= k}^{n} {(x-x_i) \over (x_k - x_i)}. 
+		L_{n,k}(x) = \dfrac{(x-x_0)(x-x_1)\cdots (x-x_{k-1})(x-x_{k+1})\cdots (x-x_n)}{(x_k-x_0)(x_k-x_1)\cdots (x_k-x_{k-1})(x_k-x_{k+1})\cdots (x_k-x_n)} \\
+		= \prod_{i=0, i\not= k}^{n} \dfrac{(x-x_i)}{(x_k - x_i)}. 
 		\label{eq:coeficientesLagrange}
 	\end{equation}
 \end{theorem}
@@ -369,14 +369,14 @@ Escribiremos $L_{n,k}(x)$ simplemente como $L_{k}(x)$ cuando no hay confusión r
 		\begin{enumerate}[a)]
 			\item Primero determinamos los polinomios de coeficientes $L_0(x)$, $L_1(x)$ y $L_2(x)$. 
 				Dado que $n=2$, los coeficientes de Lagrange de la expresión \ref{eq:coeficientesLagrange} se reducen a:
-				$$L_{2,0}(x) = L_0(x) = \prod_{i=0, i\not= 0}^{2} {(x-x_i) \over (x_0 - x_i)} = {(x-x_1)(x-x_2)\over (x_0-x_1)(x_0-x_2)}$$	
-				$$L_{2,1}(x) = L_1(x) = \prod_{i=0, i\not= 1}^{2} {(x-x_i) \over (x_1 - x_i)} = {(x-x_0)(x-x_2)\over (x_1-x_0)(x_1-x_2)}$$	
-				$$L_{2,2}(x) = L_2(x) = \prod_{i=0, i\not= 2}^{2} {(x-x_i) \over (x_2 - x_i)} = {(x-x_0)(x-x_1)\over (x_2-x_0)(x_2-x_1)}$$	
+				$$L_{2,0}(x) = L_0(x) = \prod_{i=0, i\not= 0}^{2} \dfrac{(x-x_i)}{(x_0 - x_i)} = \dfrac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}$$	
+				$$L_{2,1}(x) = L_1(x) = \prod_{i=0, i\not= 1}^{2} \dfrac{(x-x_i)}{(x_1 - x_i)} = \dfrac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}$$	
+				$$L_{2,2}(x) = L_2(x) = \prod_{i=0, i\not= 2}^{2} \dfrac{(x-x_i)}{(x_2 - x_i)} = \dfrac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}$$	
 				En forma anidada son
-				$$L_0(x) = {(x-2.75)(x-4)\over (2-2.75)(2-4)} = \frac{2}{3}(x-2.75)(x-4),$$
-				$$L_1(x) = {(x-2)(x-4)\over (2.75-2)(2.75-4)} = -\frac{16}{15}(x-2)(x-4),$$
+				$$L_0(x) = \dfrac{(x-2.75)(x-4)}{(2-2.75)(2-4)} = \frac{2}{3}(x-2.75)(x-4),$$
+				$$L_1(x) = \dfrac{(x-2)(x-4)}{(2.75-2)(2.75-4)} = -\frac{16}{15}(x-2)(x-4),$$
 				y
-				$$L_2(x) = {(x-2)(x-2.75)\over (4-2)(4-2.75)} = \frac{2}{5}(x-2)(x-2.75).$$		
+				$$L_2(x) = \dfrac{(x-2)(x-2.75)}{(4-2)(4-2.75)} = \frac{2}{5}(x-2)(x-2.75).$$		
 				Puesto que $f(x_0) = f(2) = 1/2$, $f(x_1) = f(2.75) = 4/11$ y $f(x_2) = f(4) = 1/4$, tenemos
 				$$P(x) = \sum_{k=0}^2 f(x_k)L_k(x) =  \frac{1}{2}\cdot\frac{2}{3}(x-2.75)(x-4) + \frac{4}{11}\cdot\left(-\frac{16}{15}\right)(x-2)(x-4) + 
 				\frac{1}{4}\cdot\frac{2}{5}(x-2)(x-2.75) $$
@@ -392,13 +392,13 @@ Escribiremos $L_{n,k}(x)$ simplemente como $L_{k}(x)$ cuando no hay confusión r
 Para la función dada $f(x) = \sin (\pi x)$, sean $x_0=1$, $x_1=1.25$ y $x_2=1.6$. Construya el polinomio de interpolación 
 de segundo grado para aproximar $f(1.4)$, y calcule el error máximo.\\
 	\subsubsection*{Solución.} Dado que $n=2$, los coeficientes de Lagrange $L_0(x)$, $L_1(x)$ y $L_2(x)$ de la expresión \ref{eq:coeficientesLagrange} son:
-			$$L_0(x) = \prod_{i=0, i\not= 0}^{2} {(x-x_i) \over (x_0 - x_i)} = {(x-x_1)(x-x_2)\over (x_0-x_1)(x_0-x_2)}$$	
-			$$L_1(x) = \prod_{i=0, i\not= 1}^{2} {(x-x_i) \over (x_1 - x_i)} = {(x-x_0)(x-x_2)\over (x_1-x_0)(x_1-x_2)}$$	
-			$$L_2(x) = \prod_{i=0, i\not= 2}^{2} {(x-x_i) \over (x_2 - x_i)} = {(x-x_0)(x-x_1)\over (x_2-x_0)(x_2-x_1)}$$	
+			$$L_0(x) = \prod_{i=0, i\not= 0}^{2} \dfrac{(x-x_i)}{(x_0 - x_i)} = \dfrac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}$$	
+			$$L_1(x) = \prod_{i=0, i\not= 1}^{2} \dfrac{(x-x_i)}{(x_1 - x_i)} = \dfrac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}$$	
+			$$L_2(x) = \prod_{i=0, i\not= 2}^{2} \dfrac{(x-x_i)}{(x_2 - x_i)} = \dfrac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}$$	
 		Sustituyendo los datos del problema:
-			$$L_0(x) = {(x-1.25)(x-1.6)\over (1-1.25)(1-1.6)} = \frac{20}{3}(x-1.25)(x-1.6) = \frac{20}{3}x^2 - 19x + \frac{40}{3}$$
-			$$L_1(x) = {(x-1)(x-1.6)\over (1.25-1)(1.25-1.6)} = -\frac{80}{7}(x-1)(x-1.6) = -\frac{80}{7}x^2 + \frac{208}{7}x - \frac{128}{7}$$
-			$$L_2(x) = {(x-1)(x-1.25)\over (1.6-1)(1.6-1.25)} = \frac{100}{21}(x-1)(x-1.25) = \frac{100}{21}x^2 - \frac{75}{7}x + \frac{125}{21}$$
+			$$L_0(x) = \dfrac{(x-1.25)(x-1.6)}{(1-1.25)(1-1.6)} = \frac{20}{3}(x-1.25)(x-1.6) = \frac{20}{3}x^2 - 19x + \frac{40}{3}$$
+			$$L_1(x) = \dfrac{(x-1)(x-1.6)}{(1.25-1)(1.25-1.6)} = -\frac{80}{7}(x-1)(x-1.6) = -\frac{80}{7}x^2 + \frac{208}{7}x - \frac{128}{7}$$
+			$$L_2(x) = \dfrac{(x-1)(x-1.25)}{(1.6-1)(1.6-1.25)} = \frac{100}{21}(x-1)(x-1.25) = \frac{100}{21}x^2 - \frac{75}{7}x + \frac{125}{21}$$
 		Sustituyendo los puntos en la función dada:
 			$$f(x_0) = f(1) = \sin (\pi) = 0$$
 			$$f(x_1) = f(1.25) = \sin (1.25\pi) = -\frac{1}{\sqrt{2}}$$
@@ -419,18 +419,18 @@ de segundo grado para aproximar $f(1.4)$, y calcule el error máximo.\\
 	\subsubsection*{Solución.} Dado que $n=3$, es necesario encontrar los coeficientes $L_0(x)$, $L_1(x)$, $L_2(x)$ y $L_3(x)$. 
 	La expresión \ref{eq:coeficientesLagrange} 
 		se reduce a:
-			$$L_0(x) = \prod_{i=0, i\not= 0}^{2} {(x-x_i) \over (x_0 - x_i)} = {(x-x_1)(x-x_2)(x-x_3)\over (x_0-x_1)(x_0-x_2)(x_0-x_3)}$$	
-			$$L_1(x) = \prod_{i=0, i\not= 1}^{2} {(x-x_i) \over (x_1 - x_i)} = {(x-x_0)(x-x_2)(x-x_3)\over (x_1-x_0)(x_1-x_2)(x_1-x_3)}$$	
-			$$L_2(x) = \prod_{i=0, i\not= 2}^{2} {(x-x_i) \over (x_2 - x_i)} = {(x-x_0)(x-x_1)(x-x_3)\over (x_2-x_0)(x_2-x_1)(x_2-x_3)}$$
-			$$L_3(x) = \prod_{i=0, i\not= 3}^{2} {(x-x_i) \over (x_3 - x_i)} = {(x-x_0)(x-x_1)(x-x_2)\over (x_3-x_0)(x_3-x_1)(x_3-x_2)}$$
+			$$L_0(x) = \prod_{i=0, i\not= 0}^{2} \dfrac{(x-x_i)}{(x_0 - x_i)} = \dfrac{(x-x_1)(x-x_2)(x-x_3)}{(x_0-x_1)(x_0-x_2)(x_0-x_3)}$$	
+			$$L_1(x) = \prod_{i=0, i\not= 1}^{2} \dfrac{(x-x_i)}{(x_1 - x_i)} = \dfrac{(x-x_0)(x-x_2)(x-x_3)}{(x_1-x_0)(x_1-x_2)(x_1-x_3)}$$	
+			$$L_2(x) = \prod_{i=0, i\not= 2}^{2} \dfrac{(x-x_i)}{(x_2 - x_i)} = \dfrac{(x-x_0)(x-x_1)(x-x_3)}{(x_2-x_0)(x_2-x_1)(x_2-x_3)}$$
+			$$L_3(x) = \prod_{i=0, i\not= 3}^{2} \dfrac{(x-x_i)}{(x_3 - x_i)} = \dfrac{(x-x_0)(x-x_1)(x-x_2)}{(x_3-x_0)(x_3-x_1)(x_3-x_2)}$$
 		Sustituyendo las coordenadas dadas por el problema:
-			$$L_0(x) = {(x-8.3)(x-8.6)(x-8.7)\over (8.1-8.3)(8.1-8.6)(8.1-8.7)} = {(x-8.3)(x-8.6)(x-8.7)\over -(\frac{1}{5})(\frac{1}{2})(\frac{3}{5})}$$
+			$$L_0(x) = \dfrac{(x-8.3)(x-8.6)(x-8.7)}{(8.1-8.3)(8.1-8.6)(8.1-8.7)} = \dfrac{(x-8.3)(x-8.6)(x-8.7)}{-(\frac{1}{5})(\frac{1}{2})(\frac{3}{5})}$$
 			$$L_0(x) = -\frac{50}{3}(x-8.3)(x-8.6)(x-8.7)$$
-			$$L_1(x) = {(x-8.1)(x-8.6)(x-8.7)\over (8.3-8.1)(8.3-8.6)(8.3-8.7)} = {(x-8.1)(x-8.6)(x-8.7)\over (\frac{1}{5})(-\frac{3}{10})(-\frac{2}{5})}$$
+			$$L_1(x) = \dfrac{(x-8.1)(x-8.6)(x-8.7)}{(8.3-8.1)(8.3-8.6)(8.3-8.7)} = \dfrac{(x-8.1)(x-8.6)(x-8.7)}{(\frac{1}{5})(-\frac{3}{10})(-\frac{2}{5})}$$
 			$$L_1(x) = \frac{250}{6}(x-8.1)(x-8.6)(x-8.7)$$
-			$$L_2(x) = {(x-8.1)(x-8.3)(x-8.7)\over (8.6-8.1)(8.6-8.3)(8.6-8.7)} = {(x-8.1)(x-8.3)(x-8.7)\over (\frac{1}{2})(\frac{3}{10})(-\frac{1}{10})}$$
+			$$L_2(x) = \dfrac{(x-8.1)(x-8.3)(x-8.7)}{(8.6-8.1)(8.6-8.3)(8.6-8.7)} = \dfrac{(x-8.1)(x-8.3)(x-8.7)}{(\frac{1}{2})(\frac{3}{10})(-\frac{1}{10})}$$
 			$$L_2(x) = -\frac{200}{3}(x-8.1)(x-8.3)(x-8.7)$$
-			$$L_3(x) = {(x-8.1)(x-8.3)(x-8.6)\over (8.7-8.1)(8.7-8.3)(8.7-8.6)} = {(x-8.1)(x-8.3)(x-8.6)\over (\frac{3}{5})(\frac{2}{5})(\frac{1}{10})}$$
+			$$L_3(x) = \dfrac{(x-8.1)(x-8.3)(x-8.6)}{(8.7-8.1)(8.7-8.3)(8.7-8.6)} = \dfrac{(x-8.1)(x-8.3)(x-8.6)}{(\frac{3}{5})(\frac{2}{5})(\frac{1}{10})}$$
 			$$L_3(x) = \frac{250}{6}(x-8.1)(x-8.3)(x-8.6)$$	
 		Luego, sustituyendo estos coeficientes en el polinomio de Lagrange (ecuación \ref{eq:polinomioLagrange}) cuando $n=3$:
 			$$P(x) = \sum_{k=0}^3 f(x_k)L_{3,k}(x) = f(x_0)L_0(x) + f(x_1)L_1(x) + f(x_2)L_2(x) + f(x_3)L_3(x)$$

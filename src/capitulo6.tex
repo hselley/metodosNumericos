@@ -190,7 +190,7 @@ Ahora sustituyendo la derivada de los términos de Lagrange en la ecuación \ref
 \begin{equation}
 	f'(x_j) = f(x_0)\left[\dfrac{2x_j - x_1 - x_2}{(x_0-x_1)(x_0-x_2)}\right] + 
 	f(x_1)\left[\dfrac{2x_j - x_0 - x_2}{(x_1-x_0)(x_1-x_2)}\right] 
-	+ f(x_2)\left[{2x_j - x_0 - x_1\over (x_2-x_0)(x_2-x_1)}\right].
+	+ f(x_2)\left[\dfrac{2x_j - x_0 - x_1}{(x_2-x_0)(x_2-x_1)}\right].
 	\label{eq:formulaDerivadaTresPuntos}
 \end{equation}
 La ecuación (\ref{eq:formulaDerivadaTresPuntos}) es una aproximación a la derivada de $f$ evaluada en $x_j$ para tres puntos:
@@ -380,7 +380,7 @@ Luego se integra $P_1$,
 \end{align}
 Resolviendo la integral de la ecuación (\ref{eq:trapecio1})
 \begin{align*}
-  \int_a^b f(x)dx &= \left[ {(x-x_1)^2\over 2(x_0-x_1) }f(x_0) + {(x-x_0)^2\over 2(x_1-x_0)}f(x_1) \right]_{x_0}^{x_1} \\
+  \int_a^b f(x)dx &= \left[ \dfrac{(x-x_1)^2}{2(x_0-x_1) }f(x_0) + \dfrac{(x-x_0)^2}{2(x_1-x_0)}f(x_1) \right]_{x_0}^{x_1} \\
 	&= \left[ \dfrac{x_1-x_0}{2}f(x_1) - \dfrac{x_0-x_1}{2}f(x_0) \right] \\
   	&= \frac{x_1-x_0}{2}\left[f(x_0) + f(x_1)\right].
 \end{align*}
