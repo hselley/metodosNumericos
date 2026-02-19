@@ -4,6 +4,9 @@ o una solución, de una ecuación de la forma $f(x)=0$ para una función dada $f
 llamada también un cero de la función $f$. 
 
 \section{Método de Newton Raphson}
+
+\subsection{Análisis clásico}
+
 El método de Newton se basa en los polinomios de Taylor, este tipo particular de deducción produce no sólo el método, 
 sino también una cota para el error de aproximación.\\
 Supongamos que $f\in C^{2}[a, b]$. Sea $p_{0} \in [a, b]$ una aproximación de $p$ tal que $f'(p_{0}) \not= 0$ y 
@@ -17,7 +20,8 @@ donde $\xi(p)$ está entre $p$ y $p_{0}$. Dado que $f(p)=0$ esta ecuación da co
 $$0 = f(p_{0}) + (p-p_{0})f'(p_{0}) + \frac{(p-p_{0})^{2}}{2}f''(\xi(p))$$
 
 El método de Newton se obtiene suponiendo que, como $|p-p_{0}|$ es tan pequeño, el término que contiene $(p-p_{0})^{2}$ 
-es mucho menor y que
+es mucho menor y que6ee3cfedf32cfcb66baa7247553d5d657fb48dd1
+
 
 $$0 \approx f(p_{0}) + (p-p_{0}))f'(p_{0})$$
 
@@ -70,6 +74,20 @@ sigue ese procedimiento.
 \caption{Método de Newton-Raphson}
 \label{algo:Newton}
 \end{algorithm}
+
+\subsection{Análisis geométrico/algebraico}
+Existe otra forma de explicar como se encuentra la expresión general de Newton-Rapshon \ref{eq:Newton} de forma algebraica con
+conceptos geométricos simples.
+
+Para ello, se utiliza como punto de partida de un ejemplo particular para posteriormente llegar a un caso general.
+
+\begin{exerciseT}
+	Considere la función $f(x)=x^2-4$. Se desea encontrar una aproximación a una raíz de $f$, que de antemano se sabe
+	que tiene dos raíces en $x=\pm 2$.
+
+	En progreso
+
+\end{exerciseT}
 
 \begin{exerciseT}
 Considere la función $f(x)= \cos (x) - x$. Aproxime una raíz de $f$ utilizando el método de Newton.
