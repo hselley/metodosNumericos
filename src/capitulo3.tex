@@ -607,6 +607,30 @@ Al igual que se hizo con el método de Newton-Raphson, se utiliza un ejemplo par
 \end{exerciseT}
 
 
+\subsubsection{Generalización}
+Ahora se realizará una generalización del procedimiento descrito en el Ejercicio \ref{ex:Secante04}.
+El punto de partida con los puntos $P_0 = \left(x_0, y_0\right)$ y $P_1 = \left(x_1, y_1\right)$, se hace el 
+cálculo de la pendiente con la expresión (\ref{eq:pendienteRecta}) y la obtención de la ecuación 
+punto-pendiente (\ref{eq:punto-pendiente}), se sustituye y luego se hace un poco de álgebra.
+
+\begin{align*}
+	& m = \dfrac{y_1 - y_0}{x_1-x_0}\\
+	& y - y_1 = \dfrac{y_1 - y_0}{x_1-x_0}(x-x_1) \\
+	& y = f(x_1) + \dfrac{f(x_1) - f(x_0)}{x_1-x_0}(x-x_1) \\
+	\intertext{Se iguala a cero para obtener la raíz de la recta}
+	& y = f(x_1) + \dfrac{f(x_1) - f(x_0)}{x_1-x_0}(x-x_1) = 0\\ 
+	\intertext{Se despeja $x$}
+	& \dfrac{f(x_1) - f(x_0)}{x_1-x_0}(x-x_1) = -f(x_1)\\
+	& x = x_1 - f(x_1)\dfrac{x_1-x_0}{f(x_1) - f(x_0)} = x_2
+	\intertext{Donde $x_2$ es la primer aproximación del método a la raíz}
+\end{align*}
+
+Escribiendo esta última expresión en términos de la $n$-ésima aproximación.
+
+\begin{equation}
+x_n = x_{n-1} - f(x_{n-1})\dfrac{x_{n-1}-x_{n-2}}{f(x_{n-1}) - f(x_{n-2})}, \quad \forall \quad n\geq 2.
+\end{equation}
+
 
 \begin{exerciseT}
 Utilice el método de la secante para encontrar una aproximación a una raíz de la expresión $x= \cos x$. Considere que se sabe 
